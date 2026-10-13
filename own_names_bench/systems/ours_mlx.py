@@ -30,8 +30,8 @@ class OursMlx(System):
         self.ready: dict = {}
 
     def config(self) -> dict:
-        rev = subprocess.run(["git", "-C", str(self.bin.resolve().parent), "rev-parse", "HEAD"], capture_output=True, text=True,
-                             check=False).stdout.strip()
+        rev = os.environ.get("DETAILKEEPER_ENGINE_COMMIT") or subprocess.run(
+            ["git", "-C", str(self.bin.resolve().parent), "rev-parse", "HEAD"], capture_output=True, text=True, check=False).stdout.strip()
         return {"runtime": "Detail Keeper engine (Rust, MLX), detailkeeper-bench", "engine_commit": rev or "unknown",
                 "binary": str(self.bin), "adapter": f"hf://{ADAPTER[0]}@{ADAPTER[1]}/{ADAPTER[2]}", "adapter_version": "v0.3.0",
                 "writer": "merged adapter, text decoder affine 8-bit, audio encoder bf16",

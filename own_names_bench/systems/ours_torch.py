@@ -1,0 +1,127 @@
+"""Ours, reference runner (PyTorch, any machine): Detail Keeper's pipeline over each recording.
+
+Every recording is cut into windows by the engine's own cutter (ours_ref/segmenter.py). For each
+window: the adapted writer with no list writes it once; the spotter ranks the whole name list
+against the window (its letter score reads that text) and keeps its ten best; the writer writes
+the window again with those ten (spelling, how the untrained recognizer heard the taught
+recording, and the recording itself). An answer that reads the list back is replaced by the
+no-list text. The window texts, in order, are the transcript. With no list, the no-list text is
+the transcript. Pruning is off and there is no gate, as in the app's configuration
+(detailkeeper config.toml, 2026-10-12).
+
+Every name has one taught recording: the benchmark's enrollment cut (the reader saying the name
+once, from another place in the book). The other systems get the spelling only, which is all
+their custom-vocabulary features take.
+"""
+
+import os
+import platform
+from pathlib import Path
+
+import numpy as np
+import soundfile as sf
+
+from ..ours_ref import segmenter
+from .base import Fit, Output, System, unique
+
+ADAPTER = ("littlebearlabs/own-names-qwen3-asr-lora", "8ab4e83aec0debdb268ff4e21d19a63311acb516", "audio-text-note")  # v0.3.0
+TOP = 10
+
+
+def read16k(path: Path) -> np.ndarray:
+    x, rate = sf.read(path, dtype="float32")
+    if rate != 16000:
+        raise ValueError(f"{path}: {rate} Hz, expected 16000")
+    return x if x.ndim == 1 else x.mean(axis=1)
+
+
+class OursTorch(System):
+    name = "ours"
+    variants = ("none", "own", "all")
+
+    def __init__(self) -> None:
+        import torch
+
+        self.device = os.environ.get("BENCH_DEVICE") or ("cuda" if torch.cuda.is_available() else "cpu")
+        self.heard: dict[str, str] = {}
+        self.clips: dict[str, np.ndarray] = {}
+
+    def config(self) -> dict:
+        import torch
+        import transformers
+
+        from ..ours_ref import spotter, writer
+
+        return {"runtime": "PyTorch reference (own_names_bench/ours_ref)", "device": self.device,
+                "torch": torch.__version__, "transformers": transformers.__version__,
+                "cuda_device": torch.cuda.get_device_name(0) if self.device == "cuda" else None,
+                "base": f"{writer.BASE[0]}@{writer.BASE[1]}", "adapter": f"{ADAPTER[0]}@{ADAPTER[1]}/{ADAPTER[2]}",
+                "adapter_version": "v0.3.0", "dtype": "float32", "decoding": "greedy, at most 200 new tokens",
+                "spotter_phon": f"{spotter.PHON[0]}@{spotter.PHON[1]}", "spotter_wavlm": f"{spotter.WAVLM[0]}@{spotter.WAVLM[1]}",
+                "espeak": self._espeak(), "shortlist": TOP, "prune": "off", "gate": "none",
+                "windows": "Detail Keeper Segmenter (pause 0.45 s after 2 s, cap 8 s), fed 0.1 s at a time",
+                "list_feature": "spotter shortlist of the whole list -> writer prompt + taught recordings",
+                "fit": "no limit: the spotter ranks every name", "platform": platform.platform()}
+
+    @staticmethod
+    def _espeak() -> str:
+        import subprocess
+
+        try:
+            return subprocess.run(["espeak-ng", "--version"], capture_output=True, text=True, check=False).stdout.strip()
+        except OSError:
+            return "missing"
+
+    def start(self) -> None:
+        import torch
+
+        from ..ours_ref.spotter import Spotter
+        from ..ours_ref.writer import Writer
+
+        torch.manual_seed(0)
+        self.writer = Writer(self.device, ADAPTER)
+        self.writer.load()
+        self.spotter = Spotter(self.device)
+        self.spotter.load()
+
+    def fit(self, names: list[str]) -> Fit:
+        return Fit(unique(names), "all names (the spotter shortlists ten per window)")
+
+    def _term(self, e: dict):
+        from ..ours_ref.spotter import Term, trim
+
+        key = e["id"]
+        if key not in self.heard:
+            wav = read16k(e["sample_path"])
+            self.heard[key] = self.writer.bare(wav)
+            self.spotter.learn(key, wav)
+            self.clips[key] = trim(wav)
+        return Term(key, e["written"], self.heard[key])
+
+    def transcribe(self, audio: Path, names: list[str], entries: list[dict]) -> Output:
+        from ..ours_ref.writer import recited
+
+        want = set(names)
+        seen: set[str] = set()
+        chosen = []
+        for e in entries:
+            if e["written"] in want and e["written"] not in seen:
+                seen.add(e["written"])
+                chosen.append(e)
+        terms = [self._term(e) for e in chosen]
+        x = read16k(audio)
+        texts, wins = [], []
+        for w in segmenter.windows(x):
+            plain = self.writer.plain(w.audio)
+            text = plain
+            listed: list[str] = []
+            if terms:
+                hits = self.spotter.rank(terms, w.audio, plain, TOP)
+                listed = [h.term.written for h in hits]
+                if hits:
+                    text = self.writer.write(w.audio, [(h.term.written, h.term.heard_as, self.clips[h.term.key]) for h in hits])
+                    if recited(text, listed):
+                        text = plain
+            texts.append(text)
+            wins.append({"start_s": round(w.audio_from_s, 3), "end_s": round(w.end_s, 3), "shortlist": listed})
+        return Output(" ".join(t for t in texts if t), extra={"windows": wins})

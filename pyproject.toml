@@ -1,0 +1,46 @@
+[project]
+name = "own-names-bench"
+version = "1.0.0"
+description = "A reproducible benchmark for spelling taught names in speech"
+readme = "README.md"
+license = "Apache-2.0"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "numpy==2.3.5",
+    "numba==0.68.0",
+    "soundfile==0.14.0",
+    "requests==2.34.2",
+    "regex==2026.9.29",
+    "more-itertools==11.2.0",
+    "huggingface_hub==1.33.0",
+]
+
+[project.optional-dependencies]
+# each local system has its own pinned stack; uv keeps them apart (see [tool.uv] conflicts)
+qwen = ["torch==2.14.1", "transformers==5.19.0", "peft==0.21.2", "accelerate==1.15.0", "rapidfuzz==3.14.6"]
+whisper = ["torch==2.14.1", "transformers==5.19.0", "accelerate==1.15.0"]
+parakeet = ["nemo_toolkit[asr]==3.0.0"]
+build = ["pyarrow==26.0.0"]
+
+[project.scripts]
+bench = "own_names_bench.cli:main"
+
+[tool.uv]
+conflicts = [[{ extra = "qwen" }, { extra = "parakeet" }], [{ extra = "whisper" }, { extra = "parakeet" }]]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "pytest==8.4.2",
+    "ruff==0.13.3",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["own_names_bench"]
+
+[tool.ruff]
+line-length = 140
+target-version = "py312"

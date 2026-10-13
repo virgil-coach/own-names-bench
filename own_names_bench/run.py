@@ -1,0 +1,147 @@
+"""Runs one system over the benchmark's passes and writes what it wrote, pass by pass.
+
+results/runs/<label>/run.json      what ran: system config, benchmark and data version, machine, command, dates
+results/runs/<label>/passes.jsonl  one line per pass: id, text, names sent, how they were fitted, seconds
+
+A run resumes: passes already written without an error are not sent again.
+"""
+
+import json
+import os
+import platform
+import shlex
+import subprocess
+import sys
+import threading
+import time
+from concurrent.futures import ThreadPoolExecutor
+from datetime import UTC, datetime
+from pathlib import Path
+
+from . import BENCH_NAME, BENCH_VERSION
+from .data import DATASET_REPO, DATASET_REVISION, Bench, manifest_sha256
+from .passes import Pass, all_passes
+from .systems.base import System
+
+
+def _cmd(args: list[str]) -> str:
+    try:
+        return subprocess.run(args, capture_output=True, text=True, timeout=20, check=False).stdout.strip()
+    except (OSError, subprocess.SubprocessError):
+        return ""
+
+
+def machine() -> dict:
+    info = {"platform": platform.platform(), "machine": platform.machine(), "python": sys.version.split()[0],
+            "cpu": platform.processor()}
+    if sys.platform == "darwin":
+        info["cpu"] = _cmd(["sysctl", "-n", "machdep.cpu.brand_string"])
+        info["memory_gb"] = round(int(_cmd(["sysctl", "-n", "hw.memsize"]) or 0) / 2**30, 1)
+        info["os"] = f"macOS {_cmd(['sw_vers', '-productVersion'])} ({_cmd(['sw_vers', '-buildVersion'])})"
+    else:
+        try:
+            with open("/proc/meminfo") as f:
+                info["memory_gb"] = round(int(f.readline().split()[1]) / 2**20, 1)
+            with open("/proc/cpuinfo") as f:
+                info["cpu"] = next((ln.split(":", 1)[1].strip() for ln in f if ln.startswith("model name")), info["cpu"])
+        except OSError:
+            pass
+        info["os"] = _cmd(["sh", "-c", ". /etc/os-release && echo $PRETTY_NAME"]) or platform.platform()
+    gpu = _cmd(["nvidia-smi", "--query-gpu=name,driver_version,memory.total", "--format=csv,noheader"])
+    if gpu:
+        info["gpu"] = gpu
+    return info
+
+
+def code_revision() -> str:
+    if os.environ.get("BENCH_CODE_REVISION"):  # a machine that got the code without its git history
+        return os.environ["BENCH_CODE_REVISION"]
+    here = Path(__file__).resolve().parent.parent
+    rev = _cmd(["git", "-C", str(here), "rev-parse", "HEAD"])
+    dirty = _cmd(["git", "-C", str(here), "status", "--porcelain", "--untracked-files=no"])
+    return (rev + ("-dirty" if dirty else "")) if rev else "unknown"
+
+
+def run(b: Bench, system: System, out: Path, *, chapters: bool, limit: int, only: str, hourly_usd: float | None) -> Path:
+    out.mkdir(parents=True, exist_ok=True)
+    passes = [p for p in all_passes(b, system.variants, chapters) if not only or p.id.startswith(only)]
+    if limit:
+        passes = passes[:limit]
+    done: dict[str, dict] = {}
+    log = out / "passes.jsonl"
+    if log.exists():
+        for line in log.read_text().splitlines():
+            r = json.loads(line)
+            if not r.get("error"):
+                done[r["id"]] = r
+    todo = [p for p in passes if p.id not in done]
+    meta_path = out / "run.json"
+    meta = json.loads(meta_path.read_text()) if meta_path.exists() else {}
+    meta.update({
+        "benchmark": BENCH_NAME, "benchmark_version": BENCH_VERSION, "dataset": f"{DATASET_REPO}@{DATASET_REVISION}",
+        "manifest_sha256": manifest_sha256(b.root), "code_revision": code_revision(), "system": system.name,
+        "kind": system.kind, "config": system.config(), "price": system.price(), "machine": machine(),
+        "hourly_usd": hourly_usd,
+    })
+    meta.setdefault("commands", []).append({"argv": " ".join(shlex.quote(a) for a in sys.argv),
+                                           "started": datetime.now(UTC).isoformat(timespec="seconds")})
+    meta_path.write_text(json.dumps(meta, indent=1) + "\n")
+    print(f"{system.name}: {len(passes)} passes, {len(done)} already done, {len(todo)} to go", flush=True)
+    if not todo:
+        return out
+    system.start()
+    meta["config"] = system.config()  # a local system knows its exact revisions once loaded
+    meta_path.write_text(json.dumps(meta, indent=1) + "\n")
+    lock = threading.Lock()
+    started = time.time()
+    count = [0, 0]
+
+    def one(p: Pass) -> None:
+        names = b.written(list(p.entries))
+        fit = system.fit(names)
+        row = {"id": p.id, "audio_s": p.seconds, "listed": len(names), "sent": fit.sent, "fit": fit.how}
+        t0 = time.perf_counter()
+        try:
+            ents = [{**b.entries[e], "sample_path": b.path(b.entries[e]["sample"])} for e in p.entries]
+            o = system.transcribe(b.path(p.audio), fit.sent, ents)
+            row["latency_s"] = round(o.latency_s if o.latency_s is not None else time.perf_counter() - t0, 4)
+            row["text"] = o.text
+            if o.sent is not None:
+                row["sent"], row["fit"] = o.sent, o.how
+            if o.extra:
+                row["extra"] = o.extra
+        except Exception as e:  # recorded and retried on the next run; never stops the others
+            row["error"] = f"{type(e).__name__}: {str(e)[:300]}"
+        with lock, log.open("a") as f:
+            f.write(json.dumps(row, ensure_ascii=False) + "\n")
+            count[0] += 1
+            count[1] += "error" in row
+            if count[0] % 50 == 0 or count[0] == len(todo):
+                rate = count[0] / (time.time() - started)
+                print(f"  {count[0]}/{len(todo)} ({count[1]} errors), {rate:.2f} passes/s", flush=True)
+
+    try:
+        if system.workers > 1:
+            with ThreadPoolExecutor(system.workers) as pool:
+                list(pool.map(one, todo))
+        else:
+            for p in todo:
+                one(p)
+    finally:
+        system.stop()
+    meta = json.loads(meta_path.read_text())
+    meta["commands"][-1]["finished"] = datetime.now(UTC).isoformat(timespec="seconds")
+    meta_path.write_text(json.dumps(meta, indent=1) + "\n")
+    if os.environ.get("BENCH_STRICT") and count[1]:
+        raise SystemExit(f"{count[1]} passes failed")
+    return out
+
+
+def load_texts(run_dir: Path) -> tuple[dict, dict[str, dict]]:
+    meta = json.loads((run_dir / "run.json").read_text())
+    rows: dict[str, dict] = {}
+    for line in (run_dir / "passes.jsonl").read_text().splitlines():
+        r = json.loads(line)
+        if not r.get("error"):
+            rows[r["id"]] = r
+    return meta, rows

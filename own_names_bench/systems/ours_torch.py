@@ -24,7 +24,10 @@ import soundfile as sf
 from ..ours_ref import segmenter
 from .base import Fit, Output, System, unique
 
-ADAPTER = ("littlebearlabs/own-names-qwen3-asr-lora", "8ab4e83aec0debdb268ff4e21d19a63311acb516", "audio-text-note")  # v0.3.0
+# v0.3.0, public release (adapter_model.safetensors SHA-256 67dbabef..., the same bytes as the
+# private littlebearlabs/own-names-qwen3-asr-lora@8ab4e83a it was developed against)
+ADAPTER = ("virgil-coach/own-names-qwen3-asr", "e02efd5e0db0f357f7ada3caf18e1ca293528098", "audio-text-note")
+ADAPTER_SHA256 = "67dbabef14851e89ad1b62d509e595713d4a2b6254fbc26cdb700fca1e097f55"
 TOP = 10
 
 
@@ -56,7 +59,7 @@ class OursTorch(System):
                 "torch": torch.__version__, "transformers": transformers.__version__,
                 "cuda_device": torch.cuda.get_device_name(0) if self.device == "cuda" else None,
                 "base": f"{writer.BASE[0]}@{writer.BASE[1]}", "adapter": f"{ADAPTER[0]}@{ADAPTER[1]}/{ADAPTER[2]}",
-                "adapter_version": "v0.3.0", "dtype": "float32", "decoding": "greedy, at most 200 new tokens",
+                "adapter_version": "v0.3.0", "adapter_sha256": ADAPTER_SHA256, "dtype": "float32", "decoding": "greedy, at most 200 new tokens",
                 "spotter_phon": f"{spotter.PHON[0]}@{spotter.PHON[1]}", "spotter_wavlm": f"{spotter.WAVLM[0]}@{spotter.WAVLM[1]}",
                 "g2p": "own_names_bench/ours_ref/g2p.json (espeak-ng 1.52.0, every benchmark name)", "shortlist": TOP, "prune": "off", "gate": "none",
                 "windows": "Detail Keeper Segmenter (pause 0.45 s after 2 s, cap 8 s), fed 0.1 s at a time",

@@ -58,19 +58,10 @@ class OursTorch(System):
                 "base": f"{writer.BASE[0]}@{writer.BASE[1]}", "adapter": f"{ADAPTER[0]}@{ADAPTER[1]}/{ADAPTER[2]}",
                 "adapter_version": "v0.3.0", "dtype": "float32", "decoding": "greedy, at most 200 new tokens",
                 "spotter_phon": f"{spotter.PHON[0]}@{spotter.PHON[1]}", "spotter_wavlm": f"{spotter.WAVLM[0]}@{spotter.WAVLM[1]}",
-                "espeak": self._espeak(), "shortlist": TOP, "prune": "off", "gate": "none",
+                "g2p": "own_names_bench/ours_ref/g2p.json (espeak-ng 1.52.0, every benchmark name)", "shortlist": TOP, "prune": "off", "gate": "none",
                 "windows": "Detail Keeper Segmenter (pause 0.45 s after 2 s, cap 8 s), fed 0.1 s at a time",
                 "list_feature": "spotter shortlist of the whole list -> writer prompt + taught recordings",
                 "fit": "no limit: the spotter ranks every name", "platform": platform.platform()}
-
-    @staticmethod
-    def _espeak() -> str:
-        import subprocess
-
-        try:
-            return subprocess.run(["espeak-ng", "--version"], capture_output=True, text=True, check=False).stdout.strip()
-        except OSError:
-            return "missing"
 
     def start(self) -> None:
         import torch
@@ -108,7 +99,13 @@ class OursTorch(System):
             if e["written"] in want and e["written"] not in seen:
                 seen.add(e["written"])
                 chosen.append(e)
+        import time
+
+        t_enroll = time.perf_counter()
+        new = [e["id"] for e in chosen if e["id"] not in self.heard]
         terms = [self._term(e) for e in chosen]
+        t0 = time.perf_counter()
+        enroll_s = t0 - t_enroll
         x = read16k(audio)
         texts, wins = [], []
         for w in segmenter.windows(x):
@@ -124,4 +121,7 @@ class OursTorch(System):
                         text = plain
             texts.append(text)
             wins.append({"start_s": round(w.audio_from_s, 3), "end_s": round(w.end_s, 3), "shortlist": listed})
-        return Output(" ".join(t for t in texts if t), extra={"windows": wins})
+        # latency is the pass itself; teaching names (first time a name is seen) is reported apart
+        return Output(" ".join(t for t in texts if t), extra={"windows": wins, "enroll_s": round(enroll_s, 3),
+                                                                 "enrolled": {k: self.heard[k] for k in new}},
+                      latency_s=time.perf_counter() - t0)

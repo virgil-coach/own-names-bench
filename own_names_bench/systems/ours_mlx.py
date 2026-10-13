@@ -25,6 +25,7 @@ class OursMlx(System):
     def __init__(self) -> None:
         self.bin = Path(os.environ.get("DETAILKEEPER_BENCH", "detailkeeper-bench"))
         self.wavs = Path(os.environ.get("BENCH_WAV_CACHE", Path(tempfile.gettempdir()) / "own-names-bench-wav"))
+        self.cache = self.wavs.parent / "detailkeeper-bench-cache"
         self.proc: subprocess.Popen | None = None
         self.ready: dict = {}
 
@@ -33,15 +34,22 @@ class OursMlx(System):
                              check=False).stdout.strip()
         return {"runtime": "Detail Keeper engine (Rust, MLX), detailkeeper-bench", "engine_commit": rev or "unknown",
                 "binary": str(self.bin), "adapter": f"hf://{ADAPTER[0]}@{ADAPTER[1]}/{ADAPTER[2]}", "adapter_version": "v0.3.0",
-                "writer": "merged adapter, text decoder affine 8-bit, audio encoder bf16", "shortlist": TOP, "prune": "off",
+                "writer": "merged adapter, text decoder affine 8-bit, audio encoder bf16",
+                "g2p": "own_names_bench/ours_ref/g2p.json (espeak-ng 1.52.0, every benchmark name)", "shortlist": TOP, "prune": "off",
                 "gate": "none", "engine": self.ready,
                 "list_feature": "spotter shortlist of the whole list -> writer prompt + taught recordings",
                 "fit": "no limit: the spotter ranks every name"}
 
     def start(self) -> None:
+        import shutil
+
         self.wavs.mkdir(parents=True, exist_ok=True)
+        self.cache.mkdir(parents=True, exist_ok=True)
+        # the same pronunciations as the reference runner (see ours_ref/spotter.py G2P_TABLE)
+        shutil.copyfile(Path(__file__).parent.parent / "ours_ref" / "g2p.json", self.cache / "g2p.json")
         self.proc = subprocess.Popen(
-            [str(self.bin), "--adapter", f"hf://{ADAPTER[0]}@{ADAPTER[1]}/{ADAPTER[2]}", "--format", "audio_heard"],
+            [str(self.bin), "--adapter", f"hf://{ADAPTER[0]}@{ADAPTER[1]}/{ADAPTER[2]}", "--format", "audio_heard",
+             "--cache", str(self.cache)],
             stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True, bufsize=1)
         assert self.proc.stdout is not None
         line = self.proc.stdout.readline()
@@ -82,4 +90,5 @@ class OursMlx(System):
         if not line:
             raise RuntimeError("detailkeeper-bench stopped")
         r = json.loads(line)
-        return Output(r["text"], extra={"windows": r["windows"], "engine_seconds": r["seconds"]})
+        # latency is the engine's time for the pass; enrolling names it had not seen is not in it
+        return Output(r["text"], extra={"windows": r["windows"], "enrolled": r.get("enrolled", {})}, latency_s=r["seconds"])

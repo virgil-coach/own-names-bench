@@ -1,0 +1,14 @@
+own-names-bench
+Copyright 2026 Little Bear Labs, Inc.
+
+This product includes software developed by Little Bear Labs, Inc. (https://virgil.coach),
+licensed under the Apache License, Version 2.0.
+
+own_names_bench/whisper_normalizer/ is OpenAI Whisper's text normalizer
+(https://github.com/openai/whisper, commit 86098128c0b4f24f0e2aa2994de830614b474227),
+Copyright (c) 2022 OpenAI, under the MIT License (own_names_bench/whisper_normalizer/LICENSE).
+
+own_names_bench/ours_ref/ ports parts of the Detail Keeper engine and of the
+own-names-qwen3-asr adapter's reference inference, Copyright 2026 Little Bear Labs, Inc.
+
+The benchmark audio (LibriVox recordings) is in the public domain; see the dataset card.

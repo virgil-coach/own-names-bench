@@ -14,6 +14,7 @@ Every entry is scored three ways and the standardized scores are summed:
 
 import json
 import re
+from pathlib import Path
 import shutil
 import subprocess
 import unicodedata
@@ -33,6 +34,9 @@ BLANK, V = 0, 392
 FLOOR, SKIP, BONUS = -8.0, -6.0, 3.0
 STEP = 0.02
 THREADS = 4
+# espeak-ng 1.52.0 pronunciations of every benchmark name (build/g2p_table.py), so every machine
+# uses the same ones; espeak-ng is only asked for a name that is not in it
+G2P_TABLE = Path(__file__).with_name("g2p.json")
 
 
 @numba.njit(cache=True)
@@ -202,7 +206,7 @@ class Spotter:
     def __init__(self, device: str) -> None:
         self.device = device
         self.feats: dict[str, tuple[np.ndarray, np.ndarray]] = {}
-        self.g2p: dict[str, list[int]] = {}
+        self.g2p: dict[str, list[int]] = json.loads(G2P_TABLE.read_text(encoding="utf-8")) if G2P_TABLE.exists() else {}
         self.bank_for: tuple[Term, ...] = ()
         self.bank: Bank | None = None
 
@@ -210,8 +214,6 @@ class Spotter:
         from huggingface_hub import snapshot_download
         from transformers import AutoModel, Wav2Vec2ForCTC
 
-        if shutil.which("espeak-ng") is None:
-            raise RuntimeError("espeak-ng is not installed")
         numba.set_num_threads(min(THREADS, numba.config.NUMBA_NUM_THREADS))
         phon = snapshot_download(PHON[0], revision=PHON[1], allow_patterns=["config.json", "vocab.json", "model.safetensors"])
         self.phon = Wav2Vec2ForCTC.from_pretrained(phon).to(self.device).eval()
@@ -243,6 +245,8 @@ class Spotter:
         need = sorted(set(spellings) - set(self.g2p))
         if not need:
             return
+        if shutil.which("espeak-ng") is None:
+            raise RuntimeError(f"espeak-ng is not installed, and {len(need)} names are not in {G2P_TABLE.name}")
 
         def one(text: str) -> list[int]:
             ipa = subprocess.run(["espeak-ng", "-q", "--ipa", "-v", "en-us", "--", text], capture_output=True, text=True).stdout

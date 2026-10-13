@@ -85,10 +85,8 @@ class Parakeet(System):
         if long != self.local:
             if long:
                 self.model.change_attention_model("rel_pos_local_attn", [256, 256])
-                self.model.change_subsampling_conv_chunking_factor(1)
             else:
                 self.model.change_attention_model("rel_pos")
-                self.model.change_subsampling_conv_chunking_factor(-1)
             self.local = long
         self._decoding(tuple(names))
         with torch.inference_mode():

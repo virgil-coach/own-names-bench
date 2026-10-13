@@ -60,7 +60,10 @@ class OursMlx(System):
     def stop(self) -> None:
         if self.proc is not None:
             assert self.proc.stdin is not None
-            self.proc.stdin.close()
+            try:
+                self.proc.stdin.close()
+            except BrokenPipeError:
+                pass
             self.proc.wait(timeout=120)
             self.proc = None
 
@@ -82,7 +85,7 @@ class OursMlx(System):
         for e in entries:
             if e["written"] in want and e["written"] not in seen:
                 seen.add(e["written"])
-                terms.append({"key": e["id"], "written": e["written"], "sample": self._wav(e["sample_path"], "enroll/" + e["id"])})
+                terms.append({"key": e["id"].replace("/", "__"), "written": e["written"], "sample": self._wav(e["sample_path"], "enroll/" + e["id"])})
         job = {"id": str(audio), "audio": self._wav(audio, audio.stem), "terms": terms}
         self.proc.stdin.write(json.dumps(job, ensure_ascii=False) + "\n")
         self.proc.stdin.flush()

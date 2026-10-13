@@ -39,7 +39,7 @@ class Parakeet(System):
                 "decoding": "greedy_batch (TDT label looping)", "long_form": f"over {LONG_S // 60} min: rel_pos_local_attn [256, 256]",
                 "list_feature": "GPU phrase boosting: decoding.greedy.boosting_tree.key_phrases_list",
                 "boosting": {"boosting_tree_alpha": self.alpha, "context_score": 1.0, "depth_scaling": 2.0,
-                             "alpha_chosen_on": "the chapters task (grid 0.25, 0.5, 1, 2, 4)"},
+                             "alpha_chosen_on": "the chapters task: grid 0.25, 0.5, 1, 2, 4; 2 had the most names right less untaught overwritten (92.7% - 4.1%)"},
                 "fit": "all names"}
 
     def start(self) -> None:

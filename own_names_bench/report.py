@@ -47,6 +47,13 @@ def summarize(b: Bench, s: dict, rows: dict[str, dict], meta: dict) -> dict:
                     "overwritten": prop(ms, f"{v}_overwritten"), "right_untaught": prop(ms, f"{v}_right_untaught")}
         d["name_free_inserted"] = prop(c["name_free"], f"{v}_inserted")
         d["ordinary_wer"] = ratio(c["wer"], f"{v}_errors", "words", "book")
+        # how often the spoken name was among the names the system actually received
+        sent = []
+        for r in c["mentions"]:
+            row = rows.get(f"clip/{r['clip']}/{v}")
+            if row is not None:
+                sent.append({"in": b.entries[r["entry"]]["written"] in set(row.get("sent", []))})
+        d["spoken_name_sent"] = prop(sent, "in")
         out["clips"][v] = d
     if any("none_right" in r for r in c["mentions"]):
         out["clips"]["none"] = {
@@ -162,14 +169,15 @@ def render(results: dict, baseline: str | None) -> str:
     for v, title in (("own", "Clips, the book's own name list"), ("all", "Clips, all-books list (902 names)")):
         L += [f"## {title}", "",
               "| System | Names right, invented | Names right, traditional | Names right, all | Untaught overwritten | Wrong name written | "
-              "Name-free: a listed name inserted | Ordinary-word error | List fit |",
+              "Name-free: a listed name inserted | Ordinary-word error | Spoken name among the names sent |",
               "| --- | --- | --- | --- | --- | --- | --- | --- | --- |"]
         for label, r in results.items():
             d = r["summary"]["clips"].get(v)
             if not d:
-                L.append(f"| {label} | n/a | n/a | n/a | n/a | n/a | n/a | n/a | not supported |")
+                L.append(f"| {label} | n/a | n/a | n/a | n/a | n/a | n/a | n/a | its feature cannot take this list |")
                 continue
-            fit = r["meta"]["config"].get("fit", "")
+            sn = d.get("spoken_name_sent")
+            fit = f"{100 * sn['rate']:.1f}%" if sn else "n/a"
             L.append(f"| {label} | {fmt_p(d['invented']['right'])} | {fmt_p(d['traditional']['right'])} | {fmt_p(d['all']['right'])} | "
                      f"{fmt_p(d['all']['overwritten'])} | {fmt_p(d['all']['wrong_name'])} | {fmt_p(d['name_free_inserted'])} | "
                      f"{fmt_r(d['ordinary_wer'])} | {fit} |")
@@ -223,6 +231,10 @@ def render(results: dict, baseline: str | None) -> str:
             p = paired(results[baseline]["items"], r["items"])
             L.append(f"| {baseline} − {label} | {cell(p.get('own_right'))} | {cell(p.get('own_overwritten'))} | {cell(p.get('own_ordinary_wer'))} | "
                      f"{cell(p.get('own_inserted'))} | {cell(p.get('chapter_taught_right'))} |")
+    L += ["", "## How each system took the names", ""]
+    for label, r in results.items():
+        cfg = r["meta"]["config"]
+        L.append(f"- **{label}**: {cfg.get('list_feature', '')}; limits: {cfg.get('limits', 'none')}; fit: {cfg.get('fit', '')}")
     L += ["", "## Runs", ""]
     for label, r in results.items():
         m = r["meta"]

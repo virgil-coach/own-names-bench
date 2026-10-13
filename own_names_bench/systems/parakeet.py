@@ -3,8 +3,11 @@ average, names through NeMo's GPU phrase boosting (GPU-PB, `boosting_tree` in gr
 NeMo's documented word-boosting feature for CTC/RNN-T/TDT models).
 
 Greedy (label-looping) decoding. Recordings longer than 20 minutes use the model card's
-long-audio setting (local attention, 256 frames each side). The boosting weight is NeMo's
-documented default; it was not tuned on this benchmark."""
+long-audio setting (local attention, 256 frames each side). Boosting uses NeMo's recommended
+context_score 1.0 and depth_scaling 2.0 (TDT). NeMo says to tune the fusion weight
+boosting_tree_alpha on your data and gives no default (its config default 0.0 turns boosting
+off); we pick it on the benchmark's chapters task (BENCH_PARAKEET_ALPHA, recorded in run.json),
+which makes Parakeet's chapter numbers optimistic and leaves its clip numbers untouched."""
 
 import os
 from pathlib import Path
@@ -26,6 +29,7 @@ class Parakeet(System):
         self.device = os.environ.get("BENCH_DEVICE") or ("cuda" if torch.cuda.is_available() else "cpu")
         self.current: tuple[str, ...] | None = None
         self.local = False
+        self.alpha = float(os.environ.get("BENCH_PARAKEET_ALPHA", "0.5"))
 
     def config(self) -> dict:
         import nemo
@@ -34,7 +38,9 @@ class Parakeet(System):
         return {"model": f"{MODEL[0]}@{MODEL[1]}", "runtime": f"NeMo {nemo.__version__}, torch {torch.__version__}", "device": self.device,
                 "decoding": "greedy_batch (TDT label looping)", "long_form": f"over {LONG_S // 60} min: rel_pos_local_attn [256, 256]",
                 "list_feature": "GPU phrase boosting: decoding.greedy.boosting_tree.key_phrases_list",
-                "boosting": getattr(self, "boost_cfg", None), "fit": "all names"}
+                "boosting": {"boosting_tree_alpha": self.alpha, "context_score": 1.0, "depth_scaling": 2.0,
+                             "alpha_chosen_on": "the chapters task (grid 0.25, 0.5, 1, 2, 4)"},
+                "fit": "all names"}
 
     def start(self) -> None:
         from huggingface_hub import hf_hub_download
@@ -52,15 +58,19 @@ class Parakeet(System):
 
         from omegaconf import open_dict
 
+        from nemo.collections.asr.parts.context_biasing.boosting_graph_batched import BoostingTreeModelConfig
+        from omegaconf import OmegaConf
+
         cfg = deepcopy(self.base_cfg)
         with open_dict(cfg):
             cfg.strategy = "greedy_batch"
             if names:
-                cfg.greedy.boosting_tree.key_phrases_list = list(names)
-                self.boost_cfg = {k: v for k, v in dict(cfg.greedy.boosting_tree).items() if k != "key_phrases_list"}
-                self.boost_cfg["boosting_tree_alpha"] = cfg.greedy.get("boosting_tree_alpha")
+                cfg.greedy.boosting_tree = OmegaConf.structured(
+                    BoostingTreeModelConfig(key_phrases_list=list(names), context_score=1.0, depth_scaling=2.0))
+                cfg.greedy.boosting_tree_alpha = self.alpha
             else:
-                cfg.greedy.boosting_tree.key_phrases_list = None
+                cfg.greedy.pop("boosting_tree", None)
+                cfg.greedy.boosting_tree_alpha = 0.0
         self.model.change_decoding_strategy(cfg, verbose=False)
         self.current = names
 

@@ -14,8 +14,11 @@ once, from another place in the book). The other systems get the spelling only, 
 their custom-vocabulary features take.
 """
 
+import hashlib
 import os
 import platform
+import time
+from collections import OrderedDict
 from pathlib import Path
 
 import numpy as np
@@ -29,6 +32,10 @@ from .base import Fit, Output, System, unique
 ADAPTER = ("virgil-coach/own-names-qwen3-asr", "e02efd5e0db0f357f7ada3caf18e1ca293528098", "audio-text-note")
 ADAPTER_SHA256 = "67dbabef14851e89ad1b62d509e595713d4a2b6254fbc26cdb700fca1e097f55"
 TOP = 10
+# The no-list text and the spotter's acoustic features of a window do not depend on the list, and
+# every list variant of a recording is run back to back: they are worked out once per window and
+# reused (results are identical; latency adds back the time they first took).
+CACHE_WINDOWS = 512
 
 
 def read16k(path: Path) -> np.ndarray:
@@ -47,6 +54,7 @@ class OursTorch(System):
 
         self.device = os.environ.get("BENCH_DEVICE") or ("cuda" if torch.cuda.is_available() else "cpu")
         self.heard: dict[str, str] = {}
+        self.plain_cache: OrderedDict[str, tuple[str, float]] = OrderedDict()
         self.clips: dict[str, np.ndarray] = {}
 
     def config(self) -> dict:
@@ -102,8 +110,6 @@ class OursTorch(System):
             if e["written"] in want and e["written"] not in seen:
                 seen.add(e["written"])
                 chosen.append(e)
-        import time
-
         t_enroll = time.perf_counter()
         new = [e["id"] for e in chosen if e["id"] not in self.heard]
         terms = [self._term(e) for e in chosen]
@@ -111,12 +117,24 @@ class OursTorch(System):
         enroll_s = t0 - t_enroll
         x = read16k(audio)
         texts, wins = [], []
+        reused = 0.0  # seconds of list-independent work taken from the cache, as first measured
         for w in segmenter.windows(x):
-            plain = self.writer.plain(w.audio)
+            key = hashlib.sha1(w.audio.tobytes()).hexdigest()
+            cached = self.plain_cache.get(key)
+            if cached is None:
+                t = time.perf_counter()
+                cached = (self.writer.plain(w.audio), time.perf_counter() - t)
+                self.plain_cache[key] = cached
+                if len(self.plain_cache) > CACHE_WINDOWS:
+                    self.plain_cache.popitem(last=False)
+            else:
+                reused += cached[1]
+            plain = cached[0]
             text = plain
             listed: list[str] = []
             if terms:
                 hits = self.spotter.rank(terms, w.audio, plain, TOP)
+                reused += self.spotter.reused_s
                 listed = [h.term.written for h in hits]
                 if hits:
                     text = self.writer.write(w.audio, [(h.term.written, h.term.heard_as, self.clips[h.term.key]) for h in hits])
@@ -124,7 +142,8 @@ class OursTorch(System):
                         text = plain
             texts.append(text)
             wins.append({"start_s": round(w.audio_from_s, 3), "end_s": round(w.end_s, 3), "shortlist": listed})
-        # latency is the pass itself; teaching names (first time a name is seen) is reported apart
+        # latency is the whole pass as if nothing were cached (cached work counts at its first-measured
+        # time); teaching names (the first time a name is seen) is reported apart
         return Output(" ".join(t for t in texts if t), extra={"windows": wins, "enroll_s": round(enroll_s, 3),
                                                                  "enrolled": {k: self.heard[k] for k in new}},
-                      latency_s=time.perf_counter() - t0)
+                      latency_s=time.perf_counter() - t0 + reused)

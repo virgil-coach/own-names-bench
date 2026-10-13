@@ -12,8 +12,11 @@ Every entry is scored three ways and the standardized scores are summed:
          spelling / how the recognizer heard the taught recording
 """
 
+import hashlib
 import json
 import re
+import time
+from collections import OrderedDict
 from pathlib import Path
 import shutil
 import subprocess
@@ -209,6 +212,9 @@ class Spotter:
         self.g2p: dict[str, list[int]] = json.loads(G2P_TABLE.read_text(encoding="utf-8")) if G2P_TABLE.exists() else {}
         self.bank_for: tuple[Term, ...] = ()
         self.bank: Bank | None = None
+        # a window's phoneme posteriors and WavLM frames, reused across lists (see ours_torch)
+        self.window_cache: OrderedDict[str, tuple[torch.Tensor, torch.Tensor, float]] = OrderedDict()
+        self.reused_s = 0.0
 
     def load(self) -> None:
         from huggingface_hub import snapshot_download
@@ -311,13 +317,28 @@ class Spotter:
         if self.bank is None or self.bank_for != terms_t:
             self.bank, self.bank_for = self.build(terms_t), terms_t
         b, n = self.bank, len(terms_t)
+        key = hashlib.sha1(wav.tobytes()).hexdigest()
+        got = self.window_cache.get(key)
+        if got is None:
+            t = time.perf_counter()
+            got = (self.logp(wav), self.wavlm_frames(wav), 0.0)
+            if self.device == "cuda":
+                torch.cuda.synchronize()
+            got = (got[0], got[1], time.perf_counter() - t)
+            self.window_cache[key] = got
+            if len(self.window_cache) > 512:
+                self.window_cache.popitem(last=False)
+            self.reused_s = 0.0
+        else:
+            self.reused_s = got[2]
+        window_logp, window_frames = got[0], got[1]
         phon = np.full(n, -1e9)
         if len(b.powner):
-            scores, _ = self.align(self.logp(wav), b.matrix, b.pstart, b.plen)
+            scores, _ = self.align(window_logp, b.matrix, b.pstart, b.plen)
             np.maximum.at(phon, b.powner, scores)
         emb = np.full(n, -1e9)
         if len(b.sowner):
-            fr = self.wavlm_frames(wav)
+            fr = window_frames
             cu = fr / fr.norm(dim=-1, keepdim=True).clamp_min(1e-8)
             cost = (1.0 - b.frames @ cu.T).cpu().numpy()
             np.maximum.at(emb, b.sowner, -subseq_dtw(np.ascontiguousarray(cost, dtype=np.float32), b.sstart, b.slen).astype(np.float64))

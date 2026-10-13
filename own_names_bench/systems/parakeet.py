@@ -29,7 +29,7 @@ class Parakeet(System):
         self.device = os.environ.get("BENCH_DEVICE") or ("cuda" if torch.cuda.is_available() else "cpu")
         self.current: tuple[str, ...] | None = None
         self.local = False
-        self.alpha = float(os.environ.get("BENCH_PARAKEET_ALPHA", "0.5"))
+        self.alpha = float(os.environ.get("BENCH_PARAKEET_ALPHA", "2"))
 
     def config(self) -> dict:
         import nemo

@@ -1,313 +1,187 @@
 {
   "format_version": 2,
-  "revision": 2,
+  "revision": 3,
   "remote_generation": "09049692-45b5-4bfe-8e88-97b0eb7cd9f1",
   "last_pod_id": "ob8x7gc4c5mgti",
   "files": {
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/.ruff_cache/0.13.3/12257751296945857491": {
-      "size": 86,
-      "mtime_secs": 0,
-      "hash": "b0a312772e7a457a6732521e2269dc5586464f2a331446ff76edbe9eee1e6193",
-      "mode": 384
-    },
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/run.py": {
-      "size": 6483,
-      "mtime_secs": 0,
-      "hash": "0419fe014897bb956251dc7556815a5604eceb64c6b961a8c50c76997aa56774",
-      "mode": 420
-    },
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/.pytest_cache/CACHEDIR.TAG": {
-      "size": 191,
-      "mtime_secs": 0,
-      "hash": "36fd6a49be5123693277ab0a9cde06eefb838cc647cf5a8da8849a81154f7abd",
-      "mode": 420
-    },
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/.gitignore": {
-      "size": 100,
-      "mtime_secs": 0,
-      "hash": "213e65d73c7562a9f53e395c3169900e02a628b4a3f07bcf6f5906f157341678",
-      "mode": 420
-    },
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/passes.py": {
-      "size": 2852,
-      "mtime_secs": 0,
-      "hash": "3bc7c5fbb2f8c6b2f33445025f15ce1fcdb6a902db204db877bf7f68314e8fef",
-      "mode": 420
-    },
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/uv.lock": {
-      "size": 319985,
-      "mtime_secs": 0,
-      "hash": "7ea35e6aa29c75d13aff4514ee01db64ebb9f19eeb7690d74fa7510e96a972b5",
-      "mode": 420
-    },
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/ours_ref/__init__.py": {
-      "size": 0,
-      "mtime_secs": 0,
-      "hash": "af1349b9f5f9a1a6a0404dea36dcc9499bcb25c9adc112b7cc9a93cae41f3262",
-      "mode": 420
-    },
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/.pytest_cache/v/cache/lastfailed": {
-      "size": 2,
-      "mtime_secs": 0,
-      "hash": "6e46dd10defc9b56c29a6ec56b508c21f54c08192194e4df25bf36f0c9c3c279",
-      "mode": 420
-    },
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/systems/__init__.py": {
-      "size": 1367,
-      "mtime_secs": 0,
-      "hash": "770b4282701bd0c70a4a5c9e525355e30a8a88f2bd1bd1abf50be4882b6aae6c",
-      "mode": 420
-    },
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/ours_ref/segmenter.py": {
-      "size": 5124,
-      "mtime_secs": 0,
-      "hash": "578b1f2aec00f1695581122ddb95b1fa4b0495def91995bdc3c110efbd4d34bc",
-      "mode": 420
-    },
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/pyproject.toml": {
-      "size": 1217,
-      "mtime_secs": 0,
-      "hash": "88b13f33200bafb38dbdeb1c66af4af1a2cb0bd76b78efed4f648ebf8e132d63",
-      "mode": 420
-    },
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/systems/base.py": {
-      "size": 1639,
-      "mtime_secs": 0,
-      "hash": "3864b286c2e6d479ac017d09c00d392d6bc7e740f28477fcaf4d37671aa0b0a7",
-      "mode": 420
-    },
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/build/contamination.py": {
-      "size": 6073,
-      "mtime_secs": 0,
-      "hash": "2fcfb9cb3491dac57e0af336712d50f6fac58d438153f11f2e0dd2e400d03422",
-      "mode": 420
-    },
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/score.py": {
-      "size": 9671,
-      "mtime_secs": 0,
-      "hash": "f9b7c22a9213e08fa1c5a6a557fa22ebd3a6d45eaa08370313536daa0dd02f97",
-      "mode": 420
-    },
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/.pytest_cache/v/cache/nodeids": {
-      "size": 313,
-      "mtime_secs": 0,
-      "hash": "b5bc57432b796738ab2c9d876f3d605a2c3b158ea7d8d232da6ded0522b46dc3",
-      "mode": 420
-    },
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/tests/test_score.py": {
-      "size": 3449,
-      "mtime_secs": 0,
-      "hash": "6ddcf084fd15351fe95f503f3e5e54ac46bf079c6c5a977d7faf8b2d74c0b000",
-      "mode": 420
-    },
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/.ruff_cache/CACHEDIR.TAG": {
-      "size": 43,
-      "mtime_secs": 0,
-      "hash": "c02373010694430bbf1d3e38e02032c6c2f8c355a70746bf8ef14d1f5cec1923",
-      "mode": 420
-    },
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/NOTICE": {
-      "size": 705,
-      "mtime_secs": 0,
-      "hash": "b55f8fb4adbe7eebe45bed666c99b137a82cdc4ec119169a343ca93ffb5fd577",
-      "mode": 420
-    },
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/build/build_dataset.py": {
-      "size": 19835,
-      "mtime_secs": 0,
-      "hash": "c06b521419b2eba7f3a6e82f370fb8be156537623784ba92658a2f2384e12693",
-      "mode": 420
-    },
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/align.py": {
-      "size": 3855,
-      "mtime_secs": 0,
-      "hash": "01c2ab77b3af51776e4bdaf81e11b29588e5864faea4b8d4603a5309bcd72197",
-      "mode": 420
-    },
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/cli.py": {
-      "size": 4095,
-      "mtime_secs": 0,
-      "hash": "1cc3bd019c786c69ef7ff096b33705b2d35cac0211ff8dfac81407c46e0df429",
-      "mode": 420
-    },
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/keys.env.example": {
-      "size": 298,
-      "mtime_secs": 0,
-      "hash": "c99a8c15575ad8bfa649b494184e8233df336455d811604db7db87d655cfa87d",
-      "mode": 420
-    },
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/whisper_normalizer/basic.py": {
-      "size": 2064,
-      "mtime_secs": 0,
-      "hash": "d841a5e3e4c35c0d477125146efbe2acc565ac260f0a1ad850ad43321a7ecb32",
-      "mode": 420
-    },
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/ours_ref/spotter.py": {
-      "size": 13768,
-      "mtime_secs": 0,
-      "hash": "4852c09007918571e8f1bb9da7bc013c073bba43ded615b39ff691c39c1630bb",
-      "mode": 420
-    },
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/__init__.py": {
-      "size": 154,
-      "mtime_secs": 0,
-      "hash": "af8e711d7238b7c478151c5461e33f5c2acb4027d504848db235c3f02ce05435",
-      "mode": 420
-    },
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/.ruff_cache/0.13.3/6959219734599043637": {
-      "size": 126,
-      "mtime_secs": 0,
-      "hash": "fcc25edde4f4a93d798a66d68c40be2f3d7653353b2d96c3a578798c9e7d1c57",
-      "mode": 384
-    },
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/data.py": {
-      "size": 2113,
-      "mtime_secs": 0,
-      "hash": "40505d63cff075d50f51f459f0aa051945a243f99c3993830f2917bbe3298ca4",
-      "mode": 420
-    },
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/systems/ours_mlx.py": {
-      "size": 4893,
-      "mtime_secs": 0,
-      "hash": "8b920783f270207e9d898ce34891f0bd87f4402da8f6d4b6e6adeffb60df94d6",
-      "mode": 420
-    },
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/.pytest_cache/README.md": {
-      "size": 302,
-      "mtime_secs": 0,
-      "hash": "12728de47ea953637a40414213d1ffe64ed4ae1d7a1d7814d7878fa860602ad9",
-      "mode": 420
-    },
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/.ruff_cache/0.13.3/14227948090329574833": {
-      "size": 1003,
-      "mtime_secs": 0,
-      "hash": "b727102366c17e814b75d9a3e1ae63a3a099bb19fb7e24e3dc632474e92f5d9a",
-      "mode": 384
-    },
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/pod/run.sh": {
-      "size": 1583,
-      "mtime_secs": 0,
-      "hash": "a7aff8f90dda7c3d73b11ca37f27a1f56f6464fc2bbcadb4a67581081c934e02",
-      "mode": 493
-    },
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/.pytest_cache/.gitignore": {
-      "size": 37,
-      "mtime_secs": 0,
-      "hash": "a3a12db1cd3c373351e64ca2815eb686fd6428e96a2b44a5cffa337e7dc20b36",
-      "mode": 420
-    },
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/whisper_normalizer/english.json": {
-      "size": 56128,
-      "mtime_secs": 0,
-      "hash": "4dfdd9d77d22ac8facbd7c17acd18c224307b9048e269ea3d555bdf110eee26c",
-      "mode": 420
-    },
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/whisper_normalizer/__init__.py": {
-      "size": 130,
-      "mtime_secs": 0,
-      "hash": "aae2651a4d29a39f79bd5310bc1a09b4e842add34682a907b5596e1af4e9a393",
-      "mode": 420
-    },
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/CLAIMS.md": {
-      "size": 2932,
-      "mtime_secs": 0,
-      "hash": "75571316a07431b316e192b8e0f6379e00583571ca2ad70486fefa141594e6f1",
-      "mode": 420
-    },
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/build/g2p_table.py": {
-      "size": 1776,
-      "mtime_secs": 1791922698,
-      "hash": "6aeeb563cd94556d76965828d1692df76890714a5ec83e2b6e1624cf9d507e57",
-      "mode": 420
-    },
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/whisper_normalizer/english.py": {
-      "size": 21001,
-      "mtime_secs": 0,
-      "hash": "9cdf057bc05fe664a0755027c1387dad99b8bfa6313ec481b279d6504900cc40",
-      "mode": 420
-    },
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/compare.py": {
-      "size": 2442,
-      "mtime_secs": 0,
-      "hash": "4e22df98419ded8e9734ecb52673e21fc401815e74dede982fe9b55435281f8f",
-      "mode": 420
-    },
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/ours_ref/g2p.json": {
-      "size": 38037,
-      "mtime_secs": 1791922742,
-      "hash": "561ac3ba76bebcec9ab04a4ef524eb0ce7bf61b77047866f03d707ffc0bb1f65",
-      "mode": 420
-    },
     "/gpu-cli-workspaces/jameslal/path-3172b95136962215/pod/mac_mlx.sh": {
       "size": 1833,
       "mtime_secs": 1791922001,
       "hash": "8ad5979215b26e0a742427f3ca7f3aad7e865bd05e31f7e03239622a4fa6280b",
       "mode": 493
     },
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/systems/whisper.py": {
-      "size": 4295,
-      "mtime_secs": 0,
-      "hash": "4f859f2f05d0fb627f883da29a1e90bffceb3f31255d09f9710213b979d84cac",
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/pod/parakeet_alpha.sh": {
+      "size": 874,
+      "mtime_secs": 1791925961,
+      "hash": "15d24b369bd6cc15a818554f2ba48c44f171fb5de0752e3f9c1f40a6db81e962",
+      "mode": 493
+    },
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/tests/test_score.py": {
+      "size": 3449,
+      "mtime_secs": 1791921566,
+      "hash": "6ddcf084fd15351fe95f503f3e5e54ac46bf079c6c5a977d7faf8b2d74c0b000",
       "mode": 420
     },
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/systems/cloud.py": {
-      "size": 8469,
-      "mtime_secs": 0,
-      "hash": "4222775f1df3d1e4039680f9cdc5277ff351d2ed3e2606d6cfb8995e74282569",
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/keys.env.example": {
+      "size": 298,
+      "mtime_secs": 1791921878,
+      "hash": "c99a8c15575ad8bfa649b494184e8233df336455d811604db7db87d655cfa87d",
+      "mode": 420
+    },
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/ours_ref/__init__.py": {
+      "size": 0,
+      "mtime_secs": 1791921878,
+      "hash": "af1349b9f5f9a1a6a0404dea36dcc9499bcb25c9adc112b7cc9a93cae41f3262",
+      "mode": 420
+    },
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/.gitignore": {
+      "size": 100,
+      "mtime_secs": 1791922863,
+      "hash": "213e65d73c7562a9f53e395c3169900e02a628b4a3f07bcf6f5906f157341678",
+      "mode": 420
+    },
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/.ruff_cache/0.13.3/6959219734599043637": {
+      "size": 126,
+      "mtime_secs": 1791921883,
+      "hash": "fcc25edde4f4a93d798a66d68c40be2f3d7653353b2d96c3a578798c9e7d1c57",
+      "mode": 384
+    },
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/CLAIMS.md": {
+      "size": 2932,
+      "mtime_secs": 1791921964,
+      "hash": "75571316a07431b316e192b8e0f6379e00583571ca2ad70486fefa141594e6f1",
+      "mode": 420
+    },
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/uv.lock": {
+      "size": 319985,
+      "mtime_secs": 1791921367,
+      "hash": "7ea35e6aa29c75d13aff4514ee01db64ebb9f19eeb7690d74fa7510e96a972b5",
+      "mode": 420
+    },
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/cli.py": {
+      "size": 4095,
+      "mtime_secs": 1791921338,
+      "hash": "1cc3bd019c786c69ef7ff096b33705b2d35cac0211ff8dfac81407c46e0df429",
+      "mode": 420
+    },
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/.pytest_cache/README.md": {
+      "size": 302,
+      "mtime_secs": 1791921487,
+      "hash": "12728de47ea953637a40414213d1ffe64ed4ae1d7a1d7814d7878fa860602ad9",
+      "mode": 420
+    },
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/ours_ref/spotter.py": {
+      "size": 14675,
+      "mtime_secs": 1791932850,
+      "hash": "a627d8d02f08841d88bd4a8a7492756b48c24c38da13e1dc973d89efafeb78f1",
+      "mode": 420
+    },
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/whisper_normalizer/basic.py": {
+      "size": 2064,
+      "mtime_secs": 1791920325,
+      "hash": "d841a5e3e4c35c0d477125146efbe2acc565ac260f0a1ad850ad43321a7ecb32",
       "mode": 420
     },
     "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/systems/parakeet.py": {
-      "size": 3652,
-      "mtime_secs": 0,
-      "hash": "0d02f7b4ba82573613a1579b5fd1f53b473b620dac9e2cc05fc0e6f9174dcc00",
+      "size": 4264,
+      "mtime_secs": 1791929555,
+      "hash": "d7156c5a1808dd5b3c82d3acbf3d8f4f5c17af3eb6ae46d87fd739244d476b05",
       "mode": 420
+    },
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/pod/run.sh": {
+      "size": 1583,
+      "mtime_secs": 1791922852,
+      "hash": "a7aff8f90dda7c3d73b11ca37f27a1f56f6464fc2bbcadb4a67581081c934e02",
+      "mode": 493
     },
     "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/ours_ref/writer.py": {
       "size": 3646,
-      "mtime_secs": 0,
+      "mtime_secs": 1791921142,
       "hash": "dca256263a92640a17980aa2ce044f47c6a0704626250687151351ee98d7f65e",
-      "mode": 420
-    },
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/README.md": {
-      "size": 6941,
-      "mtime_secs": 0,
-      "hash": "b1fe1ee66002d624831bb582ed5c6fa70fca790b68d4a87535c4c456a83e4dd3",
-      "mode": 420
-    },
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/.ruff_cache/.gitignore": {
-      "size": 35,
-      "mtime_secs": 0,
-      "hash": "572437d56d965a390fed2846fb1aba94acb4834d8bed1a8224893e3ce152afe9",
-      "mode": 420
-    },
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/stats.py": {
-      "size": 3709,
-      "mtime_secs": 0,
-      "hash": "29fb86b3919e06ed5d2508974d6f9f0dffa6969bede2329d369147581428c6a1",
-      "mode": 420
-    },
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/systems/ours_torch.py": {
-      "size": 5667,
-      "mtime_secs": 0,
-      "hash": "9b0d41418ca5dda0618ab5ef843c2a29a08514964eaf3776b6cf6a354f19364c",
-      "mode": 420
-    },
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/systems/qwen.py": {
-      "size": 3159,
-      "mtime_secs": 0,
-      "hash": "76370b76648572f37352f31adb1d93a8d877590c371594296c406d03e5337db7",
       "mode": 420
     },
     "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/whisper_normalizer/LICENSE": {
       "size": 1063,
-      "mtime_secs": 0,
+      "mtime_secs": 1791920326,
       "hash": "4df4c3a2e748e546403036457cc35667e088f29976bdda9ce9eeddd51a7755ce",
       "mode": 420
     },
-    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/LICENSE": {
-      "size": 11358,
-      "mtime_secs": 0,
-      "hash": "83cb3a2fcf829b6138e095b083016c34ddcdfa07b68d38782722c14fcf85ace6",
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/systems/ours_mlx.py": {
+      "size": 4893,
+      "mtime_secs": 1791924662,
+      "hash": "8b920783f270207e9d898ce34891f0bd87f4402da8f6d4b6e6adeffb60df94d6",
+      "mode": 420
+    },
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/__init__.py": {
+      "size": 154,
+      "mtime_secs": 1791920497,
+      "hash": "af8e711d7238b7c478151c5461e33f5c2acb4027d504848db235c3f02ce05435",
+      "mode": 420
+    },
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/score.py": {
+      "size": 9671,
+      "mtime_secs": 1791921499,
+      "hash": "f9b7c22a9213e08fa1c5a6a557fa22ebd3a6d45eaa08370313536daa0dd02f97",
+      "mode": 420
+    },
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/.pytest_cache/v/cache/nodeids": {
+      "size": 313,
+      "mtime_secs": 1791921618,
+      "hash": "b5bc57432b796738ab2c9d876f3d605a2c3b158ea7d8d232da6ded0522b46dc3",
+      "mode": 420
+    },
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/systems/ours_torch.py": {
+      "size": 7060,
+      "mtime_secs": 1791932850,
+      "hash": "d14ba76fe4cefd344e8914274887348c8d8fc7750830d78069256d7cbb4adbaa",
+      "mode": 420
+    },
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/pyproject.toml": {
+      "size": 1217,
+      "mtime_secs": 1791921365,
+      "hash": "88b13f33200bafb38dbdeb1c66af4af1a2cb0bd76b78efed4f648ebf8e132d63",
+      "mode": 420
+    },
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/whisper_normalizer/english.py": {
+      "size": 21001,
+      "mtime_secs": 1791920326,
+      "hash": "9cdf057bc05fe664a0755027c1387dad99b8bfa6313ec481b279d6504900cc40",
+      "mode": 420
+    },
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/.ruff_cache/0.13.3/14227948090329574833": {
+      "size": 1003,
+      "mtime_secs": 1791932850,
+      "hash": "9851c9cf723390d9cc60f4d3f08a6a5abee052a3a5368d8e1c09fc8c27317cf8",
+      "mode": 384
+    },
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/build/contamination.py": {
+      "size": 6073,
+      "mtime_secs": 1791920835,
+      "hash": "2fcfb9cb3491dac57e0af336712d50f6fac58d438153f11f2e0dd2e400d03422",
+      "mode": 420
+    },
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/.pytest_cache/.gitignore": {
+      "size": 37,
+      "mtime_secs": 1791921487,
+      "hash": "a3a12db1cd3c373351e64ca2815eb686fd6428e96a2b44a5cffa337e7dc20b36",
+      "mode": 420
+    },
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/ours_ref/segmenter.py": {
+      "size": 5124,
+      "mtime_secs": 1791921093,
+      "hash": "578b1f2aec00f1695581122ddb95b1fa4b0495def91995bdc3c110efbd4d34bc",
+      "mode": 420
+    },
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/systems/whisper.py": {
+      "size": 4295,
+      "mtime_secs": 1791921193,
+      "hash": "4f859f2f05d0fb627f883da29a1e90bffceb3f31255d09f9710213b979d84cac",
+      "mode": 420
+    },
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/README.md": {
+      "size": 6941,
+      "mtime_secs": 1791922042,
+      "hash": "b1fe1ee66002d624831bb582ed5c6fa70fca790b68d4a87535c4c456a83e4dd3",
       "mode": 420
     },
     "/gpu-cli-workspaces/jameslal/path-3172b95136962215/pod/mini_mlx.sh": {
@@ -317,14 +191,146 @@
       "mode": 420
     },
     "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/report.py": {
-      "size": 12749,
-      "mtime_secs": 0,
-      "hash": "a82585eff7ce69a0c8af937c89b0cd582272c24b87ec8d383823210b83f22473",
+      "size": 13467,
+      "mtime_secs": 1791925103,
+      "hash": "92e88102329e7354a0f29ac8a85a94c3115ccc11567ea198547a182c60b2baae",
+      "mode": 420
+    },
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/systems/base.py": {
+      "size": 1639,
+      "mtime_secs": 1791921732,
+      "hash": "3864b286c2e6d479ac017d09c00d392d6bc7e740f28477fcaf4d37671aa0b0a7",
+      "mode": 420
+    },
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/build/g2p_table.py": {
+      "size": 1776,
+      "mtime_secs": 1791922698,
+      "hash": "6aeeb563cd94556d76965828d1692df76890714a5ec83e2b6e1624cf9d507e57",
+      "mode": 420
+    },
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/whisper_normalizer/english.json": {
+      "size": 56128,
+      "mtime_secs": 1791920326,
+      "hash": "4dfdd9d77d22ac8facbd7c17acd18c224307b9048e269ea3d555bdf110eee26c",
+      "mode": 420
+    },
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/whisper_normalizer/__init__.py": {
+      "size": 130,
+      "mtime_secs": 1791920326,
+      "hash": "aae2651a4d29a39f79bd5310bc1a09b4e842add34682a907b5596e1af4e9a393",
+      "mode": 420
+    },
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/align.py": {
+      "size": 3855,
+      "mtime_secs": 1791921883,
+      "hash": "01c2ab77b3af51776e4bdaf81e11b29588e5864faea4b8d4603a5309bcd72197",
+      "mode": 420
+    },
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/.ruff_cache/.gitignore": {
+      "size": 35,
+      "mtime_secs": 1791921879,
+      "hash": "572437d56d965a390fed2846fb1aba94acb4834d8bed1a8224893e3ce152afe9",
+      "mode": 420
+    },
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/.ruff_cache/0.13.3/12257751296945857491": {
+      "size": 86,
+      "mtime_secs": 1791921879,
+      "hash": "b0a312772e7a457a6732521e2269dc5586464f2a331446ff76edbe9eee1e6193",
+      "mode": 384
+    },
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/ours_ref/g2p.json": {
+      "size": 38037,
+      "mtime_secs": 1791922742,
+      "hash": "561ac3ba76bebcec9ab04a4ef524eb0ce7bf61b77047866f03d707ffc0bb1f65",
+      "mode": 420
+    },
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/.pytest_cache/CACHEDIR.TAG": {
+      "size": 191,
+      "mtime_secs": 1791921487,
+      "hash": "36fd6a49be5123693277ab0a9cde06eefb838cc647cf5a8da8849a81154f7abd",
+      "mode": 420
+    },
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/systems/qwen.py": {
+      "size": 3159,
+      "mtime_secs": 1791921193,
+      "hash": "76370b76648572f37352f31adb1d93a8d877590c371594296c406d03e5337db7",
+      "mode": 420
+    },
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/systems/__init__.py": {
+      "size": 1367,
+      "mtime_secs": 1791920999,
+      "hash": "770b4282701bd0c70a4a5c9e525355e30a8a88f2bd1bd1abf50be4882b6aae6c",
+      "mode": 420
+    },
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/.pytest_cache/v/cache/lastfailed": {
+      "size": 2,
+      "mtime_secs": 1791921618,
+      "hash": "6e46dd10defc9b56c29a6ec56b508c21f54c08192194e4df25bf36f0c9c3c279",
+      "mode": 420
+    },
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/compare.py": {
+      "size": 2442,
+      "mtime_secs": 1791921349,
+      "hash": "4e22df98419ded8e9734ecb52673e21fc401815e74dede982fe9b55435281f8f",
+      "mode": 420
+    },
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/LICENSE": {
+      "size": 11358,
+      "mtime_secs": 1791921951,
+      "hash": "83cb3a2fcf829b6138e095b083016c34ddcdfa07b68d38782722c14fcf85ace6",
+      "mode": 420
+    },
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/.ruff_cache/CACHEDIR.TAG": {
+      "size": 43,
+      "mtime_secs": 1791921879,
+      "hash": "c02373010694430bbf1d3e38e02032c6c2f8c355a70746bf8ef14d1f5cec1923",
+      "mode": 420
+    },
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/passes.py": {
+      "size": 2852,
+      "mtime_secs": 1791920789,
+      "hash": "3bc7c5fbb2f8c6b2f33445025f15ce1fcdb6a902db204db877bf7f68314e8fef",
+      "mode": 420
+    },
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/run.py": {
+      "size": 6721,
+      "mtime_secs": 1791936656,
+      "hash": "ad01f2c7cefb908fc39d1e98297a46cb51453203dac48ab99a8ed53722293fe3",
+      "mode": 420
+    },
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/NOTICE": {
+      "size": 705,
+      "mtime_secs": 1791921951,
+      "hash": "b55f8fb4adbe7eebe45bed666c99b137a82cdc4ec119169a343ca93ffb5fd577",
+      "mode": 420
+    },
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/stats.py": {
+      "size": 3709,
+      "mtime_secs": 1791920965,
+      "hash": "29fb86b3919e06ed5d2508974d6f9f0dffa6969bede2329d369147581428c6a1",
+      "mode": 420
+    },
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/build/build_dataset.py": {
+      "size": 19835,
+      "mtime_secs": 1791921883,
+      "hash": "c06b521419b2eba7f3a6e82f370fb8be156537623784ba92658a2f2384e12693",
+      "mode": 420
+    },
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/data.py": {
+      "size": 2113,
+      "mtime_secs": 1791920794,
+      "hash": "40505d63cff075d50f51f459f0aa051945a243f99c3993830f2917bbe3298ca4",
+      "mode": 420
+    },
+    "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/systems/cloud.py": {
+      "size": 8469,
+      "mtime_secs": 1791921732,
+      "hash": "4222775f1df3d1e4039680f9cdc5277ff351d2ed3e2606d6cfb8995e74282569",
       "mode": 420
     },
     "/gpu-cli-workspaces/jameslal/path-3172b95136962215/own_names_bench/text.py": {
       "size": 2321,
-      "mtime_secs": 0,
+      "mtime_secs": 1791920497,
       "hash": "e98e4f6f416494bb93bb32ba9fc2515b928c0a15415bf7da0117645d77d08a0a",
       "mode": 420
     }
@@ -334,7 +340,7 @@
       "display_path": ".gitignore",
       "kind": "file",
       "size": 100,
-      "mtime_secs": 0,
+      "mtime_secs": 1791922863,
       "hash": "213e65d73c7562a9f53e395c3169900e02a628b4a3f07bcf6f5906f157341678",
       "mode": 420,
       "symlink_target": null
@@ -343,7 +349,7 @@
       "display_path": ".pytest_cache/.gitignore",
       "kind": "file",
       "size": 37,
-      "mtime_secs": 0,
+      "mtime_secs": 1791921487,
       "hash": "a3a12db1cd3c373351e64ca2815eb686fd6428e96a2b44a5cffa337e7dc20b36",
       "mode": 420,
       "symlink_target": null
@@ -352,7 +358,7 @@
       "display_path": ".pytest_cache/CACHEDIR.TAG",
       "kind": "file",
       "size": 191,
-      "mtime_secs": 0,
+      "mtime_secs": 1791921487,
       "hash": "36fd6a49be5123693277ab0a9cde06eefb838cc647cf5a8da8849a81154f7abd",
       "mode": 420,
       "symlink_target": null
@@ -361,7 +367,7 @@
       "display_path": ".pytest_cache/README.md",
       "kind": "file",
       "size": 302,
-      "mtime_secs": 0,
+      "mtime_secs": 1791921487,
       "hash": "12728de47ea953637a40414213d1ffe64ed4ae1d7a1d7814d7878fa860602ad9",
       "mode": 420,
       "symlink_target": null
@@ -370,7 +376,7 @@
       "display_path": ".pytest_cache/v/cache/lastfailed",
       "kind": "file",
       "size": 2,
-      "mtime_secs": 0,
+      "mtime_secs": 1791921618,
       "hash": "6e46dd10defc9b56c29a6ec56b508c21f54c08192194e4df25bf36f0c9c3c279",
       "mode": 420,
       "symlink_target": null
@@ -379,7 +385,7 @@
       "display_path": ".pytest_cache/v/cache/nodeids",
       "kind": "file",
       "size": 313,
-      "mtime_secs": 0,
+      "mtime_secs": 1791921618,
       "hash": "b5bc57432b796738ab2c9d876f3d605a2c3b158ea7d8d232da6ded0522b46dc3",
       "mode": 420,
       "symlink_target": null
@@ -388,7 +394,7 @@
       "display_path": ".ruff_cache/.gitignore",
       "kind": "file",
       "size": 35,
-      "mtime_secs": 0,
+      "mtime_secs": 1791921879,
       "hash": "572437d56d965a390fed2846fb1aba94acb4834d8bed1a8224893e3ce152afe9",
       "mode": 420,
       "symlink_target": null
@@ -397,7 +403,7 @@
       "display_path": ".ruff_cache/0.13.3/12257751296945857491",
       "kind": "file",
       "size": 86,
-      "mtime_secs": 0,
+      "mtime_secs": 1791921879,
       "hash": "b0a312772e7a457a6732521e2269dc5586464f2a331446ff76edbe9eee1e6193",
       "mode": 384,
       "symlink_target": null
@@ -406,8 +412,8 @@
       "display_path": ".ruff_cache/0.13.3/14227948090329574833",
       "kind": "file",
       "size": 1003,
-      "mtime_secs": 0,
-      "hash": "b727102366c17e814b75d9a3e1ae63a3a099bb19fb7e24e3dc632474e92f5d9a",
+      "mtime_secs": 1791932850,
+      "hash": "9851c9cf723390d9cc60f4d3f08a6a5abee052a3a5368d8e1c09fc8c27317cf8",
       "mode": 384,
       "symlink_target": null
     },
@@ -415,7 +421,7 @@
       "display_path": ".ruff_cache/0.13.3/6959219734599043637",
       "kind": "file",
       "size": 126,
-      "mtime_secs": 0,
+      "mtime_secs": 1791921883,
       "hash": "fcc25edde4f4a93d798a66d68c40be2f3d7653353b2d96c3a578798c9e7d1c57",
       "mode": 384,
       "symlink_target": null
@@ -424,7 +430,7 @@
       "display_path": ".ruff_cache/CACHEDIR.TAG",
       "kind": "file",
       "size": 43,
-      "mtime_secs": 0,
+      "mtime_secs": 1791921879,
       "hash": "c02373010694430bbf1d3e38e02032c6c2f8c355a70746bf8ef14d1f5cec1923",
       "mode": 420,
       "symlink_target": null
@@ -433,7 +439,7 @@
       "display_path": "build/build_dataset.py",
       "kind": "file",
       "size": 19835,
-      "mtime_secs": 0,
+      "mtime_secs": 1791921883,
       "hash": "c06b521419b2eba7f3a6e82f370fb8be156537623784ba92658a2f2384e12693",
       "mode": 420,
       "symlink_target": null
@@ -442,7 +448,7 @@
       "display_path": "build/contamination.py",
       "kind": "file",
       "size": 6073,
-      "mtime_secs": 0,
+      "mtime_secs": 1791920835,
       "hash": "2fcfb9cb3491dac57e0af336712d50f6fac58d438153f11f2e0dd2e400d03422",
       "mode": 420,
       "symlink_target": null
@@ -460,7 +466,7 @@
       "display_path": "CLAIMS.md",
       "kind": "file",
       "size": 2932,
-      "mtime_secs": 0,
+      "mtime_secs": 1791921964,
       "hash": "75571316a07431b316e192b8e0f6379e00583571ca2ad70486fefa141594e6f1",
       "mode": 420,
       "symlink_target": null
@@ -469,7 +475,7 @@
       "display_path": "keys.env.example",
       "kind": "file",
       "size": 298,
-      "mtime_secs": 0,
+      "mtime_secs": 1791921878,
       "hash": "c99a8c15575ad8bfa649b494184e8233df336455d811604db7db87d655cfa87d",
       "mode": 420,
       "symlink_target": null
@@ -478,7 +484,7 @@
       "display_path": "LICENSE",
       "kind": "file",
       "size": 11358,
-      "mtime_secs": 0,
+      "mtime_secs": 1791921951,
       "hash": "83cb3a2fcf829b6138e095b083016c34ddcdfa07b68d38782722c14fcf85ace6",
       "mode": 420,
       "symlink_target": null
@@ -487,7 +493,7 @@
       "display_path": "NOTICE",
       "kind": "file",
       "size": 705,
-      "mtime_secs": 0,
+      "mtime_secs": 1791921951,
       "hash": "b55f8fb4adbe7eebe45bed666c99b137a82cdc4ec119169a343ca93ffb5fd577",
       "mode": 420,
       "symlink_target": null
@@ -496,7 +502,7 @@
       "display_path": "own_names_bench/__init__.py",
       "kind": "file",
       "size": 154,
-      "mtime_secs": 0,
+      "mtime_secs": 1791920497,
       "hash": "af8e711d7238b7c478151c5461e33f5c2acb4027d504848db235c3f02ce05435",
       "mode": 420,
       "symlink_target": null
@@ -505,7 +511,7 @@
       "display_path": "own_names_bench/align.py",
       "kind": "file",
       "size": 3855,
-      "mtime_secs": 0,
+      "mtime_secs": 1791921883,
       "hash": "01c2ab77b3af51776e4bdaf81e11b29588e5864faea4b8d4603a5309bcd72197",
       "mode": 420,
       "symlink_target": null
@@ -514,7 +520,7 @@
       "display_path": "own_names_bench/cli.py",
       "kind": "file",
       "size": 4095,
-      "mtime_secs": 0,
+      "mtime_secs": 1791921338,
       "hash": "1cc3bd019c786c69ef7ff096b33705b2d35cac0211ff8dfac81407c46e0df429",
       "mode": 420,
       "symlink_target": null
@@ -523,7 +529,7 @@
       "display_path": "own_names_bench/compare.py",
       "kind": "file",
       "size": 2442,
-      "mtime_secs": 0,
+      "mtime_secs": 1791921349,
       "hash": "4e22df98419ded8e9734ecb52673e21fc401815e74dede982fe9b55435281f8f",
       "mode": 420,
       "symlink_target": null
@@ -532,7 +538,7 @@
       "display_path": "own_names_bench/data.py",
       "kind": "file",
       "size": 2113,
-      "mtime_secs": 0,
+      "mtime_secs": 1791920794,
       "hash": "40505d63cff075d50f51f459f0aa051945a243f99c3993830f2917bbe3298ca4",
       "mode": 420,
       "symlink_target": null
@@ -541,7 +547,7 @@
       "display_path": "own_names_bench/ours_ref/__init__.py",
       "kind": "file",
       "size": 0,
-      "mtime_secs": 0,
+      "mtime_secs": 1791921878,
       "hash": "af1349b9f5f9a1a6a0404dea36dcc9499bcb25c9adc112b7cc9a93cae41f3262",
       "mode": 420,
       "symlink_target": null
@@ -559,7 +565,7 @@
       "display_path": "own_names_bench/ours_ref/segmenter.py",
       "kind": "file",
       "size": 5124,
-      "mtime_secs": 0,
+      "mtime_secs": 1791921093,
       "hash": "578b1f2aec00f1695581122ddb95b1fa4b0495def91995bdc3c110efbd4d34bc",
       "mode": 420,
       "symlink_target": null
@@ -567,9 +573,9 @@
     "own_names_bench/ours_ref/spotter.py": {
       "display_path": "own_names_bench/ours_ref/spotter.py",
       "kind": "file",
-      "size": 13768,
-      "mtime_secs": 0,
-      "hash": "4852c09007918571e8f1bb9da7bc013c073bba43ded615b39ff691c39c1630bb",
+      "size": 14675,
+      "mtime_secs": 1791932850,
+      "hash": "a627d8d02f08841d88bd4a8a7492756b48c24c38da13e1dc973d89efafeb78f1",
       "mode": 420,
       "symlink_target": null
     },
@@ -577,7 +583,7 @@
       "display_path": "own_names_bench/ours_ref/writer.py",
       "kind": "file",
       "size": 3646,
-      "mtime_secs": 0,
+      "mtime_secs": 1791921142,
       "hash": "dca256263a92640a17980aa2ce044f47c6a0704626250687151351ee98d7f65e",
       "mode": 420,
       "symlink_target": null
@@ -586,7 +592,7 @@
       "display_path": "own_names_bench/passes.py",
       "kind": "file",
       "size": 2852,
-      "mtime_secs": 0,
+      "mtime_secs": 1791920789,
       "hash": "3bc7c5fbb2f8c6b2f33445025f15ce1fcdb6a902db204db877bf7f68314e8fef",
       "mode": 420,
       "symlink_target": null
@@ -594,18 +600,18 @@
     "own_names_bench/report.py": {
       "display_path": "own_names_bench/report.py",
       "kind": "file",
-      "size": 12749,
-      "mtime_secs": 0,
-      "hash": "a82585eff7ce69a0c8af937c89b0cd582272c24b87ec8d383823210b83f22473",
+      "size": 13467,
+      "mtime_secs": 1791925103,
+      "hash": "92e88102329e7354a0f29ac8a85a94c3115ccc11567ea198547a182c60b2baae",
       "mode": 420,
       "symlink_target": null
     },
     "own_names_bench/run.py": {
       "display_path": "own_names_bench/run.py",
       "kind": "file",
-      "size": 6483,
-      "mtime_secs": 0,
-      "hash": "0419fe014897bb956251dc7556815a5604eceb64c6b961a8c50c76997aa56774",
+      "size": 6721,
+      "mtime_secs": 1791936656,
+      "hash": "ad01f2c7cefb908fc39d1e98297a46cb51453203dac48ab99a8ed53722293fe3",
       "mode": 420,
       "symlink_target": null
     },
@@ -613,7 +619,7 @@
       "display_path": "own_names_bench/score.py",
       "kind": "file",
       "size": 9671,
-      "mtime_secs": 0,
+      "mtime_secs": 1791921499,
       "hash": "f9b7c22a9213e08fa1c5a6a557fa22ebd3a6d45eaa08370313536daa0dd02f97",
       "mode": 420,
       "symlink_target": null
@@ -622,7 +628,7 @@
       "display_path": "own_names_bench/stats.py",
       "kind": "file",
       "size": 3709,
-      "mtime_secs": 0,
+      "mtime_secs": 1791920965,
       "hash": "29fb86b3919e06ed5d2508974d6f9f0dffa6969bede2329d369147581428c6a1",
       "mode": 420,
       "symlink_target": null
@@ -631,7 +637,7 @@
       "display_path": "own_names_bench/systems/__init__.py",
       "kind": "file",
       "size": 1367,
-      "mtime_secs": 0,
+      "mtime_secs": 1791920999,
       "hash": "770b4282701bd0c70a4a5c9e525355e30a8a88f2bd1bd1abf50be4882b6aae6c",
       "mode": 420,
       "symlink_target": null
@@ -640,7 +646,7 @@
       "display_path": "own_names_bench/systems/base.py",
       "kind": "file",
       "size": 1639,
-      "mtime_secs": 0,
+      "mtime_secs": 1791921732,
       "hash": "3864b286c2e6d479ac017d09c00d392d6bc7e740f28477fcaf4d37671aa0b0a7",
       "mode": 420,
       "symlink_target": null
@@ -649,7 +655,7 @@
       "display_path": "own_names_bench/systems/cloud.py",
       "kind": "file",
       "size": 8469,
-      "mtime_secs": 0,
+      "mtime_secs": 1791921732,
       "hash": "4222775f1df3d1e4039680f9cdc5277ff351d2ed3e2606d6cfb8995e74282569",
       "mode": 420,
       "symlink_target": null
@@ -658,7 +664,7 @@
       "display_path": "own_names_bench/systems/ours_mlx.py",
       "kind": "file",
       "size": 4893,
-      "mtime_secs": 0,
+      "mtime_secs": 1791924662,
       "hash": "8b920783f270207e9d898ce34891f0bd87f4402da8f6d4b6e6adeffb60df94d6",
       "mode": 420,
       "symlink_target": null
@@ -666,18 +672,18 @@
     "own_names_bench/systems/ours_torch.py": {
       "display_path": "own_names_bench/systems/ours_torch.py",
       "kind": "file",
-      "size": 5667,
-      "mtime_secs": 0,
-      "hash": "9b0d41418ca5dda0618ab5ef843c2a29a08514964eaf3776b6cf6a354f19364c",
+      "size": 7060,
+      "mtime_secs": 1791932850,
+      "hash": "d14ba76fe4cefd344e8914274887348c8d8fc7750830d78069256d7cbb4adbaa",
       "mode": 420,
       "symlink_target": null
     },
     "own_names_bench/systems/parakeet.py": {
       "display_path": "own_names_bench/systems/parakeet.py",
       "kind": "file",
-      "size": 3652,
-      "mtime_secs": 0,
-      "hash": "0d02f7b4ba82573613a1579b5fd1f53b473b620dac9e2cc05fc0e6f9174dcc00",
+      "size": 4264,
+      "mtime_secs": 1791929555,
+      "hash": "d7156c5a1808dd5b3c82d3acbf3d8f4f5c17af3eb6ae46d87fd739244d476b05",
       "mode": 420,
       "symlink_target": null
     },
@@ -685,7 +691,7 @@
       "display_path": "own_names_bench/systems/qwen.py",
       "kind": "file",
       "size": 3159,
-      "mtime_secs": 0,
+      "mtime_secs": 1791921193,
       "hash": "76370b76648572f37352f31adb1d93a8d877590c371594296c406d03e5337db7",
       "mode": 420,
       "symlink_target": null
@@ -694,7 +700,7 @@
       "display_path": "own_names_bench/systems/whisper.py",
       "kind": "file",
       "size": 4295,
-      "mtime_secs": 0,
+      "mtime_secs": 1791921193,
       "hash": "4f859f2f05d0fb627f883da29a1e90bffceb3f31255d09f9710213b979d84cac",
       "mode": 420,
       "symlink_target": null
@@ -703,7 +709,7 @@
       "display_path": "own_names_bench/text.py",
       "kind": "file",
       "size": 2321,
-      "mtime_secs": 0,
+      "mtime_secs": 1791920497,
       "hash": "e98e4f6f416494bb93bb32ba9fc2515b928c0a15415bf7da0117645d77d08a0a",
       "mode": 420,
       "symlink_target": null
@@ -712,7 +718,7 @@
       "display_path": "own_names_bench/whisper_normalizer/__init__.py",
       "kind": "file",
       "size": 130,
-      "mtime_secs": 0,
+      "mtime_secs": 1791920326,
       "hash": "aae2651a4d29a39f79bd5310bc1a09b4e842add34682a907b5596e1af4e9a393",
       "mode": 420,
       "symlink_target": null
@@ -721,7 +727,7 @@
       "display_path": "own_names_bench/whisper_normalizer/basic.py",
       "kind": "file",
       "size": 2064,
-      "mtime_secs": 0,
+      "mtime_secs": 1791920325,
       "hash": "d841a5e3e4c35c0d477125146efbe2acc565ac260f0a1ad850ad43321a7ecb32",
       "mode": 420,
       "symlink_target": null
@@ -730,7 +736,7 @@
       "display_path": "own_names_bench/whisper_normalizer/english.json",
       "kind": "file",
       "size": 56128,
-      "mtime_secs": 0,
+      "mtime_secs": 1791920326,
       "hash": "4dfdd9d77d22ac8facbd7c17acd18c224307b9048e269ea3d555bdf110eee26c",
       "mode": 420,
       "symlink_target": null
@@ -739,7 +745,7 @@
       "display_path": "own_names_bench/whisper_normalizer/english.py",
       "kind": "file",
       "size": 21001,
-      "mtime_secs": 0,
+      "mtime_secs": 1791920326,
       "hash": "9cdf057bc05fe664a0755027c1387dad99b8bfa6313ec481b279d6504900cc40",
       "mode": 420,
       "symlink_target": null
@@ -748,7 +754,7 @@
       "display_path": "own_names_bench/whisper_normalizer/LICENSE",
       "kind": "file",
       "size": 1063,
-      "mtime_secs": 0,
+      "mtime_secs": 1791920326,
       "hash": "4df4c3a2e748e546403036457cc35667e088f29976bdda9ce9eeddd51a7755ce",
       "mode": 420,
       "symlink_target": null
@@ -771,11 +777,20 @@
       "mode": 420,
       "symlink_target": null
     },
+    "pod/parakeet_alpha.sh": {
+      "display_path": "pod/parakeet_alpha.sh",
+      "kind": "file",
+      "size": 874,
+      "mtime_secs": 1791925961,
+      "hash": "15d24b369bd6cc15a818554f2ba48c44f171fb5de0752e3f9c1f40a6db81e962",
+      "mode": 493,
+      "symlink_target": null
+    },
     "pod/run.sh": {
       "display_path": "pod/run.sh",
       "kind": "file",
       "size": 1583,
-      "mtime_secs": 0,
+      "mtime_secs": 1791922852,
       "hash": "a7aff8f90dda7c3d73b11ca37f27a1f56f6464fc2bbcadb4a67581081c934e02",
       "mode": 493,
       "symlink_target": null
@@ -784,7 +799,7 @@
       "display_path": "pyproject.toml",
       "kind": "file",
       "size": 1217,
-      "mtime_secs": 0,
+      "mtime_secs": 1791921365,
       "hash": "88b13f33200bafb38dbdeb1c66af4af1a2cb0bd76b78efed4f648ebf8e132d63",
       "mode": 420,
       "symlink_target": null
@@ -793,7 +808,7 @@
       "display_path": "README.md",
       "kind": "file",
       "size": 6941,
-      "mtime_secs": 0,
+      "mtime_secs": 1791922042,
       "hash": "b1fe1ee66002d624831bb582ed5c6fa70fca790b68d4a87535c4c456a83e4dd3",
       "mode": 420,
       "symlink_target": null
@@ -802,7 +817,7 @@
       "display_path": "tests/test_score.py",
       "kind": "file",
       "size": 3449,
-      "mtime_secs": 0,
+      "mtime_secs": 1791921566,
       "hash": "6ddcf084fd15351fe95f503f3e5e54ac46bf079c6c5a977d7faf8b2d74c0b000",
       "mode": 420,
       "symlink_target": null
@@ -811,11 +826,11 @@
       "display_path": "uv.lock",
       "kind": "file",
       "size": 319985,
-      "mtime_secs": 0,
+      "mtime_secs": 1791921367,
       "hash": "7ea35e6aa29c75d13aff4514ee01db64ebb9f19eeb7690d74fa7510e96a972b5",
       "mode": 420,
       "symlink_target": null
     }
   },
-  "last_sync_time": 1791924894
+  "last_sync_time": 1791937752
 }

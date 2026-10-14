@@ -6,7 +6,7 @@
 set -uo pipefail
 tag=$1; rate=$2; shift 2
 command -v uv >/dev/null || pip install -q uv
-export PYTHONWARNINGS=ignore OWN_NAMES_BENCH_DATA=$PWD/.pod/data UV_CACHE_DIR=$PWD/.pod/uvcache HF_HOME=$PWD/.pod/hf
+export PYTHONWARNINGS=ignore OWN_NAMES_BENCH_DATA=$PWD/.pod/data UV_CACHE_DIR=$PWD/.pod/uvcache HF_HUB_CACHE=/tmp/hf
 unset VIRTUAL_ENV
 df -h . /tmp | sed 's/^/disk: /'
 status=0

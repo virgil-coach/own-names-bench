@@ -27,7 +27,12 @@ def pcm_sha(x: np.ndarray) -> str:
     return hashlib.sha256(pcm.tobytes()).hexdigest()
 
 
+ONLY: set[str] = {"calls", "svq", "ami", "modulate"}  # suites this run may write (cut --only)
+
+
 def write_flac(root: Path, rel: str, x: np.ndarray) -> dict:
+    if root.name not in ONLY:  # a suite kept as built: never touch its files
+        return {"audio": rel, "sha256": "", "seconds": round(len(x) / 16000, 3)}
     p = root / rel
     p.parent.mkdir(parents=True, exist_ok=True)
     pcm = np.clip(np.round(x * 32768.0), -32768, 32767).astype(np.int16)
@@ -59,6 +64,8 @@ def build_lists(groups: dict[str, list[str]], entries: dict[str, dict], texts: d
 
 
 def cut(args) -> None:
+    global ONLY
+    ONLY = set((args.only or "calls,svq,ami,modulate").split(","))
     src = Path(args.src)
     plan = json.loads((src / "plan.json").read_text())
     align = json.loads(Path(args.align).read_text())["spans"]
@@ -97,7 +104,7 @@ def cut(args) -> None:
             if mn["entry"] not in ok:
                 continue
             s = segs[mn["seg"]]
-            clip_id = f"calls-{cid}-{mn['seg']:04d}"
+            clip_id = f"calls-{cid}-t{mn['seg']:04d}"
             if clip_id not in clips:
                 a, b = int(s["start"] * sr), int(s["end"] * sr)
                 meta = write_flac(out, f"audio/clips/{cid}/{mn['seg']:04d}.flac", x[a:b])
@@ -111,11 +118,11 @@ def cut(args) -> None:
         for k, st in enumerate(c["stretches"]):
             ss = [segs[i] for i in st]
             text = " ".join(s["text"] for s in ss)
-            a, b = int(ss[0]["start"] * sr), int(ss[-1]["end"] * sr)
-            clip_id = f"calls-{cid}-free{k}"
+            a, b = int(ss[0]["start"] * sr), int(max(x["end"] for x in ss) * sr)
+            clip_id = f"calls-{cid}-s{k}"
             meta = write_flac(out, f"audio/free/{cid}/{k}.flac", x[a:b])
             clips[clip_id] = {"id": clip_id, "audio": f"suites/calls/{meta['audio']}", "sha256": meta["sha256"], "seconds": meta["seconds"],
-                              "book": cid, "reader": "both", "reference": text, "source": f"{c['file']}@{ss[0]['start']}-{ss[-1]['end']}",
+                              "book": cid, "reader": "both", "reference": text, "source": f"{c['file']}@{ss[0]['start']}-{max(x['end'] for x in ss)}",
                               "accent": c["accent"], "kind": "stretch"}
             free.append({"id": f"free:{clip_id}", "clip": clip_id})
     # every call has a list, even one with no taught name of its own (its stretches still need one)
@@ -137,8 +144,10 @@ def cut(args) -> None:
     clips = {k: v for k, v in clips.items() if k in used}
     suites["calls"] = {"entries": entries, "lists": lists, "clips": clips, "mentions": mentions, "name_free": keep_free, "dropped": dropped}
 
-    # ---------------- svq
     import pyarrow.parquet as pq
+
+    only = ONLY
+    # ---------------- svq
 
     out = root / "suites" / "svq"
     need = {r["utt_id"] for it in plan["svq"]["items"] for r in [it["enroll"], *it["tests"]]} | {r["utt_id"] for r in plan["svq"]["free"]}
@@ -307,6 +316,9 @@ def cut(args) -> None:
 
     # ---------------- write each suite with its licence, then the manifest pointer
     for name, s in suites.items():
+        if name not in only:
+            print(f"{name}: kept as built (not rewritten)")
+            continue
         d = root / "suites" / name
         d.mkdir(parents=True, exist_ok=True)
         common = frozenset(Path(args.common_words).read_text().split()) if args.common_words else frozenset()

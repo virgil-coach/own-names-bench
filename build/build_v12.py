@@ -116,6 +116,8 @@ def plan(args: argparse.Namespace) -> None:
             text = clean_call_text(s["text"])
             segs.append({"i": i, "start": s["start"], "end": s["end"], "speaker": s["speaker_id"], "role": s["role"], "text": text,
                          "names": name_spans(text, common)})
+        # a turn that overlaps another speaker's: its clip would hold words its reference lacks
+        overlapped = {a["i"] for a in segs for b in segs if a["i"] != b["i"] and a["start"] < b["end"] - 0.05 and b["start"] < a["end"] - 0.05}
         by_name: dict[str, list[tuple[int, int, int]]] = collections.defaultdict(list)
         for s in segs:
             for n, a, b in s["names"]:
@@ -134,18 +136,27 @@ def plan(args: argparse.Namespace) -> None:
                          "start": segs[e_seg]["start"], "end": segs[e_seg]["end"], "text": segs[e_seg]["text"], "span": [ea, eb]})
             for i, a, b in occ:
                 s = segs[i]
-                if i == e_seg or s["end"] - s["start"] > MAX_CLIP_S:
+                if i == e_seg or s["end"] - s["start"] > MAX_CLIP_S or i in overlapped:
                     continue
                 mentions.append({"seg": i, "entry": eid, "span": [a, b], "same_speaker": s["speaker"] == segs[e_seg]["speaker"]})
+        def closed(run: list[dict]) -> bool:
+            """No turn outside the run overlaps its time window (its audio is all in its reference)."""
+            a, b = run[0]["start"], max(x["end"] for x in run)
+            ids = {x["i"] for x in run}
+            return all(x["i"] in ids or not (x["start"] < b and a < x["end"]) for x in segs)
+
+        def any_name(t: str) -> bool:
+            return bool(name_spans(t, common, sentence_initial_ok=True))
+
         stretches, run = [], []
         for s in segs + [None]:
-            if s is None or s["names"]:
-                if run and run[-1]["end"] - run[0]["start"] >= STRETCH_S[0]:
+            if s is None or any_name(s["text"]):
+                if run and max(x["end"] for x in run) - run[0]["start"] >= STRETCH_S[0] and closed(run):
                     stretches.append(run)
                 run = []
                 continue
             if run and s["end"] - run[0]["start"] > STRETCH_S[1]:
-                if run[-1]["end"] - run[0]["start"] >= STRETCH_S[0]:
+                if max(x["end"] for x in run) - run[0]["start"] >= STRETCH_S[0] and closed(run):
                     stretches.append(run)
                 run = []
             run.append(s)
@@ -252,6 +263,7 @@ if __name__ == "__main__":
     ap.add_argument("--common-words")
     ap.add_argument("--align")
     ap.add_argument("--dataset")
+    ap.add_argument("--only", default="", help="cut: rewrite only these suites (comma list); the others stay as built")
     a = ap.parse_args()
     if a.stage == "plan":
         plan(a)

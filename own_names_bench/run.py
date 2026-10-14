@@ -93,7 +93,22 @@ def run(b: Bench, system: System, out: Path, *, chapters: bool, limit: int, only
                              f"this is {system.name} on {dataset_fp}. Use another --label.")
         changed = [k for k, v in (meta.get("suite_fingerprints") or {}).items() if suite_fps.get(k) != v]
         if changed:
-            raise SystemExit(f"{out} was made on other versions of the suites {changed}. Use another --label.")
+            # a rebuilt suite's transcripts can never be reused: set them aside, never mix them in
+            log_ = out / "passes.jsonl"
+            packed_ = out / "passes.jsonl.gz"
+            if packed_.exists() and not log_.exists():
+                log_.write_bytes(gzip.decompress(packed_.read_bytes()))
+                packed_.unlink()
+            if log_.exists():
+                keep, drop = [], []
+                for line in log_.read_text().splitlines():
+                    (drop if any(json.loads(line)["id"].startswith(f"suite/{k}/") for k in changed) else keep).append(line)
+                log_.write_text("".join(x + "\n" for x in keep))
+                with (out / "passes.discarded.jsonl").open("a") as f:
+                    f.writelines(x + "\n" for x in drop)
+                meta.setdefault("suite_changes", []).append({"suites": changed, "rows_set_aside": len(drop),
+                                                             "at": datetime.now(UTC).isoformat(timespec="seconds")})
+                print(f"suites {changed} were rebuilt: {len(drop)} rows set aside in passes.discarded.jsonl", flush=True)
         if meta.get("fingerprint") != fp:
             old = meta.get("config", {})
             changed = sorted(k for k in set(old) | set(config) if k not in VOLATILE_CONFIG and old.get(k) != config.get(k))

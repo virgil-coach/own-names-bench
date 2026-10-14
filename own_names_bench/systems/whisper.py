@@ -37,7 +37,7 @@ class Whisper(System):
 
         return {"model": f"{MODEL[0]}@{MODEL[1]}", "runtime": f"transformers {transformers.__version__}, torch {torch.__version__}",
                 "device": self.device, "dtype": str(self.dtype).removeprefix("torch."), "decoding": "greedy, language en, task transcribe",
-                "long_form": "sequential, prompt_condition_type=all-segments, condition_on_prev_tokens=False",
+                "long_form": "sequential, condition_on_prev_tokens=True, prompt_condition_type=all-segments (the names before every 30 s segment)",
                 "list_feature": "prompt_ids (initial prompt): names joined by ', '",
                 "limits": f"{PROMPT_TOKENS} prompt tokens", "fit": "longest prefix of the list (most frequent first) within the token limit"}
 
@@ -66,7 +66,9 @@ class Whisper(System):
 
         x = read16k(audio)
         long = len(x) > 30 * 16000
-        kw: dict = {"language": "en", "task": "transcribe", "num_beams": 1, "do_sample": False, "condition_on_prev_tokens": False}
+        # long-form decoding conditions each 30 s segment on the text before it (OpenAI's default,
+        # and what transformers requires for a prompt on every segment); short clips are one segment
+        kw: dict = {"language": "en", "task": "transcribe", "num_beams": 1, "do_sample": False, "condition_on_prev_tokens": long}
         if names:
             kw["prompt_ids"] = torch.tensor(self.proc.get_prompt_ids(self._prompt(names)), device=self.device)
             if long:

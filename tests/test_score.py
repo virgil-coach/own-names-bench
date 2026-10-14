@@ -123,3 +123,50 @@ def test_untaught_list_drops_every_same_spelling(bench):
         for v in ("own", "all"):
             left = minus(bench, bench.lists[f"{v}:{book}"]["entries"], mn["entry"])
             assert all(name_key(bench.entries[e]["written"]) != key for e in left)
+
+
+class _Fake:
+    name = "fake"
+    kind = "local"
+    variants = ("none",)
+    workers = 1
+
+    def __init__(self, setting: str = "a") -> None:
+        self.setting = setting
+
+    def config(self) -> dict:
+        return {"setting": self.setting}
+
+    def price(self) -> dict:
+        return {}
+
+    def fit(self, names):
+        from own_names_bench.systems.base import Fit
+
+        return Fit(list(names))
+
+
+def test_resume_refuses_another_system_or_config(bench, tmp_path):
+    import json
+
+    from own_names_bench.run import run
+
+    out = tmp_path / "r"
+    out.mkdir()
+    (out / "run.json").write_text(json.dumps({"system": "other", "dataset_fingerprint": "x"}))
+    with pytest.raises(SystemExit):
+        run(bench, _Fake(), out, chapters=False, limit=1, only="", hourly_usd=None)
+    out2 = tmp_path / "r2"
+    run(bench, _Fake("a"), out2, chapters=False, limit=0, only="clip/none-such", hourly_usd=None)  # writes run.json, no passes
+    with pytest.raises(SystemExit):
+        run(bench, _Fake("b"), out2, chapters=False, limit=0, only="clip/none-such", hourly_usd=None)
+
+
+def test_incomplete_run_is_flagged(bench):
+    from own_names_bench.passes import all_passes
+    from own_names_bench.report import completeness
+
+    ps = all_passes(bench, ("none",), True)
+    rows = {p.id: {"list_sha": p.list_sha, "text": ""} for p in ps[:-1]}
+    c = completeness(bench, {"system": "qwen", "variants": ["none"]}, rows, {})
+    assert not c["complete"] and c["missing"] == 1

@@ -20,6 +20,8 @@ Built by [Virgil](https://virgil.coach) (Little Bear Labs, Inc.) to check our ow
 | **Wrong name written** | The spoken name is on the list, but another listed name is written there instead. |
 | **Name-free insertions** | Clips that say no name from the list: a listed name written anywhere. |
 | **Ordinary-word error** | Word error rate outside names (every word of every benchmark name removed from both sides), with OpenAI Whisper's English normalizer: does the list damage the rest of the transcript? |
+| **Full-transcript error** | The same with nothing removed, so a wrongly written name counts too. |
+| **Taught by another reader** | Ours only (systems taught by recording): the same mention with the name taught in a different reader's voice. |
 | **Latency, cost** | Per-request latency and real-time factor on the recorded machine; list price per audio hour (with the date checked) for hosted services, measured real-time factor × machine price for local models. |
 
 Two tasks:
@@ -35,9 +37,10 @@ Two tasks:
    with no list: names right, wrong names per minute, untaught names overwritten, ordinary-word
    error.
 
-Every number comes with a 95% interval (Wilson for shares of items; bootstrap over books or
-chapters for word error and rates per minute), and systems are compared **paired, on the same
-items** (bootstrap interval of the difference, exact McNemar test).
+Every number comes with a 95% interval from a bootstrap over books (clips) or chapters (mentions in
+one book share a reader, a text and names), and systems are compared **paired, on the same items**
+with the same clustered bootstrap. Names are matched one to one: a name written once cannot count
+for two mentions. Only complete runs are compared.
 
 ## Systems
 
@@ -101,46 +104,49 @@ list was fitted, latency).
 ## What is pinned
 
 - Benchmark version `1.0.0` (code and data move together; a change to either is a new version).
-- Dataset `virgil-coach/own-names-bench`, tag `v1.0.0`: every audio file's SHA-256 is in
+- Dataset `virgil-coach/own-names-bench`, tag `v1.1.0` (`v1.0.0` keeps the first release): every audio file's SHA-256 is in
   `manifest.json`, and `bench` refuses to run on a changed file.
 - The name lists, their order, the reference text and its normalization (`own_names_bench/text.py`,
   normalization version 1), the sampling seed (20261013).
 - Model revisions (Hugging Face commit hashes) and API model names, in `run.json`.
 - Python dependencies in `uv.lock`.
 
-## Results (v1.0.0, runs of 2026-10-13)
+## Results (v1.1.0; runs of 2026-10-13, untaught passes rerun 2026-10-14)
 
-Clips with each book's own name list (1,107 mentions, 12 books) and continuous chapters (343
-mentions, 8 chapters). Percent, 95% interval. Full tables, paired comparisons, speed, cost and
-every configuration: [results/scores/REPORT.md](results/scores/REPORT.md).
+Percent, with 95% intervals from a bootstrap over books (clips) or chapters. Clips: each book's own
+name list, 1,107 mentions in 12 books. Chapters: 343 mentions in 8 chapters. Full tables, paired
+differences, costs and every configuration: [results/scores/REPORT.md](results/scores/REPORT.md);
+what changed from v1.0.0: [results/scores/CHANGES_v1.0_to_v1.1.md](results/scores/CHANGES_v1.0_to_v1.1.md).
 
-| System (how it got the names) | Names right, clips | Untaught overwritten, clips | Name-free clips, a listed name inserted | Ordinary-word error, clips | Names right, chapters | Untaught overwritten, chapters |
-| --- | --- | --- | --- | --- | --- | --- |
-| Ours, v0.3.0 `audio-text-note` + spotter (spelling + one recording per name) | 96.7 [95.4, 97.6] | 7.0 [5.7, 8.7] | 3.9 [2.4, 6.3] | 2.7 [2.4, 3.0] | 99.4 [97.9, 99.8] | 1.8 [0.6, 5.0] |
-| ElevenLabs Scribe v2 (`keyterms`, all names) | 92.2 [90.5, 93.7] | 3.3 [2.4, 4.6] | 0.2 [0.0, 1.4] | 1.7 [1.4, 1.9] | 98.5 [96.6, 99.4] | 1.8 [0.6, 5.0] |
-| Deepgram Nova-3 (`keyterm`, as many as its 500-token limit takes) | 75.2 [72.6, 77.7] | 8.2 [6.7, 10.0] | 1.7 [0.8, 3.5] | 4.1 [3.1, 5.0] | 83.4 [79.1, 86.9] | 5.3 [2.8, 9.7] |
-| Whisper large-v3 (prompt, 223 tokens) | 74.3 [71.7, 76.8] | 1.6 [1.0, 2.6] | 0.2 [0.0, 1.4] | 3.0 [2.4, 3.4] | 77.0 [72.2, 81.1] | 1.8 [0.6, 5.0] |
-| Parakeet TDT 0.6B v2 (GPU phrase boosting) | 78.5 [76.0, 80.8] | 27.2 [24.7, 29.9] | 7.1 [5.0, 10.0] | 3.5 [2.9, 4.0] | 91.8 [88.5, 94.3] | 4.7 [2.4, 9.0] |
-| Qwen3-ASR-1.7B (names as context) | 63.9 [61.0, 66.6] | 4.3 [3.3, 5.7] | 0.2 [0.0, 1.4] | 3.6 [2.6, 4.5] | 89.2 [85.5, 92.1] | 2.9 [1.3, 6.7] |
-| Qwen3-ASR-1.7B (no list) | 41.8 [39.0, 44.8] | n/a | 0.0 [0.0, 0.9] | 4.3 [3.8, 4.8] | 22.7 [18.6, 27.5] | n/a |
+| System (how it got the names) | Names right, clips | Untaught overwritten, clips | Name-free clips: listed name inserted | Ordinary-word error, clips | Names right, chapters |
+| --- | --- | --- | --- | --- | --- |
+| Ours, v0.3.0 `audio-text-note` + spotter (spelling + one recording per name) | 96.7 [94.9, 98.6] | 7.0 [2.3, 11.3] | 3.9 [0.5, 9.6] | 2.7 [2.4, 3.0] | 99.4 [98.6, 100.0] |
+| ElevenLabs Scribe v2 (`keyterms`, all names) | 92.2 [87.6, 97.2] | 3.3 [1.1, 5.8] | 0.2 [0.0, 0.7] | 1.7 [1.4, 1.9] | 98.5 [95.2, 100.0] |
+| Deepgram Nova-3 (`keyterm`; 85.8% of spoken names fit its limit) | 75.2 [62.0, 89.7] | 8.4 [5.7, 11.0] | 1.7 [0.5, 2.9] | 4.1 [3.1, 5.0] | 83.4 [76.1, 91.4] |
+| Whisper large-v3 (prompt; 65.6% fit in 223 tokens) | 74.3 [63.7, 88.6] | 1.6 [0.2, 3.4] | 0.2 [0.0, 0.7] | 3.0 [2.4, 3.4] | 77.0 [54.5, 93.8] |
+| Parakeet TDT 0.6B v2 (phrase boosting, weight picked on chapters) | 78.5 [72.3, 85.3] | 27.2 [15.9, 37.3] | 7.1 [4.2, 10.3] | 3.5 [2.9, 4.0] | 91.8 [87.5, 97.9] |
+| Qwen3-ASR-1.7B (names as context) | 63.9 [54.6, 75.2] | 4.3 [1.6, 7.2] | 0.2 [0.0, 0.7] | 3.6 [2.6, 4.5] | 89.2 [85.4, 94.6] |
+| Qwen3-ASR-1.7B (no list) | 41.8 [35.4, 47.5] | n/a | 0.0 | 4.3 [3.8, 4.8] | 22.2 [10.4, 37.6] |
+
+Against ElevenLabs Scribe v2, same items (ours minus Scribe, points, clustered 95% interval):
+names right on clips +4.4 [+0.5, +7.6], all of it from traditional names (+7.1 [+1.6, +10.5];
+invented names +1.2 [−1.6, +4.1], no measurable difference); untaught names overwritten +3.7
+[+1.0, +6.4] (worse); ordinary-word error +1.0 [+0.7, +1.3] (worse); name-free insertions +3.7
+[0.0, +9.6] (not established either way); chapters, names right +0.9 [−1.3, +4.4] (no measurable
+difference) and ordinary-word error +0.7 [+0.3, +1.3] (worse).
 
 Ours on the shipping engine (Rust/MLX, Apple M5 Pro) agrees with the PyTorch reference (RTX 4090)
-within noise: names right 96.7 vs 96.7 (6 items each way), untaught overwritten 6.8 vs 7.0.
+on the 6,550 passes both ran: names right 1,070 vs 1,070 (6 items each way), overwrites +0.3
+[−0.2, +0.7]. Its v1.1.0 run is incomplete (the 65 corrected untaught passes and the 65
+cross-reader passes were not rerun on the shared Mac), so it is left out of the result tables.
 Whisper on an RTX 4090 and an A100 wrote identical text for 99.6% of passes.
 
-Notes that matter for reading the table: hosted services and Whisper likely know these classic
-texts (with no list at all, ElevenLabs already writes 59.5% of the names right); Parakeet's boosting
-weight was picked on the chapters task (NeMo gives no default), so its chapter numbers are
-optimistic; Deepgram and Whisper could only take part of the longest lists (85.8% and 65.6% of
-spoken names were among the names they received).
+Read with care: hosted services and Whisper likely know these classic texts (with no list at
+all, ElevenLabs already writes 59.5% of the names right); Parakeet's boosting weight was picked on
+the chapters task, so its chapter numbers are optimistic; Deepgram and Whisper received only part
+of the longest lists.
 
-Rebuild the report from the published runs:
-
-```bash
-uv run bench report --baseline ours-rtx4090 \
-  --only ours-rtx4090 ours-mlx-macmini elevenlabs deepgram whisper-rtx4090 parakeet-a100 qwen-rtx4090 qwen-context-rtx4090 \
-  --pair ours-rtx4090 ours-mlx-macmini --pair whisper-rtx4090 whisper-a100
-```
+Rebuild the report from the published runs: `uv run bench report $(sed -n 's/^# report-args: //p' results/scores/REPORT_ARGS)`.
 
 ## Data and licences
 

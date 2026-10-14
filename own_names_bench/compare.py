@@ -18,7 +18,8 @@ from .text import ordinary_tokens
 def compare(b: Bench, a_dir: Path, b_dir: Path) -> dict:
     ma, ra = load_texts(a_dir)
     mb, rb = load_texts(b_dir)
-    common = sorted(set(ra) & set(rb))
+    # only passes made from the same list on both sides
+    common = sorted(i for i in set(ra) & set(rb) if ra[i].get("list_sha") == rb[i].get("list_sha"))
     same = sum(ra[i]["text"] == rb[i]["text"] for i in common)
     errs = words = 0
     shortlist_same = shortlist_n = 0

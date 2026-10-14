@@ -46,7 +46,7 @@ def cluster_ratio_ci(num: Sequence[float], den: Sequence[float], groups: Sequenc
 
 
 def paired_diff(a: Sequence[float], b: Sequence[float], den: Sequence[float], groups: Sequence[str]) -> dict:
-    """(sum(a) - sum(b)) / sum(den) with a cluster bootstrap CI; for 0/1 items also McNemar."""
+    """(sum(a) - sum(b)) / sum(den) with a cluster bootstrap CI; for 0/1 items the discordant counts."""
     aa, bb, dd = np.asarray(a, float), np.asarray(b, float), np.asarray(den, float)
     names, g = _clusters(groups)
     k = len(names)

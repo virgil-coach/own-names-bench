@@ -3,7 +3,7 @@
  "benchmark_version": "1.1.0",
  "dataset": "virgil-coach/own-names-bench@v1.1.0",
  "manifest_sha256": "39f235296af82671254243b71c041e7491db8e863782f2fac40bc8c91e9397bd",
- "code_revision": "8d8f168",
+ "code_revision": "f7d4044",
  "system": "ours",
  "kind": "local",
  "config": {
@@ -65,13 +65,30 @@
    "code_revision": "8d8f168",
    "started": "2026-10-14T07:03:30+00:00",
    "finished": "2026-10-14T07:15:09+00:00"
+  },
+  {
+   "argv": "/gpu-cli-workspaces/jameslal/path-3172b95136962215/.pod/venv-qwen/bin/bench run --system ours --label ours-rtx4090 --hourly-usd 0.89",
+   "passes_to_do": 65,
+   "machine": {
+    "platform": "Linux-6.8.0-71-generic-x86_64-with-glibc2.35",
+    "machine": "x86_64",
+    "python": "3.12.15",
+    "cpu": "AMD EPYC 7443 24-Core Processor",
+    "memory_gb": 251.5,
+    "os": "Ubuntu 22.04.5 LTS",
+    "gpu": "NVIDIA GeForce RTX 4090, 580.126.09, 24564 MiB"
+   },
+   "code_revision": "f7d4044",
+   "started": "2026-10-14T07:33:23+00:00",
+   "finished": "2026-10-14T07:42:07+00:00"
   }
  ],
  "dataset_fingerprint": "1625ef57df22bdba",
  "variants": [
   "none",
   "own",
-  "all"
+  "all",
+  "xr"
  ],
  "migrated": "v1.0.0 run; list fingerprints added from v1.0.0's pass definitions (build/migrate_v1_1.py)",
  "fingerprint": "c10533f1352e6aae"

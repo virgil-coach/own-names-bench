@@ -22,6 +22,7 @@ mkdir -p results/diag
 pids=()
 for spec in "$@"; do
   sys=${spec%%:*}; rest=${spec#*:}; label=${rest%%:*}; only=${rest#*:}; only=${only//;/,}
+  [ "${only:0:1}" = "@" ] && only=$(paste -sd, "${only:1}")
   ( uv run --frozen --extra qwen bench run --system $sys --label $label --out results/diag --no-chapters --hourly-usd $rate \
       ${BENCH_LIMIT:+--limit $BENCH_LIMIT} ${only:+--only $only} > results/diag/$label.log 2>&1 \
     && echo "DONE $label" || echo "FAILED $label (see results/diag/$label.log)" ) &

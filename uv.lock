@@ -1495,15 +1495,13 @@ dependencies = [
     { name = "more-itertools" },
     { name = "numba" },
     { name = "numpy" },
+    { name = "pyarrow" },
     { name = "regex" },
     { name = "requests" },
     { name = "soundfile" },
 ]
 
 [package.optional-dependencies]
-build = [
-    { name = "pyarrow" },
-]
 parakeet = [
     { name = "nemo-toolkit", extra = ["asr"], marker = "extra == 'extra-15-own-names-bench-parakeet'" },
 ]
@@ -1536,7 +1534,7 @@ requires-dist = [
     { name = "numba", specifier = "==0.68.0" },
     { name = "numpy", specifier = "==2.3.5" },
     { name = "peft", marker = "extra == 'qwen'", specifier = "==0.21.2" },
-    { name = "pyarrow", marker = "extra == 'build'", specifier = "==26.0.0" },
+    { name = "pyarrow", specifier = "==26.0.0" },
     { name = "rapidfuzz", marker = "extra == 'qwen'", specifier = "==3.14.6" },
     { name = "regex", specifier = "==2026.9.29" },
     { name = "requests", specifier = "==2.34.2" },

@@ -13,6 +13,7 @@ dependencies = [
     "regex==2026.9.29",
     "more-itertools==11.2.0",
     "huggingface_hub==1.33.0",
+    "pyarrow==26.0.0",
 ]
 
 [project.optional-dependencies]
@@ -20,7 +21,7 @@ dependencies = [
 qwen = ["torch==2.14.1", "transformers==5.19.0", "peft==0.21.2", "accelerate==1.15.0", "rapidfuzz==3.14.6"]
 whisper = ["torch==2.14.1", "transformers==5.19.0", "accelerate==1.15.0"]
 parakeet = ["nemo_toolkit[asr]==3.0.0"]
-build = ["pyarrow==26.0.0"]
+build = []
 
 [project.scripts]
 bench = "own_names_bench.cli:main"

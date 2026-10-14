@@ -17,16 +17,22 @@ ROOT = Path(__file__).resolve().parent.parent
 
 def main() -> None:
     name, n, scopes = sys.argv[1], int(sys.argv[2]), sys.argv[3:]
+    short = "--short" in scopes  # only recordings of 30 s or less (where the qwen cutter differs from the Segmenter)
+    scopes = [s for s in scopes if s != "--short"]
+    weight = float(next((s.split("=")[1] for s in scopes if s.startswith("--weight=")), 1))
+    scopes = [s for s in scopes if not s.startswith("--weight=")]
     pre = tuple("clip/" if s == "books" else f"suite/{s}/" for s in scopes)
     work: dict[str, float] = defaultdict(float)
     for line in gzip.decompress((ROOT / "results/runs/ours/passes.jsonl.gz").read_bytes()).decode().splitlines():
         r = json.loads(line)
         pid = r["id"]
-        if not pid.startswith(pre) or r.get("error"):
+        if not pid.startswith(pre) or r.get("error") or (short and r["audio_s"] > 30):
             continue
         tail = pid.split("/clip/", 1)[1] if pid.startswith("suite/") else pid[len("clip/"):]
         variant = tail.split("/", 1)[1]
         if variant.startswith(("all", "own-xr")):
+            continue
+        if "minus" not in variant and variant != "own" and variant != "none":
             continue
         clip = pid[: pid.index("/clip/") + 6] + tail.split("/", 1)[0] + "/" if pid.startswith("suite/") else "clip/" + tail.split("/", 1)[0] + "/"
         work[clip] += r.get("latency_s") or 1.0

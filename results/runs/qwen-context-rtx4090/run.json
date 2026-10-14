@@ -1,9 +1,9 @@
 {
  "benchmark": "own-names-bench",
- "benchmark_version": "1.0.0",
- "dataset": "virgil-coach/own-names-bench@v1.0.0",
- "manifest_sha256": "7b0adf32c2c70ad20145c9fa087dba63d319fad992eeac3260621e696a77e652",
- "code_revision": "1ba0dc2da466d4576e3b34d2efb94f41116f662b",
+ "benchmark_version": "1.1.0",
+ "dataset": "virgil-coach/own-names-bench@v1.1.0",
+ "manifest_sha256": "39f235296af82671254243b71c041e7491db8e863782f2fac40bc8c91e9397bd",
+ "code_revision": "8d8f168",
  "system": "qwen-context",
  "kind": "local",
  "config": {
@@ -18,13 +18,13 @@
  },
  "price": {},
  "machine": {
-  "platform": "Linux-6.8.0-124-generic-x86_64-with-glibc2.35",
+  "platform": "Linux-6.8.0-71-generic-x86_64-with-glibc2.35",
   "machine": "x86_64",
   "python": "3.12.15",
-  "cpu": "AMD Ryzen 9 7950X 16-Core Processor",
-  "memory_gb": 187.8,
+  "cpu": "AMD EPYC 7443 24-Core Processor",
+  "memory_gb": 251.5,
   "os": "Ubuntu 22.04.5 LTS",
-  "gpu": "NVIDIA GeForce RTX 4090, 580.159.04, 24564 MiB"
+  "gpu": "NVIDIA GeForce RTX 4090, 580.126.09, 24564 MiB"
  },
  "hourly_usd": 0.89,
  "commands": [
@@ -32,6 +32,22 @@
    "argv": "/gpu-cli-workspaces/jameslal/path-3172b95136962215/.pod/venv-qwen/bin/bench run --system qwen-context --label qwen-context-rtx4090 --hourly-usd 0.89",
    "started": "2026-10-13T21:51:37+00:00",
    "finished": "2026-10-13T23:51:46+00:00"
+  },
+  {
+   "argv": "/gpu-cli-workspaces/jameslal/path-3172b95136962215/.pod/venv-qwen/bin/bench run --system qwen-context --label qwen-context-rtx4090 --hourly-usd 0.89",
+   "passes_to_do": 65,
+   "machine": {
+    "platform": "Linux-6.8.0-71-generic-x86_64-with-glibc2.35",
+    "machine": "x86_64",
+    "python": "3.12.15",
+    "cpu": "AMD EPYC 7443 24-Core Processor",
+    "memory_gb": 251.5,
+    "os": "Ubuntu 22.04.5 LTS",
+    "gpu": "NVIDIA GeForce RTX 4090, 580.126.09, 24564 MiB"
+   },
+   "code_revision": "8d8f168",
+   "started": "2026-10-14T07:16:57+00:00",
+   "finished": "2026-10-14T07:19:24+00:00"
   }
  ],
  "dataset_fingerprint": "1625ef57df22bdba",

@@ -47,7 +47,7 @@ def read16k(path: Path) -> np.ndarray:
 
 class OursTorch(System):
     name = "ours"
-    variants = ("none", "own", "all")
+    variants = ("none", "own", "all", "xr")
 
     def __init__(self) -> None:
         import torch

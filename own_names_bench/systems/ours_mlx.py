@@ -20,7 +20,7 @@ from .ours_torch import ADAPTER, TOP
 
 class OursMlx(System):
     name = "ours-mlx"
-    variants = ("none", "own", "all")
+    variants = ("none", "own", "all", "xr")
 
     def __init__(self) -> None:
         self.bin = Path(os.environ.get("DETAILKEEPER_BENCH", "detailkeeper-bench"))

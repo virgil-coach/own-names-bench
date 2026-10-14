@@ -1,0 +1,46 @@
+{
+ "benchmark": "own-names-bench",
+ "benchmark_version": "1.0.0",
+ "dataset": "virgil-coach/own-names-bench@v1.0.0",
+ "manifest_sha256": "7b0adf32c2c70ad20145c9fa087dba63d319fad992eeac3260621e696a77e652",
+ "code_revision": "1587f590d0c4a09560b4b91209fd5fa40173ac35-dirty",
+ "system": "ours-mlx",
+ "kind": "local",
+ "config": {
+  "runtime": "Detail Keeper engine (Rust, MLX), detailkeeper-bench",
+  "engine_commit": "e5ef807a0429a8bb2c3d3fae56afd7cb2bf05730",
+  "binary": "/Users/virgil/workroots/own-names-bench/bin/detailkeeper-bench",
+  "adapter": "hf://littlebearlabs/own-names-qwen3-asr-lora@8ab4e83aec0debdb268ff4e21d19a63311acb516/audio-text-note",
+  "adapter_version": "v0.3.0",
+  "writer": "merged adapter, text decoder affine 8-bit, audio encoder bf16",
+  "g2p": "own_names_bench/ours_ref/g2p.json (espeak-ng 1.52.0, every benchmark name)",
+  "shortlist": 10,
+  "prune": "off",
+  "gate": "none",
+  "engine": {
+   "adapter": "audio-text-note",
+   "device": "metal",
+   "model": "Qwen/Qwen3-ASR-1.7B-hf",
+   "ready": true
+  },
+  "list_feature": "spotter shortlist of the whole list -> writer prompt + taught recordings",
+  "fit": "no limit: the spotter ranks every name"
+ },
+ "price": {},
+ "machine": {
+  "platform": "macOS-27.0-arm64-arm-64bit",
+  "machine": "arm64",
+  "python": "3.12.14",
+  "cpu": "Apple M5 Pro",
+  "memory_gb": 64.0,
+  "os": "macOS 27.0 (26A428)"
+ },
+ "hourly_usd": null,
+ "commands": [
+  {
+   "argv": "/Users/virgil/workroots/own-names-bench/venv/bin/bench run --system ours-mlx --label ours-mlx-macmini --out /Users/virgil/workroots/own-names-bench/results",
+   "started": "2026-10-13T20:53:09+00:00",
+   "finished": "2026-10-14T03:58:05+00:00"
+  }
+ ]
+}

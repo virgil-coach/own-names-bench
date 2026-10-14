@@ -1,0 +1,296 @@
+[
+ {
+  "a": {
+   "label": "ours-rtx4090",
+   "machine": {
+    "platform": "Linux-6.8.0-124-generic-x86_64-with-glibc2.35",
+    "machine": "x86_64",
+    "python": "3.12.15",
+    "cpu": "AMD Ryzen 9 7950X 16-Core Processor",
+    "memory_gb": 187.8,
+    "os": "Ubuntu 22.04.5 LTS",
+    "gpu": "NVIDIA GeForce RTX 4090, 580.159.04, 24564 MiB"
+   },
+   "config": {
+    "runtime": "PyTorch reference (own_names_bench/ours_ref)",
+    "device": "cuda",
+    "torch": "2.14.1+cu130",
+    "transformers": "5.19.0",
+    "cuda_device": "NVIDIA GeForce RTX 4090",
+    "base": "Qwen/Qwen3-ASR-1.7B-hf@bcd2b5b7f32b480ab5790554cfa8347f246a14f3",
+    "adapter": "virgil-coach/own-names-qwen3-asr@e02efd5e0db0f357f7ada3caf18e1ca293528098/audio-text-note",
+    "adapter_version": "v0.3.0",
+    "adapter_sha256": "67dbabef14851e89ad1b62d509e595713d4a2b6254fbc26cdb700fca1e097f55",
+    "dtype": "float32",
+    "decoding": "greedy, at most 200 new tokens",
+    "spotter_phon": "facebook/wav2vec2-lv-60-espeak-cv-ft@0c380a877907192512147c466ead03055f200cad",
+    "spotter_wavlm": "microsoft/wavlm-base-plus@98fd61b9c652129c839c0a25a05987d8f59256a4",
+    "g2p": "own_names_bench/ours_ref/g2p.json (espeak-ng 1.52.0, every benchmark name)",
+    "shortlist": 10,
+    "prune": "off",
+    "gate": "none",
+    "windows": "Detail Keeper Segmenter (pause 0.45 s after 2 s, cap 8 s), fed 0.1 s at a time",
+    "list_feature": "spotter shortlist of the whole list -> writer prompt + taught recordings",
+    "fit": "no limit: the spotter ranks every name",
+    "platform": "Linux-6.8.0-124-generic-x86_64-with-glibc2.35"
+   }
+  },
+  "b": {
+   "label": "ours-mlx-macmini",
+   "machine": {
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "machine": "arm64",
+    "python": "3.12.14",
+    "cpu": "Apple M5 Pro",
+    "memory_gb": 64.0,
+    "os": "macOS 27.0 (26A428)"
+   },
+   "config": {
+    "runtime": "Detail Keeper engine (Rust, MLX), detailkeeper-bench",
+    "engine_commit": "e5ef807a0429a8bb2c3d3fae56afd7cb2bf05730",
+    "binary": "/Users/virgil/workroots/own-names-bench/bin/detailkeeper-bench",
+    "adapter": "hf://littlebearlabs/own-names-qwen3-asr-lora@8ab4e83aec0debdb268ff4e21d19a63311acb516/audio-text-note",
+    "adapter_version": "v0.3.0",
+    "writer": "merged adapter, text decoder affine 8-bit, audio encoder bf16",
+    "g2p": "own_names_bench/ours_ref/g2p.json (espeak-ng 1.52.0, every benchmark name)",
+    "shortlist": 10,
+    "prune": "off",
+    "gate": "none",
+    "engine": {
+     "adapter": "audio-text-note",
+     "device": "metal",
+     "model": "Qwen/Qwen3-ASR-1.7B-hf",
+     "ready": true
+    },
+    "list_feature": "spotter shortlist of the whole list -> writer prompt + taught recordings",
+    "fit": "no limit: the spotter ranks every name"
+   }
+  },
+  "passes_compared": 6615,
+  "identical_text": 5406,
+  "word_difference_between_runs": 0.005514795993398585,
+  "windows_same_shortlist": {
+   "same": 4846,
+   "of": 14322
+  },
+  "items": {
+   "none_right": {
+    "items": 1107,
+    "agree": 1087,
+    "a": 410,
+    "b": 412
+   },
+   "own_right": {
+    "items": 1107,
+    "agree": 1095,
+    "a": 1070,
+    "b": 1070
+   },
+   "own_overwritten": {
+    "items": 1107,
+    "agree": 1098,
+    "a": 78,
+    "b": 75
+   },
+   "all_right": {
+    "items": 1107,
+    "agree": 1093,
+    "a": 1058,
+    "b": 1058
+   },
+   "all_overwritten": {
+    "items": 1107,
+    "agree": 1081,
+    "a": 126,
+    "b": 120
+   }
+  },
+  "paired_a_minus_b": {
+   "own_right": {
+    "diff": 0.0,
+    "lo": -0.004255383858777243,
+    "hi": 0.005359248543276058,
+    "n": 1107,
+    "only_a": 6,
+    "only_b": 6,
+    "mcnemar_p": 1.0
+   },
+   "own_overwritten": {
+    "diff": 0.0027100271002710027,
+    "lo": -0.002244668911335578,
+    "hi": 0.0067454194573214705,
+    "n": 1107,
+    "only_a": 6,
+    "only_b": 3,
+    "mcnemar_p": 0.5078125
+   },
+   "own_ordinary_wer": {
+    "diff": -7.535037926357563e-05,
+    "lo": -0.0006942973098805496,
+    "hi": 0.00041835544126048624,
+    "n": 1459
+   },
+   "own_inserted": {
+    "diff": -0.004901960784313725,
+    "lo": -0.012254901960784314,
+    "hi": 0.0,
+    "n": 408,
+    "only_a": 0,
+    "only_b": 2,
+    "mcnemar_p": 0.5
+   },
+   "all_right": {
+    "diff": 0.0,
+    "lo": -0.005031446540880503,
+    "hi": 0.005305110183761621,
+    "n": 1107,
+    "only_a": 7,
+    "only_b": 7,
+    "mcnemar_p": 1.0
+   },
+   "all_overwritten": {
+    "diff": 0.005420054200542005,
+    "lo": -0.007034410933692243,
+    "hi": 0.016145715479721528,
+    "n": 1107,
+    "only_a": 16,
+    "only_b": 10,
+    "mcnemar_p": 0.32693958282470703
+   },
+   "all_ordinary_wer": {
+    "diff": 0.00010046717235143416,
+    "lo": -0.000649160822828601,
+    "hi": 0.0009270128019588312,
+    "n": 1459
+   },
+   "all_inserted": {
+    "diff": -0.0024509803921568627,
+    "lo": -0.00980392156862745,
+    "hi": 0.004901960784313725,
+    "n": 408,
+    "only_a": 1,
+    "only_b": 2,
+    "mcnemar_p": 1.0
+   },
+   "chapter_taught_right": {
+    "diff": -0.0029154518950437317,
+    "lo": -0.010526315789473684,
+    "hi": 0.0,
+    "n": 343,
+    "only_a": 0,
+    "only_b": 1,
+    "mcnemar_p": 1.0
+   }
+  }
+ },
+ {
+  "a": {
+   "label": "whisper-rtx4090",
+   "machine": {
+    "platform": "Linux-6.8.0-124-generic-x86_64-with-glibc2.35",
+    "machine": "x86_64",
+    "python": "3.12.15",
+    "cpu": "AMD Ryzen 9 7950X 16-Core Processor",
+    "memory_gb": 187.8,
+    "os": "Ubuntu 22.04.5 LTS",
+    "gpu": "NVIDIA GeForce RTX 4090, 580.159.04, 24564 MiB"
+   },
+   "config": {
+    "model": "openai/whisper-large-v3@06f233fe06e710322aca913c1bc4249a0d71fce1",
+    "runtime": "transformers 5.19.0, torch 2.14.1+cu130",
+    "device": "cuda",
+    "dtype": "float16",
+    "decoding": "greedy, language en, task transcribe",
+    "long_form": "chapters cut by the Detail Keeper window cutter; every window decoded with the prompt",
+    "list_feature": "prompt_ids (initial prompt): names joined by ', '",
+    "limits": "223 prompt tokens",
+    "fit": "longest prefix of the list (most frequent first) within the token limit"
+   }
+  },
+  "b": {
+   "label": "whisper-a100",
+   "machine": {
+    "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.35",
+    "machine": "x86_64",
+    "python": "3.12.15",
+    "cpu": "AMD EPYC 7763 64-Core Processor",
+    "memory_gb": 2003.8,
+    "os": "Ubuntu 22.04.5 LTS",
+    "gpu": "NVIDIA A100-SXM4-80GB, 595.91.07, 81920 MiB"
+   },
+   "config": {
+    "model": "openai/whisper-large-v3@06f233fe06e710322aca913c1bc4249a0d71fce1",
+    "runtime": "transformers 5.19.0, torch 2.14.1+cu130",
+    "device": "cuda",
+    "dtype": "float16",
+    "decoding": "greedy, language en, task transcribe",
+    "long_form": "sequential, prompt_condition_type=all-segments, condition_on_prev_tokens=False",
+    "list_feature": "prompt_ids (initial prompt): names joined by ', '",
+    "limits": "223 prompt tokens",
+    "fit": "longest prefix of the list (most frequent first) within the token limit"
+   }
+  },
+  "passes_compared": 4025,
+  "identical_text": 4007,
+  "word_difference_between_runs": 0.00010467367980321348,
+  "windows_same_shortlist": {
+   "same": 0,
+   "of": 0
+  },
+  "items": {
+   "none_right": {
+    "items": 1107,
+    "agree": 1106,
+    "a": 551,
+    "b": 552
+   },
+   "own_right": {
+    "items": 1107,
+    "agree": 1107,
+    "a": 823,
+    "b": 823
+   },
+   "own_overwritten": {
+    "items": 1107,
+    "agree": 1107,
+    "a": 18,
+    "b": 18
+   }
+  },
+  "paired_a_minus_b": {
+   "own_right": {
+    "diff": 0.0,
+    "lo": 0.0,
+    "hi": 0.0,
+    "n": 1107,
+    "only_a": 0,
+    "only_b": 0,
+    "mcnemar_p": 1.0
+   },
+   "own_overwritten": {
+    "diff": 0.0,
+    "lo": 0.0,
+    "hi": 0.0,
+    "n": 1107,
+    "only_a": 0,
+    "only_b": 0,
+    "mcnemar_p": 1.0
+   },
+   "own_ordinary_wer": {
+    "diff": -2.511679308785854e-05,
+    "lo": -8.327931850089088e-05,
+    "hi": 0.0,
+    "n": 1459
+   },
+   "own_inserted": {
+    "diff": 0.0,
+    "lo": 0.0,
+    "hi": 0.0,
+    "n": 408,
+    "only_a": 0,
+    "only_b": 0,
+    "mcnemar_p": 1.0
+   }
+  }
+ }
+]

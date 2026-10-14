@@ -141,10 +141,20 @@ def run(b: Bench, system: System, out: Path, *, chapters: bool, limit: int, only
     return out
 
 
+def passes_file(run_dir: Path) -> Path:
+    """passes.jsonl while a run is going; published runs are gzipped (passes.jsonl.gz)."""
+    plain = run_dir / "passes.jsonl"
+    return plain if plain.exists() else run_dir / "passes.jsonl.gz"
+
+
 def load_texts(run_dir: Path) -> tuple[dict, dict[str, dict]]:
+    import gzip
+
     meta = json.loads((run_dir / "run.json").read_text())
     rows: dict[str, dict] = {}
-    for line in (run_dir / "passes.jsonl").read_text().splitlines():
+    f = passes_file(run_dir)
+    text = gzip.decompress(f.read_bytes()).decode() if f.suffix == ".gz" else f.read_text()
+    for line in text.splitlines():
         r = json.loads(line)
         if not r.get("error"):
             rows[r["id"]] = r

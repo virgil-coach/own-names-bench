@@ -1,0 +1,54 @@
+{
+ "benchmark": "own-names-bench",
+ "benchmark_version": "1.0.0",
+ "dataset": "virgil-coach/own-names-bench@v1.0.0",
+ "manifest_sha256": "7b0adf32c2c70ad20145c9fa087dba63d319fad992eeac3260621e696a77e652",
+ "code_revision": "f80ac02",
+ "system": "ours",
+ "kind": "local",
+ "config": {
+  "runtime": "PyTorch reference (own_names_bench/ours_ref)",
+  "device": "cuda",
+  "torch": "2.14.1+cu130",
+  "transformers": "5.19.0",
+  "cuda_device": "NVIDIA GeForce RTX 4090",
+  "base": "Qwen/Qwen3-ASR-1.7B-hf@bcd2b5b7f32b480ab5790554cfa8347f246a14f3",
+  "adapter": "virgil-coach/own-names-qwen3-asr@e02efd5e0db0f357f7ada3caf18e1ca293528098/audio-text-note",
+  "adapter_version": "v0.3.0",
+  "adapter_sha256": "67dbabef14851e89ad1b62d509e595713d4a2b6254fbc26cdb700fca1e097f55",
+  "dtype": "float32",
+  "decoding": "greedy, at most 200 new tokens",
+  "spotter_phon": "facebook/wav2vec2-lv-60-espeak-cv-ft@0c380a877907192512147c466ead03055f200cad",
+  "spotter_wavlm": "microsoft/wavlm-base-plus@98fd61b9c652129c839c0a25a05987d8f59256a4",
+  "g2p": "own_names_bench/ours_ref/g2p.json (espeak-ng 1.52.0, every benchmark name)",
+  "shortlist": 10,
+  "prune": "off",
+  "gate": "none",
+  "windows": "Detail Keeper Segmenter (pause 0.45 s after 2 s, cap 8 s), fed 0.1 s at a time",
+  "list_feature": "spotter shortlist of the whole list -> writer prompt + taught recordings",
+  "fit": "no limit: the spotter ranks every name",
+  "platform": "Linux-6.8.0-124-generic-x86_64-with-glibc2.35"
+ },
+ "price": {},
+ "machine": {
+  "platform": "Linux-6.8.0-124-generic-x86_64-with-glibc2.35",
+  "machine": "x86_64",
+  "python": "3.12.15",
+  "cpu": "AMD Ryzen 9 7950X 16-Core Processor",
+  "memory_gb": 187.8,
+  "os": "Ubuntu 22.04.5 LTS",
+  "gpu": "NVIDIA GeForce RTX 4090, 580.159.04, 24564 MiB"
+ },
+ "hourly_usd": 0.89,
+ "commands": [
+  {
+   "argv": "/gpu-cli-workspaces/jameslal/path-3172b95136962215/.pod/venv-qwen/bin/bench run --system ours --label ours-rtx4090 --hourly-usd 0.89",
+   "started": "2026-10-13T21:18:29+00:00"
+  },
+  {
+   "argv": "/gpu-cli-workspaces/jameslal/path-3172b95136962215/.pod/venv-qwen/bin/bench run --system ours --label ours-rtx4090 --hourly-usd 0.89",
+   "started": "2026-10-14T00:38:49+00:00",
+   "finished": "2026-10-14T03:54:21+00:00"
+  }
+ ]
+}

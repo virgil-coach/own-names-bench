@@ -1,0 +1,45 @@
+{
+ "benchmark": "own-names-bench",
+ "benchmark_version": "1.0.0",
+ "dataset": "virgil-coach/own-names-bench@v1.0.0",
+ "manifest_sha256": "7b0adf32c2c70ad20145c9fa087dba63d319fad992eeac3260621e696a77e652",
+ "code_revision": "1ba0dc2da466d4576e3b34d2efb94f41116f662b",
+ "system": "whisper",
+ "kind": "local",
+ "config": {
+  "model": "openai/whisper-large-v3@06f233fe06e710322aca913c1bc4249a0d71fce1",
+  "runtime": "transformers 5.19.0, torch 2.14.1+cu130",
+  "device": "cuda",
+  "dtype": "float16",
+  "decoding": "greedy, language en, task transcribe",
+  "long_form": "chapters cut by the Detail Keeper window cutter; every window decoded with the prompt",
+  "list_feature": "prompt_ids (initial prompt): names joined by ', '",
+  "limits": "223 prompt tokens",
+  "fit": "longest prefix of the list (most frequent first) within the token limit"
+ },
+ "price": {},
+ "machine": {
+  "platform": "Linux-6.8.0-124-generic-x86_64-with-glibc2.35",
+  "machine": "x86_64",
+  "python": "3.12.15",
+  "cpu": "AMD Ryzen 9 7950X 16-Core Processor",
+  "memory_gb": 187.8,
+  "os": "Ubuntu 22.04.5 LTS",
+  "gpu": "NVIDIA GeForce RTX 4090, 580.159.04, 24564 MiB"
+ },
+ "hourly_usd": 0.89,
+ "commands": [
+  {
+   "argv": "/gpu-cli-workspaces/jameslal/path-3172b95136962215/.pod/venv-whisper/bin/bench run --system whisper --label whisper-rtx4090 --hourly-usd 0.89",
+   "started": "2026-10-13T23:58:25+00:00",
+   "finished": "2026-10-14T00:27:53+00:00"
+  },
+  {
+   "argv": "/gpu-cli-workspaces/jameslal/path-3172b95136962215/.pod/venv-whisper/bin/bench run --system whisper --label whisper-chapterwin-rtx4090 --hourly-usd 0.89 --only chapter/",
+   "started": "2026-10-14T04:16:19+00:00",
+   "finished": "2026-10-14T04:29:43+00:00"
+  }
+ ],
+ "code_revision_chapters": "5aafbea",
+ "note": "clip passes from the first run; chapter passes rerun with the windowed long-form (see config.long_form)"
+}

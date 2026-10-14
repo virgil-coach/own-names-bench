@@ -1,0 +1,44 @@
+{
+ "benchmark": "own-names-bench",
+ "benchmark_version": "1.0.0",
+ "dataset": "virgil-coach/own-names-bench@v1.0.0",
+ "manifest_sha256": "7b0adf32c2c70ad20145c9fa087dba63d319fad992eeac3260621e696a77e652",
+ "code_revision": "HEAD",
+ "system": "elevenlabs",
+ "kind": "cloud",
+ "config": {
+  "service": "ElevenLabs Speech to Text",
+  "endpoint": "https://api.elevenlabs.io/v1/speech-to-text",
+  "model_id": "scribe_v2",
+  "language_code": "en",
+  "tag_audio_events": false,
+  "temperature": 0.0,
+  "seed": 0,
+  "list_feature": "keyterms",
+  "limits": "<=1000 terms, each <50 chars and <=5 words, no <>{}[]\\",
+  "fit": "drop terms that break a per-term rule, then keep the first 1000 (most frequent in the book first)"
+ },
+ "price": {
+  "usd_per_audio_hour": 0.22,
+  "usd_per_audio_hour_with_list": 0.27,
+  "min_billable_s_over_100_terms": 20,
+  "checked": "2026-10-13",
+  "source": "https://elevenlabs.io/pricing/api"
+ },
+ "machine": {
+  "platform": "macOS-26.3.1-arm64-arm-64bit",
+  "machine": "arm64",
+  "python": "3.12.13",
+  "cpu": "Apple M4 Max",
+  "memory_gb": 128.0,
+  "os": "macOS 26.3.1 (25D771280a)"
+ },
+ "hourly_usd": null,
+ "commands": [
+  {
+   "argv": "/Users/jameslal/workspace/jl/own-names-bench/.venv/bin/bench run --system elevenlabs",
+   "started": "2026-10-13T20:02:34+00:00",
+   "finished": "2026-10-13T20:36:34+00:00"
+  }
+ ]
+}

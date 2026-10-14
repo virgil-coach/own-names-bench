@@ -1,0 +1,41 @@
+{
+ "benchmark": "own-names-bench",
+ "benchmark_version": "1.0.0",
+ "dataset": "virgil-coach/own-names-bench@v1.0.0",
+ "manifest_sha256": "7b0adf32c2c70ad20145c9fa087dba63d319fad992eeac3260621e696a77e652",
+ "code_revision": "HEAD",
+ "system": "deepgram",
+ "kind": "cloud",
+ "config": {
+  "service": "Deepgram pre-recorded",
+  "endpoint": "https://api.deepgram.com/v1/listen",
+  "model": "nova-3",
+  "language": "en",
+  "smart_format": true,
+  "list_feature": "keyterm",
+  "limits": "500 keyterm tokens per request (Deepgram's tokenizer, unpublished)",
+  "fit": "the longest prefix of the list (most frequent first) the service accepts, found by binary search with half a second of silence (refused requests are not billed)"
+ },
+ "price": {
+  "usd_per_audio_hour": 0.258,
+  "usd_per_audio_hour_with_list": 0.336,
+  "checked": "2026-10-13",
+  "source": "https://deepgram.com/pricing"
+ },
+ "machine": {
+  "platform": "macOS-26.3.1-arm64-arm-64bit",
+  "machine": "arm64",
+  "python": "3.12.13",
+  "cpu": "Apple M4 Max",
+  "memory_gb": 128.0,
+  "os": "macOS 26.3.1 (25D771280a)"
+ },
+ "hourly_usd": null,
+ "commands": [
+  {
+   "argv": "/Users/jameslal/workspace/jl/own-names-bench/.venv/bin/bench run --system deepgram",
+   "started": "2026-10-13T20:02:28+00:00",
+   "finished": "2026-10-13T20:13:39+00:00"
+  }
+ ]
+}

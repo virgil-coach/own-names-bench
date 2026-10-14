@@ -48,7 +48,7 @@ items** (bootstrap interval of the difference, exact McNemar test).
 | `elevenlabs` | ElevenLabs Scribe v2 | `keyterms` (≤1,000) |
 | `deepgram` | Deepgram Nova-3 | `keyterm` (≤500 tokens; fitted by asking the service) |
 | `whisper` | OpenAI Whisper large-v3 | initial prompt (≤223 tokens) |
-| `parakeet` | NVIDIA Parakeet TDT 0.6B v2 | NeMo GPU phrase boosting |
+| `parakeet` | NVIDIA Parakeet TDT 0.6B v2 | NeMo GPU phrase boosting (weight 2, picked on the chapters task) |
 | `qwen` | Qwen3-ASR-1.7B as released | none |
 | `qwen-context` | Qwen3-ASR-1.7B as released | its text context |
 
@@ -103,9 +103,39 @@ list was fitted, latency).
 - Model revisions (Hugging Face commit hashes) and API model names, in `run.json`.
 - Python dependencies in `uv.lock`.
 
-## Results
+## Results (v1.0.0, runs of 2026-10-13)
 
-See [results/scores/REPORT.md](results/scores/REPORT.md) and the per-run JSON files next to it.
+Clips with each book's own name list (1,107 mentions, 12 books) and continuous chapters (343
+mentions, 8 chapters). Percent, 95% interval. Full tables, paired comparisons, speed, cost and
+every configuration: [results/scores/REPORT.md](results/scores/REPORT.md).
+
+| System (how it got the names) | Names right, clips | Untaught overwritten, clips | Name-free clips, a listed name inserted | Ordinary-word error, clips | Names right, chapters | Untaught overwritten, chapters |
+| --- | --- | --- | --- | --- | --- | --- |
+| Ours, v0.3.0 `audio-text-note` + spotter (spelling + one recording per name) | 96.7 [95.4, 97.6] | 7.0 [5.7, 8.7] | 3.9 [2.4, 6.3] | 2.7 [2.4, 3.0] | 99.4 [97.9, 99.8] | 1.8 [0.6, 5.0] |
+| ElevenLabs Scribe v2 (`keyterms`, all names) | 92.2 [90.5, 93.7] | 3.3 [2.4, 4.6] | 0.2 [0.0, 1.4] | 1.7 [1.4, 1.9] | 98.5 [96.6, 99.4] | 1.8 [0.6, 5.0] |
+| Deepgram Nova-3 (`keyterm`, as many as its 500-token limit takes) | 75.2 [72.6, 77.7] | 8.2 [6.7, 10.0] | 1.7 [0.8, 3.5] | 4.1 [3.1, 5.0] | 83.4 [79.1, 86.9] | 5.3 [2.8, 9.7] |
+| Whisper large-v3 (prompt, 223 tokens) | 74.3 [71.7, 76.8] | 1.6 [1.0, 2.6] | 0.2 [0.0, 1.4] | 3.0 [2.4, 3.4] | 77.0 [72.2, 81.1] | 1.8 [0.6, 5.0] |
+| Parakeet TDT 0.6B v2 (GPU phrase boosting) | 78.5 [76.0, 80.8] | 27.2 [24.7, 29.9] | 7.1 [5.0, 10.0] | 3.5 [2.9, 4.0] | 91.8 [88.5, 94.3] | 4.7 [2.4, 9.0] |
+| Qwen3-ASR-1.7B (names as context) | 63.9 [61.0, 66.6] | 4.3 [3.3, 5.7] | 0.2 [0.0, 1.4] | 3.6 [2.6, 4.5] | 89.2 [85.5, 92.1] | 2.9 [1.3, 6.7] |
+| Qwen3-ASR-1.7B (no list) | 41.8 [39.0, 44.8] | n/a | 0.0 [0.0, 0.9] | 4.3 [3.8, 4.8] | 22.7 [18.6, 27.5] | n/a |
+
+Ours on the shipping engine (Rust/MLX, Apple M5 Pro) agrees with the PyTorch reference (RTX 4090)
+within noise: names right 96.7 vs 96.7 (6 items each way), untaught overwritten 6.8 vs 7.0.
+Whisper on an RTX 4090 and an A100 wrote identical text for 99.6% of passes.
+
+Notes that matter for reading the table: hosted services and Whisper likely know these classic
+texts (with no list at all, ElevenLabs already writes 59.5% of the names right); Parakeet's boosting
+weight was picked on the chapters task (NeMo gives no default), so its chapter numbers are
+optimistic; Deepgram and Whisper could only take part of the longest lists (85.8% and 65.6% of
+spoken names were among the names they received).
+
+Rebuild the report from the published runs:
+
+```bash
+uv run bench report --baseline ours-rtx4090 \
+  --only ours-rtx4090 ours-mlx-macmini elevenlabs deepgram whisper-rtx4090 parakeet-a100 qwen-rtx4090 qwen-context-rtx4090 \
+  --pair ours-rtx4090 ours-mlx-macmini --pair whisper-rtx4090 whisper-a100
+```
 
 ## Data and licences
 

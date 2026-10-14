@@ -53,7 +53,7 @@ def main() -> None:
     elif args.cmd == "report":
         from .report import build
 
-        runs = sorted(p for p in args.runs.iterdir() if (p / "passes.jsonl").exists() and (args.only is None or p.name in args.only))
+        runs = sorted(p for p in args.runs.iterdir() if ((p / "passes.jsonl").exists() or (p / "passes.jsonl.gz").exists()) and (args.only is None or p.name in args.only))
         pairs = [(args.runs / a, args.runs / c) for a, c in args.pair]
         print(build(b, runs, args.out, args.baseline, pairs))
     elif args.cmd == "estimate":

@@ -1,0 +1,37 @@
+{
+ "benchmark": "own-names-bench",
+ "benchmark_version": "1.0.0",
+ "dataset": "virgil-coach/own-names-bench@v1.0.0",
+ "manifest_sha256": "7b0adf32c2c70ad20145c9fa087dba63d319fad992eeac3260621e696a77e652",
+ "code_revision": "1ba0dc2da466d4576e3b34d2efb94f41116f662b",
+ "system": "qwen-context",
+ "kind": "local",
+ "config": {
+  "model": "Qwen/Qwen3-ASR-1.7B-hf@bcd2b5b7f32b480ab5790554cfa8347f246a14f3",
+  "runtime": "transformers 5.19.0, torch 2.14.1+cu130",
+  "device": "cuda",
+  "dtype": "float32",
+  "decoding": "greedy, language English, at most 200 new tokens",
+  "long_form": "chapters cut by the Detail Keeper window cutter",
+  "list_feature": "context (system prompt): names joined by ', '",
+  "fit": "all names"
+ },
+ "price": {},
+ "machine": {
+  "platform": "Linux-6.8.0-124-generic-x86_64-with-glibc2.35",
+  "machine": "x86_64",
+  "python": "3.12.15",
+  "cpu": "AMD Ryzen 9 7950X 16-Core Processor",
+  "memory_gb": 187.8,
+  "os": "Ubuntu 22.04.5 LTS",
+  "gpu": "NVIDIA GeForce RTX 4090, 580.159.04, 24564 MiB"
+ },
+ "hourly_usd": 0.89,
+ "commands": [
+  {
+   "argv": "/gpu-cli-workspaces/jameslal/path-3172b95136962215/.pod/venv-qwen/bin/bench run --system qwen-context --label qwen-context-rtx4090 --hourly-usd 0.89",
+   "started": "2026-10-13T21:51:37+00:00",
+   "finished": "2026-10-13T23:51:46+00:00"
+  }
+ ]
+}

@@ -54,7 +54,26 @@ def _ours_mlx() -> System:
     return OursMlx()
 
 
+def _ablate(name: str, **kw) -> Callable[[], System]:
+    def make() -> System:
+        from .ours_ablate import OursAblate
+
+        return OursAblate(name, **kw)
+
+    return make
+
+
+# diagnosis only (branch diag/v12-conversation): see systems/ours_ablate.py
+ABLATIONS: dict[str, Callable[[], System]] = {
+    "ours-trace": _ablate("ours-trace"),
+    "ours-top40": _ablate("ours-top40", top=40, variants=("own",)),
+    "ours-wholeclip": _ablate("ours-wholeclip", cutter="qwen"),
+    "ours-adapter-context": _ablate("ours-adapter-context", cutter="qwen", prompt="context", variants=("own",)),
+    "ours-level": _ablate("ours-level", level=True, variants=("own",)),
+}
+
 SYSTEMS: dict[str, Callable[[], System]] = {
+    **ABLATIONS,
     "ours": _ours_torch,          # the reference runner (PyTorch; CUDA, CPU or MPS)
     "ours-mlx": _ours_mlx,        # the Detail Keeper engine itself (Rust, MLX, Apple silicon)
     "elevenlabs": _elevenlabs,

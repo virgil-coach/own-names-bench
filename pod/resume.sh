@@ -15,7 +15,7 @@ for spec in "$@"; do
   uv sync -q --frozen --extra $extra || { echo "SYNC FAILED $extra"; status=1; continue; }
   if [ ! -f $OWN_NAMES_BENCH_DATA/manifest.json ] || ! grep -q '"version": "1.1.0"' $OWN_NAMES_BENCH_DATA/manifest.json; then
     rm -rf $OWN_NAMES_BENCH_DATA
-    uv run --frozen --extra $extra bench --data $OWN_NAMES_BENCH_DATA fetch --revision "${BENCH_DATA_REVISION:-main}" || exit 1
+    uv run --frozen --extra $extra bench --data $OWN_NAMES_BENCH_DATA fetch --token --revision "${BENCH_DATA_REVISION:-main}" || exit 1
   fi
   mkdir -p results/runs && rm -rf results/runs/$label && cp -r resume/$label results/runs/$label
   uv run --frozen --extra $extra bench run --system $sys --label $label --hourly-usd $rate ${BENCH_ACCEPT:+--accept-config-change "$BENCH_ACCEPT"} \

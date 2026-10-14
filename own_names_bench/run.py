@@ -89,6 +89,10 @@ def run(b: Bench, system: System, out: Path, *, chapters: bool, limit: int, only
     print(f"{system.name}: {len(passes)} passes, {len(done)} already done, {len(todo)} to go", flush=True)
     if not todo:
         return out
+    if os.environ.get("BENCH_TRACEBACK_EVERY"):  # diagnosing a stall: dump every thread's stack now and then
+        import faulthandler
+
+        faulthandler.dump_traceback_later(float(os.environ["BENCH_TRACEBACK_EVERY"]), repeat=True)
     system.start()
     meta["config"] = system.config()  # a local system knows its exact revisions once loaded
     meta_path.write_text(json.dumps(meta, indent=1) + "\n")

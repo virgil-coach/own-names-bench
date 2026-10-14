@@ -13,6 +13,8 @@ for spec in "$@"; do
   case $sys in ours|qwen|qwen-context) extra=qwen ;; whisper) extra=whisper ;; parakeet) extra=parakeet ;; *) echo "unknown $sys"; exit 2 ;; esac
   export UV_PROJECT_ENVIRONMENT=$PWD/.pod/venv-$extra
   uv sync -q --frozen --extra $extra || { echo "SYNC FAILED $extra"; status=1; continue; }
+  uv run --frozen --extra $extra python -c "import torch, sys; sys.exit(0 if torch.cuda.is_available() else 3)" \
+    || { echo "NO CUDA on this machine ($(nvidia-smi --query-gpu=name,driver_version --format=csv,noheader 2>&1 | head -1))"; exit 3; }
   # always: fetching is idempotent and also cuts audio of sources that are not re-hosted
   uv run --frozen --extra $extra bench --data $OWN_NAMES_BENCH_DATA fetch --token --revision "${BENCH_DATA_REVISION:-main}" || exit 1
   mkdir -p results/runs && rm -rf results/runs/$label && cp -r resume/$from results/runs/$label

@@ -41,5 +41,12 @@
   }
  ],
  "code_revision_chapters": "5aafbea",
- "note": "clip passes from the first run; chapter passes rerun with the windowed long-form (see config.long_form)"
+ "note": "clip passes from the first run; chapter passes rerun with the windowed long-form (see config.long_form)",
+ "dataset_fingerprint": "1625ef57df22bdba",
+ "variants": [
+  "none",
+  "own"
+ ],
+ "fingerprint": "8bcee6c95bfc8d82",
+ "migrated": "v1.0.0 run; list fingerprints added from v1.0.0's pass definitions (build/migrate_v1_1.py)"
 }

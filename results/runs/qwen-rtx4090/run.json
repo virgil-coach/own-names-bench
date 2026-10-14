@@ -33,5 +33,11 @@
    "started": "2026-10-13T21:21:57+00:00",
    "finished": "2026-10-13T21:50:10+00:00"
   }
- ]
+ ],
+ "dataset_fingerprint": "1625ef57df22bdba",
+ "variants": [
+  "none"
+ ],
+ "fingerprint": "3f297a2cdb88907c",
+ "migrated": "v1.0.0 run; list fingerprints added from v1.0.0's pass definitions (build/migrate_v1_1.py)"
 }

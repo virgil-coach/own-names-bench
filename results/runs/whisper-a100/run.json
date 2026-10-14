@@ -35,5 +35,12 @@
    "finished": "2026-10-13T23:52:10+00:00"
   }
  ],
- "note": "clip passes only (its chapter passes used an earlier long-form setting and were dropped); for the cross-GPU check"
+ "note": "clip passes only (its chapter passes used an earlier long-form setting and were dropped); for the cross-GPU check",
+ "dataset_fingerprint": "1625ef57df22bdba",
+ "variants": [
+  "none",
+  "own"
+ ],
+ "fingerprint": "e450d93fc824181d",
+ "migrated": "v1.0.0 run; list fingerprints added from v1.0.0's pass definitions (build/migrate_v1_1.py)"
 }

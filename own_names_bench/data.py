@@ -10,7 +10,7 @@ from pathlib import Path
 from . import BENCH_VERSION
 
 DATASET_REPO = "virgil-coach/own-names-bench"
-DATASET_REVISION = "v1.0.0"  # a git tag of the dataset repo; the tag names the benchmark version
+DATASET_REVISION = "v1.1.0"  # a git tag of the dataset repo; the tag names the benchmark version
 
 
 def default_dir() -> Path:
@@ -65,6 +65,16 @@ def load(root: Path, verify: bool = True) -> Bench:
         if bad:
             raise SystemExit(f"{root}: {len(bad)} files missing or changed, e.g. {bad[:3]}; run `bench fetch`")
     return Bench(root, m)
+
+
+FINGERPRINT_KEYS = ("files", "entries", "lists", "clips", "mentions", "name_free", "chapters", "name_words")
+
+
+def dataset_fingerprint(b: "Bench") -> str:
+    """What the benchmark is, independent of its version label and descriptive fields: the audio
+    hashes, names, lists, references, mentions and chapters."""
+    blob = json.dumps({k: b.m[k] for k in FINGERPRINT_KEYS}, sort_keys=True, ensure_ascii=False)
+    return hashlib.sha256(blob.encode()).hexdigest()[:16]
 
 
 def manifest_sha256(root: Path) -> str:

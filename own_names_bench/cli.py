@@ -22,6 +22,8 @@ def main() -> None:
     r.add_argument("--only", default="", help="only passes whose id starts with this, e.g. chapter/")
     r.add_argument("--no-chapters", action="store_true")
     r.add_argument("--hourly-usd", type=float, default=None, help="what the machine costs per hour, for cost per audio hour")
+    r.add_argument("--accept-config-change", default="", metavar="REASON",
+                   help="resume a run whose configuration changed, recording why (only for changes that cannot alter a transcript)")
     s = sub.add_parser("report", help="score every run and write results/scores/*.json and REPORT.md")
     s.add_argument("--runs", type=Path, default=Path("results/runs"))
     s.add_argument("--out", type=Path, default=Path("results/scores"))
@@ -49,7 +51,7 @@ def main() -> None:
 
         system = SYSTEMS[args.system]()
         run(b, system, args.out / (args.label or args.system), chapters=not args.no_chapters, limit=args.limit,
-            only=args.only, hourly_usd=args.hourly_usd)
+            only=args.only, hourly_usd=args.hourly_usd, accept_config_change=args.accept_config_change)
     elif args.cmd == "report":
         from .report import build
 

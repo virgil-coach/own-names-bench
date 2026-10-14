@@ -6,6 +6,8 @@ results/runs/<label>/passes.jsonl  one line per pass: id, text, names sent, how 
 A run resumes: passes already written without an error are not sent again.
 """
 
+import gzip
+import hashlib
 import json
 import os
 import platform
@@ -19,7 +21,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 from . import BENCH_NAME, BENCH_VERSION
-from .data import DATASET_REPO, DATASET_REVISION, Bench, manifest_sha256
+from .data import DATASET_REPO, DATASET_REVISION, Bench, dataset_fingerprint, manifest_sha256
 from .passes import Pass, all_passes
 from .systems.base import System
 
@@ -62,26 +64,58 @@ def code_revision() -> str:
     return (rev + ("-dirty" if dirty else "")) if rev else "unknown"
 
 
-def run(b: Bench, system: System, out: Path, *, chapters: bool, limit: int, only: str, hourly_usd: float | None) -> Path:
+VOLATILE_CONFIG = {"engine"}  # filled in once a system has loaded; not part of what fixes its behaviour
+
+
+def config_fingerprint(system_name: str, config: dict, dataset_fp: str) -> str:
+    stable = {k: v for k, v in config.items() if k not in VOLATILE_CONFIG}
+    blob = json.dumps({"system": system_name, "config": stable, "dataset": dataset_fp}, sort_keys=True, ensure_ascii=False)
+    return hashlib.sha256(blob.encode()).hexdigest()[:16]
+
+
+def run(b: Bench, system: System, out: Path, *, chapters: bool, limit: int, only: str, hourly_usd: float | None,
+        accept_config_change: str = "") -> Path:
     out.mkdir(parents=True, exist_ok=True)
     passes = [p for p in all_passes(b, system.variants, chapters) if not only or p.id.startswith(only)]
     if limit:
         passes = passes[:limit]
-    done: dict[str, dict] = {}
+    meta_path = out / "run.json"
+    meta = json.loads(meta_path.read_text()) if meta_path.exists() else {}
+    dataset_fp = dataset_fingerprint(b)
+    config = system.config()
+    fp = config_fingerprint(system.name, config, dataset_fp)
+    if meta:
+        # a folder holds one system, one configuration, one dataset: never mix runs
+        if meta.get("system") != system.name or meta.get("dataset_fingerprint") != dataset_fp:
+            raise SystemExit(f"{out} holds a run of {meta.get('system')} on dataset {meta.get('dataset_fingerprint')}; "
+                             f"this is {system.name} on {dataset_fp}. Use another --label.")
+        if meta.get("fingerprint") != fp:
+            old = meta.get("config", {})
+            changed = sorted(k for k in set(old) | set(config) if k not in VOLATILE_CONFIG and old.get(k) != config.get(k))
+            if not accept_config_change:
+                raise SystemExit(f"{out} was made with another configuration of {system.name} (changed: {', '.join(changed)}). "
+                                 "Use another --label, or --accept-config-change REASON if the change cannot alter a transcript.")
+            meta.setdefault("config_changes", []).append({"from": meta.get("fingerprint"), "to": fp, "changed": changed,
+                                                          "previous": {k: old.get(k) for k in changed}, "reason": accept_config_change,
+                                                          "at": datetime.now(UTC).isoformat(timespec="seconds")})
     log = out / "passes.jsonl"
+    packed = out / "passes.jsonl.gz"
+    if packed.exists() and not log.exists():  # a published run being resumed
+        log.write_bytes(gzip.decompress(packed.read_bytes()))
+        packed.unlink()
+    want = {p.id: p.list_sha for p in passes}
+    done: dict[str, dict] = {}
     if log.exists():
         for line in log.read_text().splitlines():
             r = json.loads(line)
-            if not r.get("error"):
+            if not r.get("error") and r.get("list_sha") == want.get(r["id"]):
                 done[r["id"]] = r
     todo = [p for p in passes if p.id not in done]
-    meta_path = out / "run.json"
-    meta = json.loads(meta_path.read_text()) if meta_path.exists() else {}
     meta.update({
         "benchmark": BENCH_NAME, "benchmark_version": BENCH_VERSION, "dataset": f"{DATASET_REPO}@{DATASET_REVISION}",
-        "manifest_sha256": manifest_sha256(b.root), "code_revision": code_revision(), "system": system.name,
-        "kind": system.kind, "config": system.config(), "price": system.price(), "machine": machine(),
-        "hourly_usd": hourly_usd,
+        "dataset_fingerprint": dataset_fp, "manifest_sha256": manifest_sha256(b.root), "code_revision": code_revision(),
+        "system": system.name, "variants": list(system.variants), "kind": system.kind, "config": config, "fingerprint": fp,
+        "price": system.price(), "machine": machine(), "hourly_usd": hourly_usd,
     })
     meta.setdefault("commands", []).append({"argv": " ".join(shlex.quote(a) for a in sys.argv),
                                            "started": datetime.now(UTC).isoformat(timespec="seconds")})
@@ -94,7 +128,7 @@ def run(b: Bench, system: System, out: Path, *, chapters: bool, limit: int, only
 
         faulthandler.dump_traceback_later(float(os.environ["BENCH_TRACEBACK_EVERY"]), repeat=True)
     system.start()
-    meta["config"] = system.config()  # a local system knows its exact revisions once loaded
+    meta["config"] = {**config, **{k: v for k, v in system.config().items() if k in VOLATILE_CONFIG}}
     meta_path.write_text(json.dumps(meta, indent=1) + "\n")
     lock = threading.Lock()
     started = time.time()
@@ -103,10 +137,14 @@ def run(b: Bench, system: System, out: Path, *, chapters: bool, limit: int, only
     def one(p: Pass) -> None:
         names = b.written(list(p.entries))
         fit = system.fit(names)
-        row = {"id": p.id, "audio_s": p.seconds, "listed": len(names), "sent": fit.sent, "fit": fit.how}
+        row = {"id": p.id, "list_sha": p.list_sha, "audio_s": p.seconds, "listed": len(names), "sent": fit.sent, "fit": fit.how}
         t0 = time.perf_counter()
         try:
-            ents = [{**b.entries[e], "sample_path": b.path(b.entries[e]["sample"])} for e in p.entries]
+            swap = dict(p.samples)  # cross-reader passes: the name taught by another reader's recording
+            ents = []
+            for e in p.entries:
+                src = b.entries[swap.get(e, e)]
+                ents.append({**b.entries[e], "id": src["id"], "sample": src["sample"], "sample_path": b.path(src["sample"])})
             o = system.transcribe(b.path(p.audio), fit.sent, ents)
             row["latency_s"] = round(o.latency_s if o.latency_s is not None else time.perf_counter() - t0, 4)
             row["text"] = o.text
@@ -147,15 +185,24 @@ def passes_file(run_dir: Path) -> Path:
     return plain if plain.exists() else run_dir / "passes.jsonl.gz"
 
 
-def load_texts(run_dir: Path) -> tuple[dict, dict[str, dict]]:
-    import gzip
-
+def load_rows(run_dir: Path) -> tuple[dict, dict[str, dict], dict[str, dict]]:
+    """run.json, the last good row of each pass, and the passes whose last attempt failed."""
     meta = json.loads((run_dir / "run.json").read_text())
     rows: dict[str, dict] = {}
+    failed: dict[str, dict] = {}
     f = passes_file(run_dir)
     text = gzip.decompress(f.read_bytes()).decode() if f.suffix == ".gz" else f.read_text()
     for line in text.splitlines():
         r = json.loads(line)
-        if not r.get("error"):
+        if r.get("error"):
+            if r["id"] not in rows:
+                failed[r["id"]] = r
+        else:
             rows[r["id"]] = r
+            failed.pop(r["id"], None)
+    return meta, rows, failed
+
+
+def load_texts(run_dir: Path) -> tuple[dict, dict[str, dict]]:
+    meta, rows, _ = load_rows(run_dir)
     return meta, rows

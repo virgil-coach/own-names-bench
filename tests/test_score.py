@@ -89,3 +89,37 @@ def test_overwrite_is_caught(bench):
     s = score(bench, texts)
     row = next(r for r in s["clips"]["mentions"] if r["id"] == mn["id"])
     assert row["own_overwritten"] is True and row["own_right_untaught"] is False
+
+
+def test_one_to_one_mentions():
+    from own_names_bench.score import Matched
+
+    ref = name_tokens("Alice Alice went home")
+    m = Matched(ref, name_tokens("Alice went home"))
+    key = ("alice",)
+    assert sum(m.right(key, lo) for lo in (0, 1)) == 1
+    m2 = Matched(ref, name_tokens("Alice Alice went home"))
+    assert m2.right(key, 0) and m2.right(key, 1)
+
+
+def test_unclaimed_listed_name_counts_once():
+    from own_names_bench.score import Matched
+
+    # "Bob" really is said next to the mention: writing it is not an overwrite of Alice
+    m = Matched(name_tokens("Alice and Bob went"), name_tokens("Bob and Bob went"))
+    assert not m.right(("alice",), 0)
+    assert m.unclaimed_at(("bob",), 0, 1)  # the first Bob stands where Alice was said and no reference Bob claims it
+    m2 = Matched(name_tokens("Alice and Bob went"), name_tokens("Alice and Bob went"))
+    assert not m2.unclaimed_at(("bob",), 0, 1)
+
+
+def test_untaught_list_drops_every_same_spelling(bench):
+    from own_names_bench.passes import minus
+    from own_names_bench.text import name_key
+
+    for mn in bench.m["mentions"]:
+        book = bench.clips[mn["clip"]]["book"]
+        key = name_key(bench.entries[mn["entry"]]["written"])
+        for v in ("own", "all"):
+            left = minus(bench, bench.lists[f"{v}:{book}"]["entries"], mn["entry"])
+            assert all(name_key(bench.entries[e]["written"]) != key for e in left)

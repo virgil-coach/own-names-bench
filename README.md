@@ -66,7 +66,7 @@ pretend the inputs are the same.
 Python 3.12 and [uv](https://docs.astral.sh/uv/).
 
 ```bash
-uv run bench fetch                       # the pinned dataset (virgil-coach/own-names-bench@v1.0.0), checked file by file
+uv run bench fetch                       # the pinned dataset (virgil-coach/own-names-bench@v1.1.0), anonymously, checked file by file
 export OWN_NAMES_BENCH_DATA=$PWD/data
 
 # hosted services (keys from the environment; see keys.env.example)
@@ -83,6 +83,11 @@ uv run --extra qwen bench run --system ours --hourly-usd 0.89   # needs espeak-n
 uv run bench report                      # results/scores/<run>.json and results/scores/REPORT.md
 uv run bench compare results/runs/ours results/runs/ours-mlx    # the same pipeline on two machines
 ```
+
+No account or token is needed once the repository and dataset are public: `bench fetch` downloads
+anonymously on purpose. Until launch they are private, and fetching needs `bench fetch --token` with
+access to virgil-coach. `scripts/launch_check.sh` is the launch-day check: a fresh HOME with no
+credentials, an anonymous clone and fetch, the tests, and the report rebuilt from the published runs.
 
 `bench estimate --system elevenlabs` prints the audio hours and list-price cost of a full run
 before you spend anything. Runs resume: passes already written are not sent again.

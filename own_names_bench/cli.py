@@ -4,7 +4,7 @@ import argparse
 import json
 from pathlib import Path
 
-from .data import default_dir, fetch, load
+from .data import DATASET_REVISION, default_dir, fetch, load
 from .passes import all_passes
 
 
@@ -14,6 +14,7 @@ def main() -> None:
     sub = ap.add_subparsers(dest="cmd", required=True)
     f = sub.add_parser("fetch", help="download the pinned dataset and check every file")
     f.add_argument("--revision", default=None)
+    f.add_argument("--token", action="store_true", help="use this machine's Hugging Face login (only needed while the dataset is private)")
     r = sub.add_parser("run", help="run one system over every pass (resumes)")
     r.add_argument("--system", required=True)
     r.add_argument("--label", default=None, help="results/runs/<label> (default: the system name)")
@@ -40,7 +41,7 @@ def main() -> None:
     root = args.data or default_dir()
 
     if args.cmd == "fetch":
-        fetch(root, *( [args.revision] if args.revision else []))
+        fetch(root, args.revision or DATASET_REVISION, use_token=args.token)
         b = load(root)
         print(f"{root}: {len(b.m['files'])} files, all checked")
         return

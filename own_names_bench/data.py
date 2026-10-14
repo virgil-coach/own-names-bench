@@ -17,10 +17,17 @@ def default_dir() -> Path:
     return Path(os.environ.get("OWN_NAMES_BENCH_DATA", Path.cwd() / "data"))
 
 
-def fetch(dest: Path, revision: str = DATASET_REVISION) -> Path:
+def fetch(dest: Path, revision: str = DATASET_REVISION, use_token: bool = False) -> Path:
+    """Downloads the dataset anonymously (no Hugging Face login needed once it is public).
+    use_token: send this machine's Hugging Face credentials (before launch, while it is private)."""
     from huggingface_hub import snapshot_download
+    from huggingface_hub.errors import GatedRepoError, RepositoryNotFoundError
 
-    snapshot_download(DATASET_REPO, repo_type="dataset", revision=revision, local_dir=dest)
+    try:
+        snapshot_download(DATASET_REPO, repo_type="dataset", revision=revision, local_dir=dest, token=None if use_token else False)
+    except (RepositoryNotFoundError, GatedRepoError) as e:
+        raise SystemExit(f"{DATASET_REPO}@{revision} cannot be read {'with these credentials' if use_token else 'anonymously'}. "
+                         "It is public from launch; before that it needs `bench fetch --token` with access to virgil-coach.") from e
     return dest
 
 

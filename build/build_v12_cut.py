@@ -231,6 +231,8 @@ def cut(args) -> None:
     for mid, rs in sorted(by_meeting.items()):
         run = []
         for r in rs:
+            if run and r["begin_time"] < run[-1]["end_time"]:
+                continue  # overlapping speech of another speaker: joining it would repeat the room's audio
             if run and r["begin_time"] - run[-1]["end_time"] > 2.0:
                 run = []
             run.append(r)
@@ -266,6 +268,11 @@ def cut(args) -> None:
     suites["ami"] = {"entries": entries, "lists": lists, "clips": clips, "mentions": [], "name_free": free, "dropped": {}}
 
     # ---------------- modulate (reference only: no audio written here; `bench fetch` cuts it from the source)
+    maudio: dict[str, np.ndarray] = {}
+    for p in sorted(glob.glob(str(src / "modulate" / "data" / "*.parquet"))):
+        for row in pq.read_table(p, columns=["id", "audio"]).to_pylist():
+            y, sr = sf.read(io.BytesIO(row["audio"]["bytes"]), dtype="float32")
+            maudio[row["id"]] = y if y.ndim == 1 else y.mean(axis=1)
     entries, clips, mentions, groups, spoken = {}, {}, [], collections.defaultdict(list), {}
     dropped = collections.Counter()
     for item in plan["modulate"]:
@@ -278,8 +285,11 @@ def cut(args) -> None:
                 dropped["modulate enrollment not aligned"] += 1
                 continue
             rel = f"suites/modulate/audio/enroll/{g}/{k:03d}.wav"
+            st, en = round(sp["start"] - PAD_S, 3), round(sp["end"] + PAD_S, 3)
+            y = maudio[e["clip"]]
             entries[eid] = {"id": eid, "written": e["written"], "book": g, "reader": "unknown", "group": "public meeting", "sample": rel,
-                            "remote": {"id": e["clip"], "start": round(sp["start"] - PAD_S, 3), "end": round(sp["end"] + PAD_S, 3)}}
+                            "remote": {"id": e["clip"], "start": st, "end": en},
+                            "sample_pcm_sha256": pcm_sha(y[max(0, int(st * 16000)):int(en * 16000)])}
             groups[g].append(eid)
             ok.add(eid)
         for mn in item["mentions"]:
@@ -288,8 +298,9 @@ def cut(args) -> None:
             cid = mn["clip"]
             if cid not in clips:
                 c = item["clips"][cid]
-                clips[cid] = {"id": cid, "audio": f"suites/modulate/audio/clips/{cid}.wav", "seconds": c["seconds"], "book": g,
-                              "reader": "unknown", "reference": c["transcript"], "remote": {"id": cid}}
+                clips[cid] = {"id": cid, "audio": f"suites/modulate/audio/clips/{cid}.wav", "seconds": round(len(maudio[cid]) / 16000, 3),
+                              "book": g, "reader": "unknown", "reference": c["transcript"], "remote": {"id": cid},
+                              "pcm_sha256": pcm_sha(maudio[cid])}
             mentions.append({"id": f"{cid}:{mn['span'][0]}", "clip": cid, "entry": mn["entry"], "span": mn["span"], "group": "public meeting"})
     lists = build_lists(groups, entries, spoken, rng)
     suites["modulate"] = {"entries": entries, "lists": lists, "clips": clips, "mentions": mentions, "name_free": [], "dropped": dropped}
@@ -312,3 +323,20 @@ def cut(args) -> None:
         secs = sum(c["seconds"] for c in s["clips"].values())
         print(f"{name}: {len(s['entries'])} entries, {len(s['clips'])} clips ({secs / 3600:.2f} h), {len(s['mentions'])} mentions, "
               f"{len(s['name_free'])} name-free; dropped {dict(s['dropped'])}")
+    update_manifest(root)
+
+
+def update_manifest(root: Path) -> None:
+    m = json.loads((root / "manifest.json").read_text(encoding="utf-8"))
+    refs = []
+    for name in ("calls", "svq", "ami", "modulate"):
+        f = root / "suites" / name / "suite.json"
+        doc = json.loads(f.read_text(encoding="utf-8"))
+        refs.append({"name": name, "file": f"suites/{name}/suite.json", "sha256": hashlib.sha256(f.read_bytes()).hexdigest(),
+                     "licence": doc["licence"], "rehosted": doc["rehosted"], "source": doc["source"]})
+    m["version"] = "1.2.0"
+    m["suites"] = refs
+    m.setdefault("changes", {})["1.2.0"] = ("Adds four suites, each in suites/<name>/ under its own licence: calls (AppTek, CC BY-SA 4.0), "
+                                           "svq (Google SVQ, CC BY 4.0), ami (AMI, CC BY 4.0) and modulate (Modulate, CC BY-SA 4.0; "
+                                           "audio not re-hosted). The audiobook data is unchanged (same content fingerprint).")
+    (root / "manifest.json").write_text(json.dumps(m, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")

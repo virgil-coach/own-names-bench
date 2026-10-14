@@ -38,11 +38,14 @@ def bench():
 
 
 def _reference_texts(b):
+    from own_names_bench.passes import view
+
     texts = {}
     for p in all_passes(b, ("none", "own", "all"), True):
         if p.task == "clip":
-            clip = p.id.split("/")[1]
-            texts[p.id] = b.clips[clip]["reference"]
+            parts = p.id.split("/")
+            clip = parts[parts.index("clip") + 1]
+            texts[p.id] = view(b, p).clips[clip]["reference"]
         else:
             ch = next(c for c in b.m["chapters"] if c["id"] == p.id.split("/")[1])
             texts[p.id] = " ".join(s["reference"] for s in ch["segments"])
@@ -64,6 +67,11 @@ def test_reference_is_perfect(bench):
     assert sm["chapters"]["taught"]["right"]["rate"] == 1.0
     assert sm["chapters"]["taught"]["wrong_writes_per_min"]["rate"] == 0.0
     assert sm["chapters"]["taught"]["ordinary_wer"]["rate"] < 1e-3  # numbers normalized across segment joins
+    for name, x in sm["suites"].items():
+        if "right" in x:
+            assert x["right"]["rate"] == 1.0 and x["overwritten"]["rate"] == 0.0, name
+        if "own_free_inserted" in x:
+            assert x["own_free_inserted"]["rate"] == 0.0, name
 
 
 def test_empty_answer_scores_nothing(bench):

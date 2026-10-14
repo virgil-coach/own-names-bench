@@ -78,7 +78,9 @@ def score_clips(b: Bench, texts: dict[str, str]) -> dict:
     keys = {e: name_key(v["written"]) for e, v in b.entries.items()}
     cache: dict[str, Matched] = {}
     refs = {cid: name_tokens_spans(c["reference"]) for cid, c in b.clips.items()}
-    xr = cross_reader(b)
+    xr = cross_reader(b) if not b.name else {}
+
+    P = b.prefix
 
     def matched(pid: str, clip: str) -> Matched | None:
         if pid not in texts:
@@ -105,20 +107,22 @@ def score_clips(b: Bench, texts: dict[str, str]) -> dict:
             return {"right": m.right(target, lo), "other": any(m.unclaimed_at(k, lo, hi) for k in other_keys)}
 
         own = b.lists[f"own:{book}"]["entries"]
-        r = look(f"clip/{clip}/none", own)
+        r = look(f"{P}clip/{clip}/none", own)
         if r is not None:
             row["none_right"] = r["right"]
         for v in ("own", "all"):
+            if f"{v}:{book}" not in b.lists:
+                continue
             full = b.lists[f"{v}:{book}"]["entries"]
-            k = look(f"clip/{clip}/{v}", full)
+            k = look(f"{P}clip/{clip}/{v}", full)
             if k is not None:
                 row[f"{v}_right"] = k["right"]
                 row[f"{v}_wrong_name"] = k["other"]
-            u = look(f"clip/{clip}/{v}-minus/{mn['entry']}", minus(b, full, mn["entry"]))
+            u = look(f"{P}clip/{clip}/{v}-minus/{mn['entry']}", minus(b, full, mn["entry"]))
             if u is not None:
                 row[f"{v}_overwritten"] = u["other"]
                 row[f"{v}_right_untaught"] = u["right"]
-        x = look(f"clip/{clip}/own-xr/{mn['entry']}", own)
+        x = look(f"{P}clip/{clip}/own-xr/{mn['entry']}", own)
         if x is not None:
             row["xr_right"] = x["right"]
             row["xr_wrong_name"] = x["other"]
@@ -128,12 +132,14 @@ def score_clips(b: Bench, texts: dict[str, str]) -> dict:
     for nf in b.m["name_free"]:
         clip = nf["clip"]
         book = b.clips[clip]["book"]
-        row = {"id": nf["id"], "clip": clip, "book": book}
-        for v, pid, lst in (("none", f"clip/{clip}/none", f"own:{book}"), ("own", f"clip/{clip}/own", f"own:{book}"),
-                            ("all", f"clip/{clip}/all", f"all:{book}")):
-            if pid in texts:
+        row = {"id": nf["id"], "clip": clip, "book": book, "minutes": b.clips[clip]["seconds"] / 60}
+        for v, pid, lst in (("none", f"{P}clip/{clip}/none", f"own:{book}"), ("own", f"{P}clip/{clip}/own", f"own:{book}"),
+                            ("all", f"{P}clip/{clip}/all", f"all:{book}")):
+            if pid in texts and lst in b.lists:
                 hyp = name_tokens(texts[pid])
-                row[f"{v}_inserted"] = any(find_all(hyp, keys[e]) for e in b.lists[lst]["entries"])
+                n = sum(len(find_all(hyp, k)) for k in {keys[e] for e in b.lists[lst]["entries"]})
+                row[f"{v}_inserted"] = n > 0
+                row[f"{v}_inserted_count"] = n
         free.append(row)
 
     wer = []
@@ -143,7 +149,7 @@ def score_clips(b: Bench, texts: dict[str, str]) -> dict:
         ref_full = ordinary_tokens(b.clips[clip]["reference"])
         row = {"clip": clip, "book": b.clips[clip]["book"]}
         for v in ("none", "own", "all"):
-            pid = f"clip/{clip}/{v}"
+            pid = f"{P}clip/{clip}/{v}"
             if pid in texts:
                 row[f"{v}_errors"], row["words"] = _wer(ref, _ordinary(texts[pid], nw))
                 row[f"{v}_full_errors"], row["full_words"] = _wer(ref_full, ordinary_tokens(texts[pid]))
@@ -219,4 +225,5 @@ def score_chapters(b: Bench, texts: dict[str, str]) -> dict:
 
 
 def score(b: Bench, texts: dict[str, str]) -> dict:
-    return {"clips": score_clips(b, texts), "chapters": score_chapters(b, texts)}
+    return {"clips": score_clips(b, texts), "chapters": score_chapters(b, texts),
+            "suites": {name: score_clips(s, texts) for name, s in (b.suites or {}).items()}}

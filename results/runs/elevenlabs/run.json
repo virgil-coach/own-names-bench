@@ -1,9 +1,9 @@
 {
  "benchmark": "own-names-bench",
- "benchmark_version": "1.1.0",
- "dataset": "virgil-coach/own-names-bench@v1.1.0",
- "manifest_sha256": "39f235296af82671254243b71c041e7491db8e863782f2fac40bc8c91e9397bd",
- "code_revision": "9247c769925118a1cca7fb84ea7ae5b68d359e63-dirty",
+ "benchmark_version": "1.2.0",
+ "dataset": "virgil-coach/own-names-bench@v1.2.0",
+ "manifest_sha256": "0f698161977c67d24de6da89a3c5ff2fddd37b9eec6f7d3a501e23154fc0e667",
+ "code_revision": "661251fcd6bf6208562bb23bc7476a2392681b40-dirty",
  "system": "elevenlabs",
  "kind": "cloud",
  "config": {
@@ -44,6 +44,20 @@
    "argv": "/Users/jameslal/workspace/jl/own-names-bench/.venv/bin/bench run --system elevenlabs",
    "started": "2026-10-14T06:23:48+00:00",
    "finished": "2026-10-14T06:24:14+00:00"
+  },
+  {
+   "argv": "/Users/jameslal/workspace/jl/own-names-bench/.venv/bin/bench run --system elevenlabs",
+   "passes_to_do": 10454,
+   "machine": {
+    "platform": "macOS-26.3.1-arm64-arm-64bit",
+    "machine": "arm64",
+    "python": "3.12.13",
+    "cpu": "Apple M4 Max",
+    "memory_gb": 128.0,
+    "os": "macOS 26.3.1 (25D771280a)"
+   },
+   "code_revision": "661251fcd6bf6208562bb23bc7476a2392681b40-dirty",
+   "started": "2026-10-14T14:09:45+00:00"
   }
  ],
  "dataset_fingerprint": "1625ef57df22bdba",
@@ -53,5 +67,11 @@
   "all"
  ],
  "migrated": "v1.0.0 run; list fingerprints added from v1.0.0's pass definitions (build/migrate_v1_1.py)",
- "fingerprint": "9a9e0242ad18d438"
+ "fingerprint": "9a9e0242ad18d438",
+ "suite_fingerprints": {
+  "calls": "da5822bc26a03288",
+  "svq": "42eced936a70332d",
+  "ami": "b1bebcfca0a17e9c",
+  "modulate": "7f4826d54b38e4dc"
+ }
 }

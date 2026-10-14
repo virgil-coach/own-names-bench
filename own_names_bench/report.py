@@ -25,6 +25,22 @@ SYSTEM_VARIANTS = {"ours": ("none", "own", "all", "xr"), "ours-mlx": ("none", "o
                    "parakeet": ("none", "own", "all"), "qwen": ("none",), "qwen-context": ("none", "own", "all")}
 
 
+SUITE_NOTES = {
+    "calls": "AppTek call-centre dialogues (CC BY-SA 4.0): role-played calls in 14 English accents, fictional names. A name is "
+             "taught from its first mention in the call (cut by forced alignment) and tested on its other mentions; *taught by the "
+             "other speaker* means the agent taught a name the customer says, or the reverse. Name-free items are 30-60 s stretches of "
+             "the call with no name in them, run with the call's list.",
+    "svq": "Google Simple Voice Questions (CC BY 4.0): each question is read by about 20 people. A name is taught from one person's "
+           "clean reading and tested on four other people's readings, in clean, background-speech, media-noise and traffic-noise "
+           "recordings. Name-free items are questions without names.",
+    "ami": "AMI meetings, single distant microphone (CC BY 4.0): name-free 30 s+ stretches of meeting speech (consecutive "
+           "utterances joined), each run with a 40-name list taught in the call voices. Insertions only.",
+    "modulate": "Modulate's entity benchmark, MLCommons public-meeting part (CC BY-SA 4.0; audio read from Modulate's repository, "
+                "not re-hosted): an entity said in two clips of the same meeting recording is taught from the first and tested on "
+                "the others (the speaker is unknown and may differ).",
+}
+
+
 def _pct(x: float) -> str:
     return "n/a" if x != x else f"{100 * x:.1f}"
 
@@ -125,6 +141,7 @@ def summarize(b: Bench, s: dict, rows: dict[str, dict], meta: dict) -> dict:
             d["overwritten"] = prop(un, "untaught_other", "chapter")
             d["right_untaught"] = prop(un, "untaught_right", "chapter")
         out["chapters"][cond] = d
+    out["suites"] = {name: summarize_suite(ss) for name, ss in s.get("suites", {}).items()}
     lat = {}
     for task in ("clip", "chapter"):
         rs = [r for pid, r in rows.items() if pid.startswith(task + "/") and "latency_s" in r]
@@ -144,6 +161,53 @@ def summarize(b: Bench, s: dict, rows: dict[str, dict], meta: dict) -> dict:
     else:
         cost = {"basis": "local", "note": "real-time factor on the recorded machine only"}
     out["cost"] = cost
+    return out
+
+
+def summarize_suite(c: dict) -> dict:
+    """A suite's mentions (own list only) and name-free items, clustered by the suite's list group."""
+    d: dict = {}
+    if any("own_right" in r for r in c["mentions"]):
+        groups = sorted({r["group"] for r in c["mentions"]})
+        d["right"] = prop(c["mentions"], "own_right", "book")
+        d["right_by_group"] = {g: prop([r for r in c["mentions"] if r["group"] == g], "own_right", "book") for g in groups}
+        d["overwritten"] = prop(c["mentions"], "own_overwritten", "book")
+        d["wrong_name"] = prop(c["mentions"], "own_wrong_name", "book")
+        d["mentions"] = len(c["mentions"])
+    if any("none_right" in r for r in c["mentions"]):
+        d["none_right"] = prop(c["mentions"], "none_right", "book")
+    for v in ("own", "none"):
+        if any(f"{v}_inserted" in r for r in c["name_free"]):
+            d[f"{v}_free_inserted"] = prop(c["name_free"], f"{v}_inserted", "book")
+            d[f"{v}_free_per_min"] = ratio(c["name_free"], f"{v}_inserted_count", "minutes", "book")
+        d[f"{v}_ordinary_wer"] = ratio(c["wer"], f"{v}_errors", "words", "book")
+        d[f"{v}_full_wer"] = ratio(c["wer"], f"{v}_full_errors", "full_words", "book")
+    d["free_items"] = len(c["name_free"])
+    d["free_minutes"] = round(sum(r["minutes"] for r in c["name_free"]), 1)
+    return d
+
+
+def paired_suite(ca: dict, cb: dict) -> dict:
+    out = {}
+    ia = {r["id"]: r for r in ca["mentions"]}
+    ib = {r["id"]: r for r in cb["mentions"]}
+    for k in ("own_right", "own_overwritten", "own_wrong_name"):
+        ids = [i for i in ia if k in ia[i] and k in ib.get(i, {})]
+        if ids:
+            out[k] = paired_diff([ia[i][k] for i in ids], [ib[i][k] for i in ids], [1] * len(ids), [ia[i]["book"] for i in ids])
+    fa = {r["id"]: r for r in ca["name_free"]}
+    fb = {r["id"]: r for r in cb["name_free"]}
+    for k, den, name in (("own_inserted", None, "own_free_inserted"), ("own_inserted_count", "minutes", "own_free_per_min")):
+        ids = [i for i in fa if k in fa[i] and k in fb.get(i, {})]
+        if ids:
+            out[name] = paired_diff([fa[i][k] for i in ids], [fb[i][k] for i in ids], [fa[i][den] if den else 1 for i in ids],
+                                    [fa[i]["book"] for i in ids])
+    wa = {r["clip"]: r for r in ca["wer"]}
+    wb = {r["clip"]: r for r in cb["wer"]}
+    for k, den, name in (("own_errors", "words", "own_ordinary_wer"), ("own_full_errors", "full_words", "own_full_wer")):
+        ids = [i for i in wa if k in wa[i] and k in wb.get(i, {})]
+        if ids:
+            out[name] = paired_diff([wa[i][k] for i in ids], [wb[i][k] for i in ids], [wa[i][den] for i in ids], [wa[i]["book"] for i in ids])
     return out
 
 
@@ -295,6 +359,40 @@ def render(results: dict, baseline: str | None) -> str:
         for label, x in xr_rows:
             L.append(f"| {label} | {x['other_reader_right']['n']} | {fmt_p(x['same_reader_right'])} | {fmt_p(x['other_reader_right'])} | "
                      f"{fmt_p(x['other_reader_wrong_name'])} |")
+    suite_names = sorted({n for r in results.values() for n in r["summary"].get("suites", {})})
+    for name in suite_names:
+        any_r = next(r for r in results.values() if name in r["summary"].get("suites", {}))
+        sd = any_r["summary"]["suites"][name]
+        groups = sorted((sd.get("right_by_group") or {}).keys())
+        L += ["", f"## Suite: {name}", "", SUITE_NOTES.get(name, ""), "",
+              f"{sd.get('mentions', 0)} name mentions; {sd['free_items']} name-free items ({sd['free_minutes']} min). Own list per "
+              "recording (its taught names, then names taught elsewhere in the suite, 40 in all); untaught = the spoken name removed.", ""]
+        head = ["System", "Names right"] + [f"right: {g}" for g in groups] + ["Untaught overwritten", "Wrong name written",
+                                                                              "Name-free: items with a listed name inserted",
+                                                                              "Listed names inserted per minute (name-free)",
+                                                                              "Ordinary-word error", "Full-transcript error", "Names right, no list"]
+        L += ["| " + " | ".join(head) + " |", "|" + " --- |" * len(head)]
+        for label, r in results.items():
+            x = r["summary"].get("suites", {}).get(name)
+            if not x:
+                continue
+            cells = [label, fmt_p(x.get("right"))] + [fmt_p((x.get("right_by_group") or {}).get(g)) for g in groups]
+            cells += [fmt_p(x.get("overwritten")), fmt_p(x.get("wrong_name")), fmt_p(x.get("own_free_inserted")),
+                      fmt_r(x.get("own_free_per_min"), 1, 2), fmt_r(x.get("own_ordinary_wer")), fmt_r(x.get("own_full_wer")),
+                      fmt_p(x.get("none_right"))]
+            L.append("| " + " | ".join(cells) + " |")
+        if baseline and baseline in results and name in results[baseline]["summary"].get("suites", {}):
+            others = [o for o in results if o != baseline and name in results[o]["summary"].get("suites", {})]
+            ps = {o: paired_suite(results[baseline]["items"]["suites"][name], results[o]["items"]["suites"][name]) for o in others}
+            L += ["", f"Paired, {baseline} minus each system (points; per-minute rows in names per minute):", "",
+                  "| Measure | " + " | ".join(f"{baseline} − {o}" for o in others) + " |", "| --- |" + " --- |" * len(others)]
+            for title, key in (("Names right", "own_right"), ("Untaught overwritten", "own_overwritten"), ("Wrong name written", "own_wrong_name"),
+                               ("Name-free items with an insertion", "own_free_inserted"), ("Ordinary-word error", "own_ordinary_wer"),
+                               ("Full-transcript error", "own_full_wer")):
+                L.append(f"| {title} | " + " | ".join(_cell(ps[o].get(key)) for o in others) + " |")
+            L.append("| Listed names inserted per minute | " + " | ".join(
+                (lambda d: f"{d['diff']:+.2f} [{d['lo']:+.2f}, {d['hi']:+.2f}]" + (" **holds**" if d["holds"] else "") if d else "n/a")(ps[o].get("own_free_per_min"))
+                for o in others) + " |")
     L += ["", "## Speed and cost", "",
           "| System | Machine | Clip latency p50 / p90 (s) | Real-time factor (clips) | Cost per audio hour: nominal | Cost per audio hour: this workload |",
           "| --- | --- | --- | --- | --- | --- |"]

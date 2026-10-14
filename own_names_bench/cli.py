@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 
 from .data import DATASET_REVISION, default_dir, fetch, load
-from .passes import all_passes
+from .passes import all_passes, view
 
 
 def main() -> None:
@@ -80,7 +80,7 @@ def estimate(b, system_name: str) -> None:
         billed = 0.0
         cost = 0.0
         for p in passes:
-            n = len(system.fit(b.written(list(p.entries))).sent) if p.entries else 0
+            n = len(system.fit(view(b, p).written(list(p.entries))).sent) if p.entries else 0
             secs = max(p.seconds, price.get("min_billable_s_over_100_terms", 0)) if n > 100 else p.seconds
             billed += secs
             cost += secs / 3600 * (price["usd_per_audio_hour_with_list"] if n else price["usd_per_audio_hour"])

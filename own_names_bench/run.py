@@ -21,8 +21,8 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 from . import BENCH_NAME, BENCH_VERSION
-from .data import DATASET_REPO, DATASET_REVISION, Bench, dataset_fingerprint, manifest_sha256
-from .passes import Pass, all_passes
+from .data import DATASET_REPO, DATASET_REVISION, Bench, dataset_fingerprint, manifest_sha256, suite_fingerprints
+from .passes import Pass, all_passes, view
 from .systems.base import System
 
 
@@ -76,12 +76,14 @@ def config_fingerprint(system_name: str, config: dict, dataset_fp: str) -> str:
 def run(b: Bench, system: System, out: Path, *, chapters: bool, limit: int, only: str, hourly_usd: float | None,
         accept_config_change: str = "") -> Path:
     out.mkdir(parents=True, exist_ok=True)
-    passes = [p for p in all_passes(b, system.variants, chapters) if not only or p.id.startswith(only)]
+    prefixes = tuple(x for x in only.split(",") if x)
+    passes = [p for p in all_passes(b, system.variants, chapters) if not prefixes or p.id.startswith(prefixes)]
     if limit:
         passes = passes[:limit]
     meta_path = out / "run.json"
     meta = json.loads(meta_path.read_text()) if meta_path.exists() else {}
     dataset_fp = dataset_fingerprint(b)
+    suite_fps = suite_fingerprints(b)
     config = system.config()
     fp = config_fingerprint(system.name, config, dataset_fp)
     if meta:
@@ -89,6 +91,9 @@ def run(b: Bench, system: System, out: Path, *, chapters: bool, limit: int, only
         if meta.get("system") != system.name or meta.get("dataset_fingerprint") != dataset_fp:
             raise SystemExit(f"{out} holds a run of {meta.get('system')} on dataset {meta.get('dataset_fingerprint')}; "
                              f"this is {system.name} on {dataset_fp}. Use another --label.")
+        changed = [k for k, v in (meta.get("suite_fingerprints") or {}).items() if suite_fps.get(k) != v]
+        if changed:
+            raise SystemExit(f"{out} was made on other versions of the suites {changed}. Use another --label.")
         if meta.get("fingerprint") != fp:
             old = meta.get("config", {})
             changed = sorted(k for k in set(old) | set(config) if k not in VOLATILE_CONFIG and old.get(k) != config.get(k))
@@ -113,7 +118,7 @@ def run(b: Bench, system: System, out: Path, *, chapters: bool, limit: int, only
     todo = [p for p in passes if p.id not in done]
     meta.update({
         "benchmark": BENCH_NAME, "benchmark_version": BENCH_VERSION, "dataset": f"{DATASET_REPO}@{DATASET_REVISION}",
-        "dataset_fingerprint": dataset_fp, "manifest_sha256": manifest_sha256(b.root), "code_revision": code_revision(),
+        "dataset_fingerprint": dataset_fp, "suite_fingerprints": suite_fps, "manifest_sha256": manifest_sha256(b.root), "code_revision": code_revision(),
         "system": system.name, "variants": list(system.variants), "kind": system.kind, "config": config, "fingerprint": fp,
         "price": system.price(), "machine": machine(), "hourly_usd": hourly_usd,
     })
@@ -136,7 +141,8 @@ def run(b: Bench, system: System, out: Path, *, chapters: bool, limit: int, only
     count = [0, 0]
 
     def one(p: Pass) -> None:
-        names = b.written(list(p.entries))
+        v = view(b, p)
+        names = v.written(list(p.entries))
         fit = system.fit(names)
         row = {"id": p.id, "list_sha": p.list_sha, "audio_s": p.seconds, "listed": len(names), "sent": fit.sent, "fit": fit.how}
         t0 = time.perf_counter()
@@ -144,9 +150,9 @@ def run(b: Bench, system: System, out: Path, *, chapters: bool, limit: int, only
             swap = dict(p.samples)  # cross-reader passes: the name taught by another reader's recording
             ents = []
             for e in p.entries:
-                src = b.entries[swap.get(e, e)]
-                ents.append({**b.entries[e], "id": src["id"], "sample": src["sample"], "sample_path": b.path(src["sample"])})
-            o = system.transcribe(b.path(p.audio), fit.sent, ents)
+                src = v.entries[swap.get(e, e)]
+                ents.append({**v.entries[e], "id": src["id"], "sample": src["sample"], "sample_path": v.path(src["sample"])})
+            o = system.transcribe(v.path(p.audio), fit.sent, ents)
             row["latency_s"] = round(o.latency_s if o.latency_s is not None else time.perf_counter() - t0, 4)
             row["text"] = o.text
             if o.sent is not None:

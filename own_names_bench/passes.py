@@ -39,6 +39,7 @@ class Pass:
     entries: tuple[str, ...]
     # entry -> entry whose taught recording stands in for it (cross-reader passes)
     samples: tuple[tuple[str, str], ...] = field(default=())
+    suite: str = ""      # "" for the audiobooks, else the suite the clip belongs to
 
     @property
     def list_sha(self) -> str:
@@ -74,10 +75,10 @@ def clip_passes(b: Bench, variants: tuple[str, ...]) -> list[Pass]:
     out: dict[str, Pass] = {}
 
     def add(clip: str, key: str, variant: str, entries: list[str], samples: tuple = ()) -> None:
-        pid = f"clip/{clip}/{key}"
+        pid = f"{b.prefix}clip/{clip}/{key}"
         if pid not in out:
             c = b.clips[clip]
-            out[pid] = Pass(pid, "clip", c["audio"], c["seconds"], variant, tuple(entries), samples)
+            out[pid] = Pass(pid, "clip", c["audio"], c["seconds"], variant, tuple(entries), samples, b.name)
 
     used = [mn["clip"] for mn in b.m["mentions"]] + [nf["clip"] for nf in b.m["name_free"]]
     for clip in used:
@@ -85,13 +86,13 @@ def clip_passes(b: Bench, variants: tuple[str, ...]) -> list[Pass]:
         if "none" in variants:
             add(clip, "none", "none", [])
         for v in ("own", "all"):
-            if v in variants:
+            if v in variants and f"{v}:{book}" in b.lists:
                 add(clip, v, v, b.lists[f"{v}:{book}"]["entries"])
-    xr = cross_reader(b) if "xr" in variants else {}
+    xr = cross_reader(b) if "xr" in variants and not b.name else {}
     for mn in b.m["mentions"]:
         book = b.clips[mn["clip"]]["book"]
         for v in ("own", "all"):
-            if v in variants:
+            if v in variants and f"{v}:{book}" in b.lists:
                 add(mn["clip"], f"{v}-minus/{mn['entry']}", v, minus(b, b.lists[f"{v}:{book}"]["entries"], mn["entry"]))
         if mn["id"] in xr:
             add(mn["clip"], f"own-xr/{mn['entry']}", "xr", b.lists[f"own:{book}"]["entries"], ((mn["entry"], xr[mn["id"]]),))
@@ -111,5 +112,14 @@ def chapter_passes(b: Bench) -> list[Pass]:
     return out
 
 
-def all_passes(b: Bench, variants: tuple[str, ...], chapters: bool = True) -> list[Pass]:
-    return clip_passes(b, variants) + (chapter_passes(b) if chapters else [])
+def all_passes(b: Bench, variants: tuple[str, ...], chapters: bool = True, suites: bool = True) -> list[Pass]:
+    out = clip_passes(b, variants) + (chapter_passes(b) if chapters else [])
+    if suites:
+        for s in (b.suites or {}).values():
+            out += clip_passes(s, tuple(v for v in variants if v in ("none", "own")))
+    return out
+
+
+def view(b: Bench, p: Pass) -> Bench:
+    """The data a pass belongs to: the audiobooks or one suite."""
+    return b.suites[p.suite] if p.suite else b

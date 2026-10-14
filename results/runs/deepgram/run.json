@@ -1,9 +1,9 @@
 {
  "benchmark": "own-names-bench",
- "benchmark_version": "1.0.0",
- "dataset": "virgil-coach/own-names-bench@v1.0.0",
- "manifest_sha256": "7b0adf32c2c70ad20145c9fa087dba63d319fad992eeac3260621e696a77e652",
- "code_revision": "HEAD",
+ "benchmark_version": "1.2.0",
+ "dataset": "virgil-coach/own-names-bench@v1.2.0",
+ "manifest_sha256": "0f698161977c67d24de6da89a3c5ff2fddd37b9eec6f7d3a501e23154fc0e667",
+ "code_revision": "661251fcd6bf6208562bb23bc7476a2392681b40-dirty",
  "system": "deepgram",
  "kind": "cloud",
  "config": {
@@ -36,6 +36,20 @@
    "argv": "/Users/jameslal/workspace/jl/own-names-bench/.venv/bin/bench run --system deepgram",
    "started": "2026-10-13T20:02:28+00:00",
    "finished": "2026-10-13T20:13:39+00:00"
+  },
+  {
+   "argv": "/Users/jameslal/workspace/jl/own-names-bench/.venv/bin/bench run --system deepgram",
+   "passes_to_do": 10454,
+   "machine": {
+    "platform": "macOS-26.3.1-arm64-arm-64bit",
+    "machine": "arm64",
+    "python": "3.12.13",
+    "cpu": "Apple M4 Max",
+    "memory_gb": 128.0,
+    "os": "macOS 26.3.1 (25D771280a)"
+   },
+   "code_revision": "661251fcd6bf6208562bb23bc7476a2392681b40-dirty",
+   "started": "2026-10-14T14:09:44+00:00"
   }
  ],
  "dataset_fingerprint": "1625ef57df22bdba",
@@ -44,5 +58,11 @@
   "own"
  ],
  "migrated": "v1.0.0 run; list fingerprints added from v1.0.0's pass definitions (build/migrate_v1_1.py)",
- "fingerprint": "e5045cde16a03e6b"
+ "fingerprint": "e5045cde16a03e6b",
+ "suite_fingerprints": {
+  "calls": "da5822bc26a03288",
+  "svq": "42eced936a70332d",
+  "ami": "b1bebcfca0a17e9c",
+  "modulate": "7f4826d54b38e4dc"
+ }
 }

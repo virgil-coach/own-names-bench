@@ -200,7 +200,13 @@ def plan(args: argparse.Namespace) -> None:
         occ: dict[str, list[tuple[str, int, int]]] = collections.defaultdict(list)
         for r in rs:
             for o in json.loads(r["entity_offsets"] or "[]"):
-                occ[o["text"]].append((r["id"], o["start"], o["end"]))
+                a, b = o.get("start"), o.get("end")
+                t = r["transcript"]
+                if not isinstance(a, int) or not isinstance(b, int) or t[a:b].lower() != o["text"].lower():
+                    continue  # an entity without a usable offset is left out
+                if (a > 0 and t[a - 1].isalnum()) or (b < len(t) and t[b].isalnum()):
+                    continue  # an offset inside a word ("epa" in "singleparagraph")
+                occ[o["text"]].append((r["id"], a, b))
         entries, mentions = {}, []
         for n, os_ in sorted(occ.items()):
             clips = sorted({c for c, _, _ in os_})

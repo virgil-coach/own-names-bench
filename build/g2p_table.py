@@ -18,7 +18,11 @@ def main() -> None:
     ap.add_argument("--out", type=Path, required=True)
     a = ap.parse_args()
     vocab = json.loads(a.vocab.read_text())
-    names = sorted({e["written"] for e in json.loads((a.dataset / "manifest.json").read_text())["entries"].values()})
+    m = json.loads((a.dataset / "manifest.json").read_text())
+    names = {e["written"] for e in m["entries"].values()}
+    for ref in m.get("suites", []):
+        names |= {e["written"] for e in json.loads((a.dataset / ref["file"]).read_text())["entries"].values()}
+    names = sorted(names)
     version = subprocess.run(["espeak-ng", "--version"], capture_output=True, text=True, check=True).stdout.strip()
     table = {}
     for text in names:

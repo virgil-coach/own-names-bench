@@ -24,7 +24,7 @@ Built by [Virgil](https://virgil.coach) (Little Bear Labs, Inc.) to check our ow
 | **Taught by another reader** | Ours only (systems taught by recording): the same mention with the name taught in a different reader's voice. |
 | **Latency, cost** | Per-request latency and real-time factor on the recorded machine; list price per audio hour (with the date checked) for hosted services, measured real-time factor × machine price for local models. |
 
-Two tasks:
+Three tasks:
 
 1. **Clips.** 1,107 mentions of 798 names in 1,051 clips (3.5–15 s) from 12 held-out LibriVox
    audiobooks read by 12 readers, plus 408 name-free clips. Each mention is run with the book's
@@ -36,6 +36,17 @@ Two tasks:
    343 name mentions) with the book's list (28–64 names), again with half the names removed, and
    with no list: names right, wrong names per minute, untaught names overwritten, ordinary-word
    error.
+
+3. **Suites (v1.2): other speech, other speakers.** Each in its own folder under its source's licence.
+   - `calls`: AppTek role-played call-centre dialogues (CC BY-SA 4.0), 14 English accents. 1,050
+     mentions in 210 calls, the name taught from its first mention (by the same party or the other
+     party in the call), plus 409 name-free stretches of 30–60 s (5.9 h) run with the call's list:
+     the measure of names inserted into long conversation.
+   - `svq`: Google Simple Voice Questions (CC BY 4.0). 1,424 mentions; each name taught from one
+     person's reading, tested on four other people in clean and noisy recordings.
+   - `ami`: AMI meetings, far-field microphone (CC BY 4.0). 119 name-free stretches (1.1 h): insertions only.
+   - `modulate`: Modulate's entity benchmark, public meetings (CC BY-SA 4.0). 714 mentions. Its audio
+     is not re-hosted; `bench fetch` cuts it from Modulate's repository at a pinned revision.
 
 Every number comes with a 95% interval from a bootstrap over books (clips) or chapters (mentions in
 one book share a reader, a text and names), and systems are compared **paired, on the same items**

@@ -81,8 +81,13 @@ def effective_cost(meta: dict, rows: dict[str, dict]) -> dict:
     groups: dict[str, list[float]] = {}
     for pid, r in rows.items():
         parts = pid.split("/")
+        suite = ""
+        if parts[0] == "suite":
+            suite, parts = parts[1], parts[2:]
         g = "chapters" if parts[0] == "chapter" else {"none": "clips, no list", "own": "clips, own list", "own-minus": "clips, own list",
                                                      "all": "clips, all-books list", "all-minus": "clips, all-books list"}.get(parts[2], "other")
+        if suite:
+            g = f"{suite}: " + g.replace("clips, ", "")
         n = len(r.get("sent", []))
         secs = r["audio_s"]
         billed = max(secs, price.get("min_billable_s_over_100_terms", 0)) if n > 100 else secs

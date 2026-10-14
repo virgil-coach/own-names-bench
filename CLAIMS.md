@@ -23,7 +23,9 @@ Anyone may quote this benchmark, including us. These rules apply to every claim,
    Nova-3 with keyterm prompting (the 126 most frequent of 151 names that fit its 500-token
    limit)" are different claims.
 6. **Name the task and the list.** Clips with the book's own list, clips with the all-books
-   list, or continuous chapters; invented names, traditional names, or both.
+   list, or continuous chapters; invented names, traditional names, or both; or a suite (`calls`,
+   `svq`, `ami`, `modulate`), and for suites whether the name was taught by the same speaker or
+   another one. Audiobook results do not speak for conversation, and the reverse.
 7. **Say what ours was given.** Our system is taught each name with a recording of it
    (as Detail Keeper users teach names); hosted services take only the spelling. Every claim
    comparing them says so.

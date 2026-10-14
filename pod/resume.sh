@@ -5,6 +5,8 @@
 set -uo pipefail
 rate=$1; shift
 command -v uv >/dev/null || pip install -q uv
+# NeMo's phrase boosting compiles a Triton kernel: some images ship no C compiler
+command -v cc >/dev/null || (apt-get update -qq >/dev/null 2>&1; apt-get install -y -qq build-essential >/dev/null 2>&1)
 export PYTHONWARNINGS=ignore OWN_NAMES_BENCH_DATA=$PWD/.pod/data UV_CACHE_DIR=$PWD/.pod/uvcache HF_HUB_CACHE=/tmp/hf
 unset VIRTUAL_ENV
 status=0

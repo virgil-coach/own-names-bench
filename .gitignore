@@ -10,3 +10,4 @@ results/runs/
 .gpu/
 resume/
 podin/
+results/runs/*/passes.discarded.jsonl

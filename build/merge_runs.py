@@ -23,17 +23,28 @@ def main() -> None:
     for k in ("system", "fingerprint", "dataset_fingerprint"):
         if ma.get(k) != mb.get(k):
             raise SystemExit(f"{k} differs: {ma.get(k)} vs {mb.get(k)}")
+    from own_names_bench.data import default_dir, load, suite_fingerprints
+    from own_names_bench.passes import all_passes
+
+    bench = load(default_dir(), verify=False)
+    expected = {(p.id, p.list_sha) for p in all_passes(bench, tuple(ma.get("variants") or mb.get("variants")), True)}
     ra, rb = rows(a), rows(b)
     have = {(r["id"], r.get("list_sha")) for r in ra if not r.get("error")}
     new = [r for r in rb if not r.get("error") and (r["id"], r.get("list_sha")) not in have]
-    out = ra + new
+    # only rows of the benchmark as it is now: rows of a rebuilt suite are set aside, not merged
+    merged = ra + new
+    out = [r for r in merged if (r["id"], r.get("list_sha")) in expected]
+    aside = [r for r in merged if (r["id"], r.get("list_sha")) not in expected]
+    if aside:
+        with (a / "passes.discarded.jsonl").open("a") as f:
+            f.writelines(json.dumps(r, ensure_ascii=False) + "\n" for r in aside)
     (a / "passes.jsonl.gz").write_bytes(gzip.compress(("\n".join(json.dumps(r, ensure_ascii=False) for r in out) + "\n").encode(), mtime=0))
     (a / "passes.jsonl").unlink(missing_ok=True)
     known = {c["started"] for c in ma["commands"]}
     ma["commands"] += [dict(c, merged_from=b.name) for c in mb["commands"] if c["started"] not in known]
-    ma["suite_fingerprints"] = mb.get("suite_fingerprints", ma.get("suite_fingerprints"))
+    ma["suite_fingerprints"] = suite_fingerprints(bench)
     (a / "run.json").write_text(json.dumps(ma, indent=1) + "\n")
-    print(f"{a.name}: +{len(new)} rows from {b.name} ({len(out)} in all)")
+    print(f"{a.name}: +{len(new)} rows from {b.name} ({len(out)} in all, {len(aside)} not of the current benchmark set aside)")
 
 
 if __name__ == "__main__":

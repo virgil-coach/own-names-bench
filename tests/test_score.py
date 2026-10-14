@@ -178,3 +178,30 @@ def test_incomplete_run_is_flagged(bench):
     rows = {p.id: {"list_sha": p.list_sha, "text": ""} for p in ps[:-1]}
     c = completeness(bench, {"system": "qwen", "variants": ["none"]}, rows, {})
     assert not c["complete"] and c["missing"] == 1
+
+
+def test_suite_insertions_tell_names_of_the_recording_from_others_and_skip_non_names(bench):
+    """In a calls stretch, a name taught in this call counts as an insertion but not as one from another
+    recording (the reference may have missed it being said); a name taught in another call counts as both;
+    an ordinary word the name finder listed (`not_names`) counts as neither, and is never a scored mention."""
+    from own_names_bench.score import score
+
+    calls = bench.suites["calls"]
+    texts = _reference_texts(bench)
+    skip = set(calls.m["not_names"])
+    assert skip and not any(mn["entry"] in skip for mn in score(bench, texts)["suites"]["calls"]["mentions"])
+    nf = next(x for x in calls.m["name_free"] if skip & set(calls.lists[f"own:{calls.clips[x['clip']]['book']}"]["entries"]))
+    clip = calls.clips[nf["clip"]]
+    book = clip["book"]
+    entries = calls.lists[f"own:{book}"]["entries"]
+    own = next(e for e in entries if calls.entries[e]["book"] == book and e not in skip)
+    other = next(e for e in entries if calls.entries[e]["book"] != book and e not in skip)
+    pid = f"suite/calls/clip/{nf['clip']}/own"
+    for written, inserted, foreign in ((calls.entries[own]["written"], True, False), (calls.entries[other]["written"], True, True)):
+        texts[pid] = clip["reference"] + " " + written
+        row = next(r for r in score(bench, texts)["suites"]["calls"]["name_free"] if r["clip"] == nf["clip"])
+        assert (row["own_inserted"], row["own_inserted_foreign"]) == (inserted, foreign), written
+    junk = next(e for e in entries if e in skip)
+    texts[pid] = clip["reference"] + " " + calls.entries[junk]["written"]
+    row = next(r for r in score(bench, texts)["suites"]["calls"]["name_free"] if r["clip"] == nf["clip"])
+    assert not row["own_inserted"] and not row["own_inserted_foreign"]

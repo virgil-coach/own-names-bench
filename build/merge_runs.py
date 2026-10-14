@@ -28,9 +28,10 @@ def main() -> None:
 
     bench = load(default_dir(), verify=False)
     expected = {(p.id, p.list_sha) for p in all_passes(bench, tuple(ma.get("variants") or mb.get("variants")), True)}
-    ra, rb = rows(a), rows(b)
+    # one row per (pass, list): a pod's output sync can hand back a file with rows repeated
+    ra = list({(r["id"], r.get("list_sha")): r for r in rows(a)}.values())
     have = {(r["id"], r.get("list_sha")) for r in ra if not r.get("error")}
-    new = [r for r in rb if not r.get("error") and (r["id"], r.get("list_sha")) not in have]
+    new = list({(r["id"], r.get("list_sha")): r for r in rows(b) if not r.get("error") and (r["id"], r.get("list_sha")) not in have}.values())
     # only rows of the benchmark as it is now: rows of a rebuilt suite are set aside, not merged
     merged = ra + new
     out = [r for r in merged if (r["id"], r.get("list_sha")) in expected]

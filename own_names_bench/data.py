@@ -137,7 +137,7 @@ def load(root: Path, verify: bool = True) -> Bench:
             raise SystemExit(f"{f}: changed; run `bench fetch`")
         s = json.loads(f.read_text(encoding="utf-8"))
         sm = {"entries": s["entries"], "lists": s["lists"], "clips": s["clips"], "mentions": s["mentions"],
-              "name_free": s["name_free"], "chapters": [], "name_words": s["name_words"]}
+              "name_free": s["name_free"], "chapters": [], "name_words": s["name_words"], "not_names": s.get("not_names", [])}
         if verify:
             bad = []
             for c in s["clips"].values():

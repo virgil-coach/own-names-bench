@@ -7,9 +7,11 @@ Three stages, so the one model step runs on a GPU machine:
   plan   choose items and lists from the sources' metadata; write plan.json and align_jobs.json
   align  (pod) word times for the names an enrollment recording is cut from (build/align.py)
   cut    cut the audio, write the suites into the dataset folder and its manifest
+  marks  write the hand-reviewed list of non-names (build_v12_cut.NOT_NAMES) into built suites
 
 usage: build/build_v12.py plan  --src DIR --common-words FILE
        build/build_v12.py cut   --src DIR --align FILE --dataset DIR
+       build/build_v12.py marks --src DIR --dataset DIR
 """
 
 import argparse
@@ -258,7 +260,7 @@ def _write_wav(path: Path, x: np.ndarray) -> str:
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("stage", choices=["plan", "cut"])
+    ap.add_argument("stage", choices=["plan", "cut", "marks"])
     ap.add_argument("--src", required=True)
     ap.add_argument("--common-words")
     ap.add_argument("--align")
@@ -267,6 +269,10 @@ if __name__ == "__main__":
     a = ap.parse_args()
     if a.stage == "plan":
         plan(a)
+    elif a.stage == "marks":
+        from build_v12_cut import mark_not_names  # noqa: E402
+
+        mark_not_names(Path(a.dataset))
     else:
         from build_v12_cut import cut  # noqa: E402
 

@@ -185,6 +185,9 @@ def summarize_suite(c: dict) -> dict:
         if any(f"{v}_inserted" in r for r in c["name_free"]):
             d[f"{v}_free_inserted"] = prop(c["name_free"], f"{v}_inserted", "book")
             d[f"{v}_free_per_min"] = ratio(c["name_free"], f"{v}_inserted_count", "minutes", "book")
+        if any(f"{v}_inserted_foreign" in r for r in c["name_free"]):
+            d[f"{v}_free_foreign"] = prop(c["name_free"], f"{v}_inserted_foreign", "book")
+            d[f"{v}_free_foreign_per_min"] = ratio(c["name_free"], f"{v}_inserted_foreign_count", "minutes", "book")
         d[f"{v}_ordinary_wer"] = ratio(c["wer"], f"{v}_errors", "words", "book")
         d[f"{v}_full_wer"] = ratio(c["wer"], f"{v}_full_errors", "full_words", "book")
     d["free_items"] = len(c["name_free"])
@@ -202,7 +205,9 @@ def paired_suite(ca: dict, cb: dict) -> dict:
             out[k] = paired_diff([ia[i][k] for i in ids], [ib[i][k] for i in ids], [1] * len(ids), [ia[i]["book"] for i in ids])
     fa = {r["id"]: r for r in ca["name_free"]}
     fb = {r["id"]: r for r in cb["name_free"]}
-    for k, den, name in (("own_inserted", None, "own_free_inserted"), ("own_inserted_count", "minutes", "own_free_per_min")):
+    for k, den, name in (("own_inserted", None, "own_free_inserted"), ("own_inserted_count", "minutes", "own_free_per_min"),
+                         ("own_inserted_foreign", None, "own_free_foreign"),
+                         ("own_inserted_foreign_count", "minutes", "own_free_foreign_per_min")):
         ids = [i for i in fa if k in fa[i] and k in fb.get(i, {})]
         if ids:
             out[name] = paired_diff([fa[i][k] for i in ids], [fb[i][k] for i in ids], [fa[i][den] if den else 1 for i in ids],
@@ -375,6 +380,8 @@ def render(results: dict, baseline: str | None) -> str:
         head = ["System", "Names right"] + [f"right: {g}" for g in groups] + ["Untaught overwritten", "Wrong name written",
                                                                               "Name-free: items with a listed name inserted",
                                                                               "Listed names inserted per minute (name-free)",
+                                                                              "Name-free: items with a name from another recording inserted",
+                                                                              "Names from other recordings inserted per minute",
                                                                               "Ordinary-word error", "Full-transcript error", "Names right, no list"]
         L += ["| " + " | ".join(head) + " |", "|" + " --- |" * len(head)]
         for label, r in results.items():
@@ -383,7 +390,8 @@ def render(results: dict, baseline: str | None) -> str:
                 continue
             cells = [label, fmt_p(x.get("right"))] + [fmt_p((x.get("right_by_group") or {}).get(g)) for g in groups]
             cells += [fmt_p(x.get("overwritten")), fmt_p(x.get("wrong_name")), fmt_p(x.get("own_free_inserted")),
-                      fmt_r(x.get("own_free_per_min"), 1, 2), fmt_r(x.get("own_ordinary_wer")), fmt_r(x.get("own_full_wer")),
+                      fmt_r(x.get("own_free_per_min"), 1, 2), fmt_p(x.get("own_free_foreign")),
+                      fmt_r(x.get("own_free_foreign_per_min"), 1, 2), fmt_r(x.get("own_ordinary_wer")), fmt_r(x.get("own_full_wer")),
                       fmt_p(x.get("none_right"))]
             L.append("| " + " | ".join(cells) + " |")
         if baseline and baseline in results and name in results[baseline]["summary"].get("suites", {}):
@@ -392,12 +400,16 @@ def render(results: dict, baseline: str | None) -> str:
             L += ["", f"Paired, {baseline} minus each system (points; per-minute rows in names per minute):", "",
                   "| Measure | " + " | ".join(f"{baseline} − {o}" for o in others) + " |", "| --- |" + " --- |" * len(others)]
             for title, key in (("Names right", "own_right"), ("Untaught overwritten", "own_overwritten"), ("Wrong name written", "own_wrong_name"),
-                               ("Name-free items with an insertion", "own_free_inserted"), ("Ordinary-word error", "own_ordinary_wer"),
+                               ("Name-free items with an insertion", "own_free_inserted"),
+                               ("Name-free items with a name from another recording", "own_free_foreign"),
+                               ("Ordinary-word error", "own_ordinary_wer"),
                                ("Full-transcript error", "own_full_wer")):
                 L.append(f"| {title} | " + " | ".join(_cell(ps[o].get(key)) for o in others) + " |")
-            L.append("| Listed names inserted per minute | " + " | ".join(
-                (lambda d: f"{d['diff']:+.2f} [{d['lo']:+.2f}, {d['hi']:+.2f}]" + (" **holds**" if d["holds"] else "") if d else "n/a")(ps[o].get("own_free_per_min"))
-                for o in others) + " |")
+            for title, key in (("Listed names inserted per minute", "own_free_per_min"),
+                               ("Names from other recordings inserted per minute", "own_free_foreign_per_min")):
+                L.append(f"| {title} | " + " | ".join(
+                    (lambda d: f"{d['diff']:+.2f} [{d['lo']:+.2f}, {d['hi']:+.2f}]" + (" **holds**" if d["holds"] else "") if d else "n/a")(ps[o].get(key))
+                    for o in others) + " |")
     L += ["", "## Speed and cost", "",
           "| System | Machine | Clip latency p50 / p90 (s) | Real-time factor (clips) | Cost per audio hour: nominal | Cost per audio hour: this workload |",
           "| --- | --- | --- | --- | --- | --- |"]

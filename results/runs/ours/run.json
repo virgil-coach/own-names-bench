@@ -1,0 +1,136 @@
+{
+ "benchmark": "own-names-bench",
+ "benchmark_version": "1.2.0",
+ "dataset": "virgil-coach/own-names-bench@v1.2.0",
+ "manifest_sha256": "a31da74c6274add5c611ec7d8014bf58424beb820ae83348d7fdcb9b74a452f5",
+ "code_revision": "26ee0b8",
+ "system": "ours",
+ "kind": "local",
+ "config": {
+  "runtime": "PyTorch reference (own_names_bench/ours_ref)",
+  "device": "cuda",
+  "torch": "2.14.1+cu130",
+  "transformers": "5.19.0",
+  "cuda_device": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+  "base": "Qwen/Qwen3-ASR-1.7B-hf@bcd2b5b7f32b480ab5790554cfa8347f246a14f3",
+  "adapter": "virgil-coach/own-names-qwen3-asr@e02efd5e0db0f357f7ada3caf18e1ca293528098/audio-text-note",
+  "adapter_version": "v0.3.0",
+  "adapter_sha256": "67dbabef14851e89ad1b62d509e595713d4a2b6254fbc26cdb700fca1e097f55",
+  "dtype": "float32",
+  "decoding": "greedy, at most 200 new tokens",
+  "spotter_phon": "facebook/wav2vec2-lv-60-espeak-cv-ft@0c380a877907192512147c466ead03055f200cad",
+  "spotter_wavlm": "microsoft/wavlm-base-plus@98fd61b9c652129c839c0a25a05987d8f59256a4",
+  "g2p": "own_names_bench/ours_ref/g2p.json (espeak-ng 1.52.0, every benchmark name)",
+  "shortlist": 10,
+  "prune": "off",
+  "gate": "none",
+  "windows": "Detail Keeper Segmenter (pause 0.45 s after 2 s, cap 8 s), fed 0.1 s at a time",
+  "list_feature": "spotter shortlist of the whole list -> writer prompt + taught recordings",
+  "fit": "no limit: the spotter ranks every name",
+  "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.35"
+ },
+ "price": {},
+ "machine": {
+  "platform": "Linux-6.8.0-71-generic-x86_64-with-glibc2.35",
+  "machine": "x86_64",
+  "python": "3.12.15",
+  "cpu": "AMD EPYC 7443 24-Core Processor",
+  "memory_gb": 251.5,
+  "os": "Ubuntu 22.04.5 LTS",
+  "gpu": "NVIDIA GeForce RTX 4090, 580.126.09, 24564 MiB"
+ },
+ "hourly_usd": 0.89,
+ "commands": [
+  {
+   "argv": "/gpu-cli-workspaces/jameslal/path-3172b95136962215/.pod/venv-qwen/bin/bench run --system ours --label ours-rtx4090 --hourly-usd 0.89",
+   "started": "2026-10-13T21:18:29+00:00"
+  },
+  {
+   "argv": "/gpu-cli-workspaces/jameslal/path-3172b95136962215/.pod/venv-qwen/bin/bench run --system ours --label ours-rtx4090 --hourly-usd 0.89",
+   "started": "2026-10-14T00:38:49+00:00",
+   "finished": "2026-10-14T03:54:21+00:00"
+  },
+  {
+   "argv": "/gpu-cli-workspaces/jameslal/path-3172b95136962215/.pod/venv-qwen/bin/bench run --system ours --label ours-rtx4090 --hourly-usd 0.89",
+   "passes_to_do": 65,
+   "machine": {
+    "platform": "Linux-6.8.0-71-generic-x86_64-with-glibc2.35",
+    "machine": "x86_64",
+    "python": "3.12.15",
+    "cpu": "AMD EPYC 7443 24-Core Processor",
+    "memory_gb": 251.5,
+    "os": "Ubuntu 22.04.5 LTS",
+    "gpu": "NVIDIA GeForce RTX 4090, 580.126.09, 24564 MiB"
+   },
+   "code_revision": "8d8f168",
+   "started": "2026-10-14T07:03:30+00:00",
+   "finished": "2026-10-14T07:15:09+00:00"
+  },
+  {
+   "argv": "/gpu-cli-workspaces/jameslal/path-3172b95136962215/.pod/venv-qwen/bin/bench run --system ours --label ours-rtx4090 --hourly-usd 0.89",
+   "passes_to_do": 65,
+   "machine": {
+    "platform": "Linux-6.8.0-71-generic-x86_64-with-glibc2.35",
+    "machine": "x86_64",
+    "python": "3.12.15",
+    "cpu": "AMD EPYC 7443 24-Core Processor",
+    "memory_gb": 251.5,
+    "os": "Ubuntu 22.04.5 LTS",
+    "gpu": "NVIDIA GeForce RTX 4090, 580.126.09, 24564 MiB"
+   },
+   "code_revision": "f7d4044",
+   "started": "2026-10-14T07:33:23+00:00",
+   "finished": "2026-10-14T07:42:07+00:00"
+  },
+  {
+   "argv": "/gpu-cli-workspaces/jameslal/path-3172b95136962215/.pod/venv-qwen/bin/bench run --system ours --label ours-rtx4090 --hourly-usd 1.69 --only suite/calls",
+   "passes_to_do": 2837,
+   "machine": {
+    "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.35",
+    "machine": "x86_64",
+    "python": "3.12.15",
+    "cpu": "AMD EPYC 9555 64-Core Processor",
+    "memory_gb": 1511.4,
+    "os": "Ubuntu 22.04.5 LTS",
+    "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition, 595.91.07, 97887 MiB"
+   },
+   "code_revision": "26ee0b8",
+   "started": "2026-10-14T16:40:28+00:00",
+   "finished": "2026-10-14T20:39:19+00:00"
+  },
+  {
+   "argv": "/gpu-cli-workspaces/jameslal/path-3172b95136962215/.pod/venv-qwen/bin/bench run --system ours --label ours-p --hourly-usd 1.79 --only suite/modulate/clip/named_entities-MLCommons_TestPortion-gov,suite/modulate/clip/named_entities-MLCommons_TestPortion-hrs,suite/modulate/clip/named_entities-MLCommons_TestPortion-iRe,suite/modulate/clip/named_entities-MLCommons_TestPortion-kin,suite/modulate/clip/named_entities-MLCommons_TestPortion-tal",
+   "passes_to_do": 963,
+   "machine": {
+    "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.35",
+    "machine": "x86_64",
+    "python": "3.12.15",
+    "cpu": "AMD EPYC 9555 64-Core Processor",
+    "memory_gb": 1511.4,
+    "os": "Ubuntu 22.04.5 LTS",
+    "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition, 595.91.07, 97887 MiB"
+   },
+   "code_revision": "aa5d8b8",
+   "started": "2026-10-14T20:44:48+00:00",
+   "finished": "2026-10-14T21:21:58+00:00",
+   "merged_from": "ours-p"
+  }
+ ],
+ "dataset_fingerprint": "1625ef57df22bdba",
+ "variants": [
+  "none",
+  "own",
+  "all",
+  "xr"
+ ],
+ "migrated": "v1.0.0 run; list fingerprints added from v1.0.0's pass definitions (build/migrate_v1_1.py)",
+ "fingerprint": "c10533f1352e6aae",
+ "suite_fingerprints": {
+  "calls": "b9dee190988d10ff",
+  "svq": "42eced936a70332d",
+  "ami": "b1bebcfca0a17e9c",
+  "modulate": "7f4826d54b38e4dc"
+ },
+ "machines": "passes ran on several machines (each command records its own); machine and hourly_usd above are those of the v1.1.0 run 'ours-rtx4090', which the clip latencies and the cost line come from",
+ "label_history": "published as 'ours-rtx4090' up to v1.1.0"
+}

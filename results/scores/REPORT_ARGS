@@ -1,1 +1,1 @@
-# report-args: --baseline ours-rtx4090 --only ours-rtx4090 ours-mlx-macmini elevenlabs deepgram whisper-rtx4090 parakeet-a100 qwen-rtx4090 qwen-context-rtx4090 --pair ours-rtx4090 ours-mlx-macmini --pair whisper-rtx4090 whisper-a100
+# report-args: --baseline ours --only ours ours-mlx-macmini elevenlabs deepgram whisper parakeet qwen qwen-context --pair ours ours-mlx-macmini --pair whisper whisper-a100

@@ -38,6 +38,38 @@
    "argv": "/gpu-cli-workspaces/jameslal/path-3172b95136962215/.pod/venv-whisper/bin/bench run --system whisper --label whisper-chapterwin-rtx4090 --hourly-usd 0.89 --only chapter/",
    "started": "2026-10-14T04:16:19+00:00",
    "finished": "2026-10-14T04:29:43+00:00"
+  },
+  {
+   "argv": "/gpu-cli-workspaces/jameslal/path-d2b17c513287cc07/.pod/venv-whisper/bin/bench run --system whisper --label whisper-d --hourly-usd 0.86",
+   "passes_to_do": 9645,
+   "machine": {
+    "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.31",
+    "machine": "x86_64",
+    "python": "3.12.15",
+    "cpu": "AMD EPYC 7763 64-Core Processor",
+    "memory_gb": 503.5,
+    "os": "Ubuntu 20.04.6 LTS",
+    "gpu": "NVIDIA GeForce RTX 4090, 615.78.08, 24564 MiB"
+   },
+   "code_revision": "26ee0b8",
+   "started": "2026-10-14T16:34:07+00:00",
+   "merged_from": "whisper-d"
+  },
+  {
+   "argv": "/gpu-cli-workspaces/jameslal/path-86f6c6515c3164a6/.pod/venv-whisper/bin/bench run --system whisper --label whisper-f2 --hourly-usd 1.0 --only suite/calls,suite/modulate",
+   "passes_to_do": 465,
+   "machine": {
+    "platform": "Linux-6.8.0-134-generic-x86_64-with-glibc2.35",
+    "machine": "x86_64",
+    "python": "3.12.15",
+    "cpu": "AMD EPYC 75F3 32-Core Processor",
+    "memory_gb": 503.7,
+    "os": "Ubuntu 22.04.5 LTS",
+    "gpu": "NVIDIA GeForce RTX 4090, 580.159.04, 24564 MiB"
+   },
+   "code_revision": "aa5d8b8",
+   "started": "2026-10-14T19:42:09+00:00",
+   "merged_from": "whisper-f2"
   }
  ],
  "code_revision_chapters": "5aafbea",
@@ -48,5 +80,13 @@
   "own"
  ],
  "migrated": "v1.0.0 run; list fingerprints added from v1.0.0's pass definitions (build/migrate_v1_1.py)",
- "fingerprint": "8bcee6c95bfc8d82"
+ "fingerprint": "8bcee6c95bfc8d82",
+ "suite_fingerprints": {
+  "calls": "b9dee190988d10ff",
+  "svq": "42eced936a70332d",
+  "ami": "b1bebcfca0a17e9c",
+  "modulate": "7f4826d54b38e4dc"
+ },
+ "machines": "passes ran on several machines (each command records its own); machine and hourly_usd above are those of the v1.1.0 run 'whisper-rtx4090', which the clip latencies and the cost line come from",
+ "label_history": "published as 'whisper-rtx4090' up to v1.1.0"
 }

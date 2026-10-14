@@ -18,15 +18,15 @@
  },
  "price": {},
  "machine": {
-  "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.35",
+  "platform": "Linux-6.8.0-124-generic-x86_64-with-glibc2.35",
   "machine": "x86_64",
   "python": "3.12.15",
-  "cpu": "AMD EPYC 7763 64-Core Processor",
-  "memory_gb": 2003.8,
+  "cpu": "AMD Ryzen 9 7950X 16-Core Processor",
+  "memory_gb": 187.8,
   "os": "Ubuntu 22.04.5 LTS",
-  "gpu": "NVIDIA A100-SXM4-80GB, 595.91.07, 81920 MiB"
+  "gpu": "NVIDIA GeForce RTX 4090, 580.159.04, 24564 MiB"
  },
- "hourly_usd": 1.79,
+ "hourly_usd": 0.89,
  "commands": [
   {
    "argv": "/gpu-cli-workspaces/jameslal/path-3172b95136962215/.pod/venv-qwen/bin/bench run --system qwen --label qwen-rtx4090 --hourly-usd 0.89",
@@ -47,6 +47,22 @@
    },
    "code_revision": "6a1f6ff",
    "started": "2026-10-14T15:09:49+00:00"
+  },
+  {
+   "argv": "/gpu-cli-workspaces/jameslal/path-1c6919ab0d0f4cf1/.pod/venv-qwen/bin/bench run --system qwen --label qwen-h2 --hourly-usd 1.0 --only suite/calls",
+   "passes_to_do": 1059,
+   "machine": {
+    "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.35",
+    "machine": "x86_64",
+    "python": "3.12.15",
+    "cpu": "AMD Ryzen 9 7950X 16-Core Processor",
+    "memory_gb": 124.9,
+    "os": "Ubuntu 22.04.5 LTS",
+    "gpu": "NVIDIA GeForce RTX 4090, 580.178.04, 24564 MiB"
+   },
+   "code_revision": "aa5d8b8",
+   "started": "2026-10-14T19:55:10+00:00",
+   "merged_from": "qwen-h2"
   }
  ],
  "dataset_fingerprint": "1625ef57df22bdba",
@@ -56,9 +72,11 @@
  "migrated": "v1.0.0 run; list fingerprints added from v1.0.0's pass definitions (build/migrate_v1_1.py)",
  "fingerprint": "3f297a2cdb88907c",
  "suite_fingerprints": {
-  "calls": "da5822bc26a03288",
+  "calls": "b9dee190988d10ff",
   "svq": "42eced936a70332d",
   "ami": "b1bebcfca0a17e9c",
   "modulate": "7f4826d54b38e4dc"
- }
+ },
+ "machines": "passes ran on several machines (each command records its own); machine and hourly_usd above are those of the v1.1.0 run 'qwen-rtx4090', which the clip latencies and the cost line come from",
+ "label_history": "published as 'qwen-rtx4090' up to v1.1.0"
 }

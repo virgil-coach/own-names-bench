@@ -9,13 +9,13 @@ Anyone may quote this benchmark, including us. These rules apply to every claim,
    way), produced by `bench report` from a `results/runs/<run>/` that anyone can inspect.
 2. **Give the clustered interval.** Quote the 95% interval next to every rate, and for a
    comparison quote the paired difference with its interval (the "Paired differences" table of
-   `REPORT.md`). Intervals are bootstraps over books (clips) or chapters, because mentions in one
-   book share a reader, a text and names; do not substitute an item-level interval or test. A
+   `REPORT.md`). Intervals are bootstraps over books (clips), chapters or suite recordings, because
+   mentions in one book or call share a speaker, a text and names; do not substitute an item-level interval or test. A
    difference is a claim only where `REPORT.md` marks it **holds** (its interval excludes zero);
    otherwise the claim is "no measurable difference", not "better" or "worse".
 3. **Complete runs only.** Quote only runs that `REPORT.md` lists as complete (every expected
    pass made from the current lists, none failed).
-4. **Name the benchmark version and the run date.** For example, "own-names-bench v1.1.0, runs of
+4. **Name the benchmark version and the run date.** For example, "own-names-bench v1.2.0, runs of
    2026-10-13/14". A claim about a different version is a different claim.
 5. **Name the competitor's configuration.** The model or API model id, how the names were
    given to it (its custom-vocabulary feature), how many it accepted (the `fit` line of the
@@ -25,7 +25,8 @@ Anyone may quote this benchmark, including us. These rules apply to every claim,
 6. **Name the task and the list.** Clips with the book's own list, clips with the all-books
    list, or continuous chapters; invented names, traditional names, or both; or a suite (`calls`,
    `svq`, `ami`, `modulate`), and for suites whether the name was taught by the same speaker or
-   another one. Audiobook results do not speak for conversation, and the reverse.
+   another one. Audiobook results do not speak for conversation, and the reverse. For insertions in
+   the `calls` suite, say whether all listed names or only names from other calls are counted.
 7. **Say what ours was given.** Our system is taught each name with a recording of it
    (as Detail Keeper users teach names); hosted services take only the spelling. Every claim
    comparing them says so.
@@ -36,7 +37,7 @@ Anyone may quote this benchmark, including us. These rules apply to every claim,
 
 ## Template
 
-> On own-names-bench v1.1.0 (clips, the book's own name list, *N* name mentions from *B*
+> On own-names-bench v1.2.0 (clips, the book's own name list, *N* name mentions from *B*
 > public-domain audiobooks), *System A* wrote the spoken name right *x*% of the time
 > (95% CI *a*–*b*, bootstrap over books), against *y*% (*c*–*d*) for *System B*
 > (*configuration*, *date*). Paired difference: *+z* points (95% CI *e* to *f*). With the name

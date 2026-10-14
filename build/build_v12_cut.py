@@ -327,7 +327,7 @@ def cut(args) -> None:
         doc = {"suite": name, "source": {"repo": meta["repo"], "revision": meta["revision"]}, "licence": meta["licence"],
                "rehosted": meta["rehosted"], "attribution": meta["attribution"], "entries": s["entries"], "lists": s["lists"],
                "clips": s["clips"], "mentions": s["mentions"], "name_free": s["name_free"], "name_words": name_words,
-               "dropped": dict(s["dropped"])}
+               "not_names": not_names(s["entries"]), "dropped": dict(s["dropped"])}
         (d / "suite.json").write_text(json.dumps(doc, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
         (d / "LICENCE.txt").write_text(f"{meta['attribution']}\n\nThis folder (suite.json and audio/) is licensed under "
                                        f"{LICENCE_TEXT[meta['licence']]}.\n" + ("" if meta["rehosted"] else
@@ -335,6 +335,29 @@ def cut(args) -> None:
         secs = sum(c["seconds"] for c in s["clips"].values())
         print(f"{name}: {len(s['entries'])} entries, {len(s['clips'])} clips ({secs / 3600:.2f} h), {len(s['mentions'])} mentions, "
               f"{len(s['name_free'])} name-free; dropped {dict(s['dropped'])}")
+    update_manifest(root)
+
+
+# Spellings the automatic name finder took from AppTek's references that are ordinary words, not names
+# (hand-reviewed over every calls spelling, 2026-10-14). They stay on the lists the systems were given;
+# scoring leaves them out (no mention of one is scored, and writing one is not a name insertion).
+NOT_NAMES = frozenset({"Avenue", "Bravo", "Celiac", "Celsius", "DJs", "Eco", "Euros", "Expressway", "Fridays", "Hill", "K-pop",
+                       "Lacto-Ovo", "Mam", "Matinee", "Metro", "Pennies", "Raffle", "Sierra Tango Charlie", "Streamer", "Sundays",
+                       "Symphony", "T-shirt", "T-shirts", "Theatre", "Valley", "X-Ray"})
+
+
+def not_names(entries: dict) -> list[str]:
+    return sorted(i for i, e in entries.items() if e["written"] in NOT_NAMES)
+
+
+def mark_not_names(root: Path) -> None:
+    """Writes each suite's `not_names` (entry ids) into its suite.json, leaving everything else as built."""
+    for name in ("calls", "svq", "ami", "modulate"):
+        f = root / "suites" / name / "suite.json"
+        doc = json.loads(f.read_text(encoding="utf-8"))
+        doc["not_names"] = not_names(doc["entries"])
+        f.write_text(json.dumps(doc, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
+        print(f"{name}: {len(doc['not_names'])} entries marked as not names")
     update_manifest(root)
 
 

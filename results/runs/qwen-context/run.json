@@ -1,0 +1,119 @@
+{
+ "benchmark": "own-names-bench",
+ "benchmark_version": "1.1.0",
+ "dataset": "virgil-coach/own-names-bench@v1.1.0",
+ "manifest_sha256": "39f235296af82671254243b71c041e7491db8e863782f2fac40bc8c91e9397bd",
+ "code_revision": "8d8f168",
+ "system": "qwen-context",
+ "kind": "local",
+ "config": {
+  "model": "Qwen/Qwen3-ASR-1.7B-hf@bcd2b5b7f32b480ab5790554cfa8347f246a14f3",
+  "runtime": "transformers 5.19.0, torch 2.14.1+cu130",
+  "device": "cuda",
+  "dtype": "float32",
+  "decoding": "greedy, language English, at most 200 new tokens",
+  "long_form": "chapters cut by the Detail Keeper window cutter",
+  "list_feature": "context (system prompt): names joined by ', '",
+  "fit": "all names"
+ },
+ "price": {},
+ "machine": {
+  "platform": "Linux-6.8.0-71-generic-x86_64-with-glibc2.35",
+  "machine": "x86_64",
+  "python": "3.12.15",
+  "cpu": "AMD EPYC 7443 24-Core Processor",
+  "memory_gb": 251.5,
+  "os": "Ubuntu 22.04.5 LTS",
+  "gpu": "NVIDIA GeForce RTX 4090, 580.126.09, 24564 MiB"
+ },
+ "hourly_usd": 0.89,
+ "commands": [
+  {
+   "argv": "/gpu-cli-workspaces/jameslal/path-3172b95136962215/.pod/venv-qwen/bin/bench run --system qwen-context --label qwen-context-rtx4090 --hourly-usd 0.89",
+   "started": "2026-10-13T21:51:37+00:00",
+   "finished": "2026-10-13T23:51:46+00:00"
+  },
+  {
+   "argv": "/gpu-cli-workspaces/jameslal/path-3172b95136962215/.pod/venv-qwen/bin/bench run --system qwen-context --label qwen-context-rtx4090 --hourly-usd 0.89",
+   "passes_to_do": 65,
+   "machine": {
+    "platform": "Linux-6.8.0-71-generic-x86_64-with-glibc2.35",
+    "machine": "x86_64",
+    "python": "3.12.15",
+    "cpu": "AMD EPYC 7443 24-Core Processor",
+    "memory_gb": 251.5,
+    "os": "Ubuntu 22.04.5 LTS",
+    "gpu": "NVIDIA GeForce RTX 4090, 580.126.09, 24564 MiB"
+   },
+   "code_revision": "8d8f168",
+   "started": "2026-10-14T07:16:57+00:00",
+   "finished": "2026-10-14T07:19:24+00:00"
+  },
+  {
+   "argv": "/gpu-cli-workspaces/jameslal/path-86f6c6515c3164a6/.pod/venv-qwen/bin/bench run --system qwen-context --label qwen-context-f --hourly-usd 0.86 --only suite/svq,suite/ami,suite/modulate",
+   "passes_to_do": 6808,
+   "machine": {
+    "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.31",
+    "machine": "x86_64",
+    "python": "3.12.15",
+    "cpu": "AMD EPYC 7763 64-Core Processor",
+    "memory_gb": 503.5,
+    "os": "Ubuntu 20.04.6 LTS",
+    "gpu": "NVIDIA GeForce RTX 4090, 615.78.08, 24564 MiB"
+   },
+   "code_revision": "26ee0b8",
+   "started": "2026-10-14T16:38:47+00:00",
+   "finished": "2026-10-14T17:40:18+00:00",
+   "merged_from": "qwen-context-f"
+  },
+  {
+   "argv": "/gpu-cli-workspaces/jameslal/path-86f6c6515c3164a6/.pod/venv-qwen/bin/bench run --system qwen-context --label qwen-context-e --hourly-usd 0.86 --only suite/calls",
+   "passes_to_do": 2837,
+   "machine": {
+    "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.31",
+    "machine": "x86_64",
+    "python": "3.12.15",
+    "cpu": "AMD EPYC 7763 64-Core Processor",
+    "memory_gb": 503.5,
+    "os": "Ubuntu 20.04.6 LTS",
+    "gpu": "NVIDIA GeForce RTX 4090, 615.78.08, 24564 MiB"
+   },
+   "code_revision": "aa5d8b8",
+   "started": "2026-10-14T17:41:41+00:00",
+   "merged_from": "qwen-context-f2"
+  },
+  {
+   "argv": "/gpu-cli-workspaces/jameslal/path-86f6c6515c3164a6/.pod/venv-qwen/bin/bench run --system qwen-context --label qwen-context-f2 --hourly-usd 1.0 --only suite/calls,suite/modulate",
+   "passes_to_do": 3057,
+   "machine": {
+    "platform": "Linux-6.8.0-134-generic-x86_64-with-glibc2.35",
+    "machine": "x86_64",
+    "python": "3.12.15",
+    "cpu": "AMD EPYC 75F3 32-Core Processor",
+    "memory_gb": 503.7,
+    "os": "Ubuntu 22.04.5 LTS",
+    "gpu": "NVIDIA GeForce RTX 4090, 580.159.04, 24564 MiB"
+   },
+   "code_revision": "aa5d8b8",
+   "started": "2026-10-14T19:47:30+00:00",
+   "note": "same pod as whisper-f2, right after it; this record was rebuilt from that run (the pod was stopped by id once the calls passes were done, before run.json synced back); start time approximate",
+   "merged_from": "qwen-context-f2"
+  }
+ ],
+ "dataset_fingerprint": "1625ef57df22bdba",
+ "variants": [
+  "none",
+  "own",
+  "all"
+ ],
+ "migrated": "v1.0.0 run; list fingerprints added from v1.0.0's pass definitions (build/migrate_v1_1.py)",
+ "fingerprint": "52a0b8f2057d8de5",
+ "suite_fingerprints": {
+  "calls": "b9dee190988d10ff",
+  "svq": "42eced936a70332d",
+  "ami": "b1bebcfca0a17e9c",
+  "modulate": "7f4826d54b38e4dc"
+ },
+ "machines": "passes ran on several machines (each command records its own); machine and hourly_usd above are those of the v1.1.0 run 'qwen-context-rtx4090', which the clip latencies and the cost line come from",
+ "label_history": "published as 'qwen-context-rtx4090' up to v1.1.0"
+}

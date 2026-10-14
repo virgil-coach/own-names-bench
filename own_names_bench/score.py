@@ -89,8 +89,14 @@ def score_clips(b: Bench, texts: dict[str, str]) -> dict:
             cache[pid] = Matched([t for t, _, _ in refs[clip]], name_tokens(texts[pid]))
         return cache[pid]
 
+    # entries the source's name finder took that are ordinary words: on the lists as given, never scored as names
+    skip = set(b.m.get("not_names", []))
+    unscored = {keys[e] for e in skip}
+
     mentions = []
     for mn in b.m["mentions"]:
+        if mn["entry"] in skip:
+            continue
         clip = mn["clip"]
         spans = refs[clip]
         lo, hi = _span_tokens(spans, *mn["span"])
@@ -103,7 +109,7 @@ def score_clips(b: Bench, texts: dict[str, str]) -> dict:
             m = matched(pid, clip)
             if m is None:
                 return None
-            other_keys = {keys[e] for e in listed} - {target}
+            other_keys = {keys[e] for e in listed} - {target} - unscored
             return {"right": m.right(target, lo), "other": any(m.unclaimed_at(k, lo, hi) for k in other_keys)}
 
         own = b.lists[f"own:{book}"]["entries"]
@@ -137,9 +143,19 @@ def score_clips(b: Bench, texts: dict[str, str]) -> dict:
                             ("all", f"{P}clip/{clip}/all", f"all:{book}")):
             if pid in texts and lst in b.lists:
                 hyp = name_tokens(texts[pid])
-                n = sum(len(find_all(hyp, k)) for k in {keys[e] for e in b.lists[lst]["entries"]})
+                entries = b.lists[lst]["entries"]
+                n = sum(len(find_all(hyp, k)) for k in {keys[e] for e in entries} - unscored)
                 row[f"{v}_inserted"] = n > 0
                 row[f"{v}_inserted_count"] = n
+                # names taught from other recordings: never said in this one, so a write of one is an insertion
+                # whatever the reference missed (a name of this recording may be said in the stretch unwritten)
+                # (a name is this recording's when its taught recording was cut from it; AMI's lists are
+                # taught in call voices and say none of their names)
+                said = {keys[e] for e in entries if b.entries[e]["book"] == book and f"/{book}/" in b.entries[e]["sample"]}
+                foreign = {keys[e] for e in entries} - said - unscored
+                nf_ = sum(len(find_all(hyp, k)) for k in foreign)
+                row[f"{v}_inserted_foreign"] = nf_ > 0
+                row[f"{v}_inserted_foreign_count"] = nf_
         free.append(row)
 
     wer = []

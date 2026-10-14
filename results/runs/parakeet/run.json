@@ -53,6 +53,39 @@
    "code_revision": "8d8f168",
    "started": "2026-10-14T07:22:05+00:00",
    "finished": "2026-10-14T07:27:21+00:00"
+  },
+  {
+   "argv": "/gpu-cli-workspaces/jameslal/path-bdd62f593dfa015e/.pod/venv-parakeet/bin/bench run --system parakeet --label parakeet-d --hourly-usd 0.86",
+   "passes_to_do": 9645,
+   "machine": {
+    "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.31",
+    "machine": "x86_64",
+    "python": "3.12.15",
+    "cpu": "AMD EPYC 7763 64-Core Processor",
+    "memory_gb": 503.5,
+    "os": "Ubuntu 20.04.6 LTS",
+    "gpu": "NVIDIA GeForce RTX 4090, 615.78.08, 24564 MiB"
+   },
+   "code_revision": "26ee0b8",
+   "started": "2026-10-14T16:49:59+00:00",
+   "merged_from": "parakeet-d"
+  },
+  {
+   "argv": "/gpu-cli-workspaces/jameslal/path-bdd62f593dfa015e/.pod/venv-parakeet/bin/bench run --system parakeet --label parakeet-d --hourly-usd 0.86",
+   "passes_to_do": 6335,
+   "machine": {
+    "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.31",
+    "machine": "x86_64",
+    "python": "3.12.15",
+    "cpu": "AMD EPYC 7763 64-Core Processor",
+    "memory_gb": 503.5,
+    "os": "Ubuntu 20.04.6 LTS",
+    "gpu": "NVIDIA GeForce RTX 4090, 615.78.08, 24564 MiB"
+   },
+   "code_revision": "aa5d8b8",
+   "started": "2026-10-14T17:12:55+00:00",
+   "finished": "2026-10-14T17:28:20+00:00",
+   "merged_from": "parakeet-d"
   }
  ],
  "dataset_fingerprint": "1625ef57df22bdba",
@@ -62,5 +95,13 @@
   "all"
  ],
  "migrated": "v1.0.0 run; list fingerprints added from v1.0.0's pass definitions (build/migrate_v1_1.py)",
- "fingerprint": "253859581b5855e0"
+ "fingerprint": "253859581b5855e0",
+ "suite_fingerprints": {
+  "calls": "b9dee190988d10ff",
+  "svq": "42eced936a70332d",
+  "ami": "b1bebcfca0a17e9c",
+  "modulate": "7f4826d54b38e4dc"
+ },
+ "machines": "passes ran on several machines (each command records its own); machine and hourly_usd above are those of the v1.1.0 run 'parakeet-a100', which the clip latencies and the cost line come from",
+ "label_history": "published as 'parakeet-a100' up to v1.1.0"
 }

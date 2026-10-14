@@ -22,9 +22,8 @@ for sys in "$@"; do
   prev=$extra
   export UV_PROJECT_ENVIRONMENT=$PWD/.pod/venv-$extra
   uv sync -q --frozen --extra $extra || { echo "SYNC FAILED $extra"; status=1; continue; }
-  if [ ! -f $OWN_NAMES_BENCH_DATA/manifest.json ]; then
-    uv run --frozen --extra $extra bench --data $OWN_NAMES_BENCH_DATA fetch --token --revision "${BENCH_DATA_REVISION:-main}" || exit 1
-  fi
+  # always: fetching is idempotent and also cuts audio of sources that are not re-hosted
+  uv run --frozen --extra $extra bench --data $OWN_NAMES_BENCH_DATA fetch --token --revision "${BENCH_DATA_REVISION:-main}" || exit 1
   uv run --frozen --extra $extra bench run --system $sys --label $sys${BENCH_LABEL_SUFFIX:-}-$tag --hourly-usd $rate ${BENCH_LIMIT:+--limit $BENCH_LIMIT} ${BENCH_ONLY:+--only $BENCH_ONLY} \
     && echo "SYSTEM DONE $sys" || { echo "SYSTEM FAILED $sys"; status=1; }
   df -h . | tail -1 | sed 's/^/disk: /'

@@ -13,10 +13,8 @@ for spec in "$@"; do
   case $sys in ours|qwen|qwen-context) extra=qwen ;; whisper) extra=whisper ;; parakeet) extra=parakeet ;; *) echo "unknown $sys"; exit 2 ;; esac
   export UV_PROJECT_ENVIRONMENT=$PWD/.pod/venv-$extra
   uv sync -q --frozen --extra $extra || { echo "SYNC FAILED $extra"; status=1; continue; }
-  if [ ! -f $OWN_NAMES_BENCH_DATA/manifest.json ] || ! grep -q "\"version\": \"1.2.0\"" $OWN_NAMES_BENCH_DATA/manifest.json; then
-    rm -rf $OWN_NAMES_BENCH_DATA
-    uv run --frozen --extra $extra bench --data $OWN_NAMES_BENCH_DATA fetch --token --revision "${BENCH_DATA_REVISION:-main}" || exit 1
-  fi
+  # always: fetching is idempotent and also cuts audio of sources that are not re-hosted
+  uv run --frozen --extra $extra bench --data $OWN_NAMES_BENCH_DATA fetch --token --revision "${BENCH_DATA_REVISION:-main}" || exit 1
   mkdir -p results/runs && rm -rf results/runs/$label && cp -r resume/$from results/runs/$label
   uv run --frozen --extra $extra bench run --system $sys --label $label --hourly-usd $rate ${BENCH_ACCEPT:+--accept-config-change "$BENCH_ACCEPT"} ${BENCH_ONLY:+--only $BENCH_ONLY} \
     && echo "SYSTEM DONE $label" || { echo "SYSTEM FAILED $label"; status=1; }

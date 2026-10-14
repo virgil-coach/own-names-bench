@@ -86,7 +86,7 @@ uv run bench compare results/runs/ours results/runs/ours-mlx    # the same pipel
 
 `bench estimate --system elevenlabs` prints the audio hours and list-price cost of a full run
 before you spend anything. Runs resume: passes already written are not sent again.
-`pod/run.sh` is how we ran the local models on a rented GPU; `pod/mac_mlx.sh` runs `ours-mlx`.
+`pod/run.sh` is how we ran the local models on a rented GPU; `pod/mini_mlx.sh` how we ran `ours-mlx` on a Mac.
 
 Each run writes `results/runs/<label>/run.json` (system configuration with model revisions and
 API model names, benchmark and dataset version, manifest SHA-256, code revision, machine, OS,

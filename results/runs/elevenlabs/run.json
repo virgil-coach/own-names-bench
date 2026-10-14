@@ -1,9 +1,9 @@
 {
  "benchmark": "own-names-bench",
- "benchmark_version": "1.0.0",
- "dataset": "virgil-coach/own-names-bench@v1.0.0",
- "manifest_sha256": "7b0adf32c2c70ad20145c9fa087dba63d319fad992eeac3260621e696a77e652",
- "code_revision": "HEAD",
+ "benchmark_version": "1.1.0",
+ "dataset": "virgil-coach/own-names-bench@v1.1.0",
+ "manifest_sha256": "39f235296af82671254243b71c041e7491db8e863782f2fac40bc8c91e9397bd",
+ "code_revision": "9247c769925118a1cca7fb84ea7ae5b68d359e63-dirty",
  "system": "elevenlabs",
  "kind": "cloud",
  "config": {
@@ -39,6 +39,11 @@
    "argv": "/Users/jameslal/workspace/jl/own-names-bench/.venv/bin/bench run --system elevenlabs",
    "started": "2026-10-13T20:02:34+00:00",
    "finished": "2026-10-13T20:36:34+00:00"
+  },
+  {
+   "argv": "/Users/jameslal/workspace/jl/own-names-bench/.venv/bin/bench run --system elevenlabs",
+   "started": "2026-10-14T06:23:48+00:00",
+   "finished": "2026-10-14T06:24:14+00:00"
   }
  ],
  "dataset_fingerprint": "1625ef57df22bdba",
@@ -47,6 +52,6 @@
   "own",
   "all"
  ],
- "fingerprint": "9a9e0242ad18d438",
- "migrated": "v1.0.0 run; list fingerprints added from v1.0.0's pass definitions (build/migrate_v1_1.py)"
+ "migrated": "v1.0.0 run; list fingerprints added from v1.0.0's pass definitions (build/migrate_v1_1.py)",
+ "fingerprint": "9a9e0242ad18d438"
 }

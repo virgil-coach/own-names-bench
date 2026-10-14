@@ -41,6 +41,6 @@
   "none",
   "own"
  ],
- "fingerprint": "e450d93fc824181d",
- "migrated": "v1.0.0 run; list fingerprints added from v1.0.0's pass definitions (build/migrate_v1_1.py)"
+ "migrated": "v1.0.0 run; list fingerprints added from v1.0.0's pass definitions (build/migrate_v1_1.py)",
+ "fingerprint": "e450d93fc824181d"
 }

@@ -38,6 +38,6 @@
  "variants": [
   "none"
  ],
- "fingerprint": "3f297a2cdb88907c",
- "migrated": "v1.0.0 run; list fingerprints added from v1.0.0's pass definitions (build/migrate_v1_1.py)"
+ "migrated": "v1.0.0 run; list fingerprints added from v1.0.0's pass definitions (build/migrate_v1_1.py)",
+ "fingerprint": "3f297a2cdb88907c"
 }

@@ -64,7 +64,7 @@ def code_revision() -> str:
     return (rev + ("-dirty" if dirty else "")) if rev else "unknown"
 
 
-VOLATILE_CONFIG = {"engine"}  # filled in once a system has loaded; not part of what fixes its behaviour
+VOLATILE_CONFIG = {"engine", "platform", "cuda_device"}  # the machine (recorded apart) and what a system reports once loaded
 
 
 def config_fingerprint(system_name: str, config: dict, dataset_fp: str) -> str:
@@ -117,7 +117,8 @@ def run(b: Bench, system: System, out: Path, *, chapters: bool, limit: int, only
         "system": system.name, "variants": list(system.variants), "kind": system.kind, "config": config, "fingerprint": fp,
         "price": system.price(), "machine": machine(), "hourly_usd": hourly_usd,
     })
-    meta.setdefault("commands", []).append({"argv": " ".join(shlex.quote(a) for a in sys.argv),
+    meta.setdefault("commands", []).append({"argv": " ".join(shlex.quote(a) for a in sys.argv), "passes_to_do": len(todo),
+                                           "machine": meta["machine"], "code_revision": meta["code_revision"],
                                            "started": datetime.now(UTC).isoformat(timespec="seconds")})
     meta_path.write_text(json.dumps(meta, indent=1) + "\n")
     print(f"{system.name}: {len(passes)} passes, {len(done)} already done, {len(todo)} to go", flush=True)

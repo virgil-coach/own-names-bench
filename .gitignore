@@ -8,3 +8,4 @@ results/runs/probe*
 keys.env
 results/runs/
 .gpu/
+resume/

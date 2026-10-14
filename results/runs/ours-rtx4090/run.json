@@ -58,6 +58,6 @@
   "all",
   "xr"
  ],
- "fingerprint": "f39f520eb9c92658",
- "migrated": "v1.0.0 run; list fingerprints added from v1.0.0's pass definitions (build/migrate_v1_1.py)"
+ "migrated": "v1.0.0 run; list fingerprints added from v1.0.0's pass definitions (build/migrate_v1_1.py)",
+ "fingerprint": "c10533f1352e6aae"
 }

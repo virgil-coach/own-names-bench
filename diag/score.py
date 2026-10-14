@@ -21,7 +21,7 @@ from own_names_bench.score import score_clips
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = Path("/Users/jameslal/workspace/jl/own-names-bench-src/dataset")
-PUBLISHED = ["ours", "qwen-context", "elevenlabs"]
+PUBLISHED = ["elevenlabs", "qwen-context", "ours"]
 SUITES = ["calls", "svq", "modulate", "ami"]
 
 
@@ -62,8 +62,12 @@ def configs() -> dict[str, dict[str, dict]]:
     for d in sorted((ROOT / "results/diag").glob("*")):
         if d.is_dir() and not d.name.startswith("smk"):
             groups[d.name.split("--")[0]].append(d)
-    for cfg, paths in groups.items():
+    trace = read_rows(groups.get("ours-trace", []))
+    for cfg, paths in sorted(groups.items(), key=lambda kv: kv[0] != "ours-trace"):
         rows = read_rows(paths)
+        if cfg == "ours-wholeclip":
+            # recordings over 30 s: qwen-context's cutter is the Segmenter, so these passes are ours-trace's
+            rows = {**{k: r for k, r in trace.items() if r["audio_s"] > 30}, **rows}
         out[cfg] = rows
         if any(w.get("written") is not None for r in list(rows.values())[:200] for w in r.get("extra", {}).get("windows", [])):
             out[cfg + "+empty"] = {k: dict(r, text=empty_fallback(r)) for k, r in rows.items()}
@@ -96,8 +100,8 @@ def main() -> None:
         bench = b if suite == "books" else b.suites[suite]
         P = "" if suite == "books" else f"suite/{suite}/"
         lines += [f"\n## {suite}\n",
-                  "| Configuration | Names right | Untaught overwritten | Name-free items, a listed name inserted | … a name from another recording | Ordinary-word error | Mentions scored (own / untaught) | Names right − ElevenLabs | Ordinary-word error − ElevenLabs |",
-                  "| --- | --- | --- | --- | --- | --- | --- | --- | --- |"]
+                  "| Configuration | Names right | Untaught overwritten | Name-free items, a listed name inserted | … a name from another recording | Ordinary-word error | Mentions scored (own / untaught) | Names right − ElevenLabs | Untaught overwritten − ElevenLabs | Ordinary-word error − ElevenLabs | Names right − ours-trace | Overwritten − ours-trace | Inserted − ours-trace | Ordinary-word error − ours-trace |",
+                  "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |"]
         for cfg, rows in cfgs.items():
             texts = {k[len(P):] if False else k: r["text"] for k, r in rows.items() if k.startswith(P) and (suite != "books" or k.startswith("clip/"))}
             if not texts:
@@ -115,8 +119,11 @@ def main() -> None:
             n_unt = sum("own_overwritten" in r for r in m)
             ref = items[suite].get(args.ref)
             pr = paired_suite(s, ref) if ref is not None and cfg != args.ref else {}
+            base = items[suite].get("ours-trace") or items[suite].get("ours")
+            pt = paired_suite(s, base) if base is not None and base is not s else {}
             lines.append(f"| {cfg} | {cell(right)} | {cell(over)} | {cell(ins)} | {cell(fins)} | {cell(wer)} | {n_own} / {n_unt} | "
-                         f"{pcell(pr.get('own_right'))} | {pcell(pr.get('own_ordinary_wer'))} |")
+                         f"{pcell(pr.get('own_right'))} | {pcell(pr.get('own_overwritten'))} | {pcell(pr.get('own_ordinary_wer'))} | "
+                         f"{pcell(pt.get('own_right'))} | {pcell(pt.get('own_overwritten'))} | {pcell(pt.get('own_free_inserted'))} | {pcell(pt.get('own_ordinary_wer'))} |")
     md = "\n".join(lines) + "\n"
     print(md)
     if args.md:

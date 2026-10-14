@@ -16,7 +16,6 @@ import argparse
 import collections
 import glob
 import hashlib
-import io
 import json
 import random
 import re

@@ -142,11 +142,16 @@ def paired(sa: dict, sb: dict) -> dict:
     return out
 
 
-def build(b: Bench, runs: list[Path], out_dir: Path, baseline: str | None) -> Path:
+def build(b: Bench, runs: list[Path], out_dir: Path, baseline: str | None, pairs: list[tuple[Path, Path]] | None = None) -> Path:
     out_dir.mkdir(parents=True, exist_ok=True)
     results = {}
     for rd in runs:
         meta, rows = load_texts(rd)
+        lav = rd / "loadavg.log"
+        if lav.exists():  # a shared machine: its load during the run, logged once a minute
+            ones = [float(line.split("{")[1].split()[0]) for line in lav.read_text().splitlines() if "{" in line]
+            if ones:
+                meta["load_average_1min"] = {"min": min(ones), "median": float(np.median(ones)), "max": max(ones), "samples": len(ones)}
         texts = {pid: r["text"] for pid, r in rows.items()}
         s = score(b, texts)
         summary = summarize(b, s, rows, meta)
@@ -156,6 +161,8 @@ def build(b: Bench, runs: list[Path], out_dir: Path, baseline: str | None) -> Pa
         (out_dir / f"{label}.json").write_text(json.dumps(record, indent=1, ensure_ascii=False) + "\n")
         results[label] = {"meta": meta, "summary": summary, "items": s}
     md = render(results, baseline)
+    if pairs:
+        md += reproducibility(b, pairs, out_dir)
     path = out_dir / "REPORT.md"
     path.write_text(md)
     return path
@@ -202,6 +209,9 @@ def render(results: dict, baseline: str | None) -> str:
     for label, r in results.items():
         sp, cost, m = r["summary"]["speed"], r["summary"]["cost"], r["meta"]["machine"]
         mach = m.get("gpu") or m.get("cpu", "")
+        if r["meta"].get("load_average_1min"):
+            la = r["meta"]["load_average_1min"]
+            mach += f" (shared; 1-min load {la['min']:.0f}–{la['max']:.0f}, median {la['median']:.0f}: not for latency claims)"
         cl, chp = sp.get("clip", {}), sp.get("chapter", {})
         if cost.get("basis") == "list price":
             c = f"${cost['usd_per_audio_hour_with_list']:.3f} with list, ${cost['usd_per_audio_hour_no_list']:.3f} without (list price, {cost['checked']})"
@@ -241,4 +251,40 @@ def render(results: dict, baseline: str | None) -> str:
         L.append(f"- **{label}**: `{m['system']}` {json.dumps(m['config'], ensure_ascii=False)}; machine {json.dumps(m['machine'])}; "
                  f"code {m['code_revision']}; dataset {m['dataset']} (manifest sha256 {m['manifest_sha256'][:12]}); "
                  f"commands {[c['argv'] for c in m['commands']]}; started {m['commands'][0]['started']}")
+    return "\n".join(L) + "\n"
+
+
+def reproducibility(b: Bench, pairs: list[tuple[Path, Path]], out_dir: Path) -> str:
+    """The same system run on two machines (or two runtimes), pass by pass and item by item."""
+    from .compare import compare
+
+    L = ["", "## Reproducibility: the same system on two machines", "",
+         "Identical text: passes whose transcript is the same string. Word difference: word error of one run's text against "
+         "the other's. Paired difference: first minus second, same items, 95% bootstrap interval over books.", "",
+         "| Runs | Machines | Passes | Identical text | Word difference | Same shortlist (windows) | Items with the same outcome: right (own list) / overwritten | "
+         "Names right (own list), difference | Untaught overwritten, difference | Chapter names right, difference |",
+         "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |"]
+    records = []
+    for a, c in pairs:
+        r = compare(b, a, c)
+        records.append(r)
+        ma, mb = r["a"]["machine"], r["b"]["machine"]
+        mach = f"{ma.get('gpu') or ma.get('cpu')} vs {mb.get('gpu') or mb.get('cpu')}"
+        sl = r["windows_same_shortlist"]
+        slt = f"{sl['same']}/{sl['of']} ({100 * sl['same'] / sl['of']:.1f}%)" if sl["of"] else "n/a"
+        it = r["items"]
+        agree = " / ".join(f"{it[k]['agree']}/{it[k]['items']}" for k in ("own_right", "own_overwritten") if k in it)
+        p = r["paired_a_minus_b"]
+
+        def cell(d: dict | None) -> str:
+            if not d:
+                return "n/a"
+            out = f"{100 * d['diff']:+.2f} [{100 * d['lo']:+.2f}, {100 * d['hi']:+.2f}]"
+            return out + (f" ({d['only_a']} vs {d['only_b']})" if "only_a" in d else "")
+
+        L.append(f"| {r['a']['label']} vs {r['b']['label']} | {mach} | {r['passes_compared']} | "
+                 f"{r['identical_text']} ({100 * r['identical_text'] / max(1, r['passes_compared']):.1f}%) | "
+                 f"{100 * r['word_difference_between_runs']:.2f}% | {slt} | {agree} | {cell(p.get('own_right'))} | "
+                 f"{cell(p.get('own_overwritten'))} | {cell(p.get('chapter_taught_right'))} |")
+    (out_dir / "reproducibility.json").write_text(json.dumps(records, indent=1) + "\n")
     return "\n".join(L) + "\n"

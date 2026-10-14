@@ -27,6 +27,8 @@ def main() -> None:
     s.add_argument("--out", type=Path, default=Path("results/scores"))
     s.add_argument("--baseline", default="ours")
     s.add_argument("--only", nargs="*", default=None, help="run labels to include")
+    s.add_argument("--pair", nargs=2, action="append", default=[], metavar=("RUN_A", "RUN_B"),
+                   help="also compare two runs of the same system (repeatable)")
     e = sub.add_parser("estimate", help="audio hours and list-price cost of a full run")
     e.add_argument("--system", required=True)
     c = sub.add_parser("compare", help="how two runs of the same system differ, pass by pass")
@@ -52,7 +54,8 @@ def main() -> None:
         from .report import build
 
         runs = sorted(p for p in args.runs.iterdir() if (p / "passes.jsonl").exists() and (args.only is None or p.name in args.only))
-        print(build(b, runs, args.out, args.baseline))
+        pairs = [(args.runs / a, args.runs / c) for a, c in args.pair]
+        print(build(b, runs, args.out, args.baseline, pairs))
     elif args.cmd == "estimate":
         estimate(b, args.system)
     elif args.cmd == "compare":

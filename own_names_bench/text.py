@@ -7,7 +7,11 @@ name tokens       used to find names. NFC, curly apostrophes made straight, lowe
 ordinary tokens   used for word error outside names: OpenAI Whisper's EnglishTextNormalizer
                   (vendored at commit 86098128, MIT), the normalizer of the Open ASR Leaderboard.
                   It lower-cases, drops punctuation and diacritics, writes numbers as digits and
-                  standardizes British spellings.
+                  standardizes British spellings. Two changes for book text, applied first: round
+                  and square brackets are punctuation here, not annotations, so their words are
+                  kept (the Whisper normalizer would drop them); and verse elisions are written
+                  out (lopp'd -> lopped, pow'rs -> powers, o'er -> over, th' -> the), which every
+                  recognizer writes in full.
 """
 
 import re
@@ -48,8 +52,30 @@ def name_key(spelling: str) -> tuple[str, ...]:
     return tuple(name_tokens(spelling))
 
 
+_BRACKETS = str.maketrans({"(": " ", ")": " ", "[": " ", "]": " ", "{": " ", "}": " "})
+_ELIDED = {"pow'r": "power", "pow'rs": "powers", "heav'n": "heaven", "heav'ns": "heavens", "e'er": "ever", "o'er": "over",
+           "ne'er": "never", "ev'n": "even", "ev'ry": "every", "flow'r": "flower", "flow'rs": "flowers", "tow'r": "tower",
+           "tow'rs": "towers", "show'r": "shower", "show'rs": "showers", "giv'n": "given", "driv'n": "driven", "thro'": "through",
+           "th'": "the", "t'": "to", "ta'en": "taken", "e'en": "even"}
+_PRONOUN_D = {"i", "you", "he", "she", "we", "they", "it", "who", "that", "there", "what", "where", "how"}
+
+
+def _unelide(m: re.Match[str]) -> str:
+    w = m.group(0)
+    low = w.lower()
+    if low in _ELIDED:
+        return _ELIDED[low]
+    if low.endswith("'d") and low[:-2] not in _PRONOUN_D:
+        return w[:-2] + "ed"
+    return w
+
+
+_ELISION = re.compile(r"(?<![^\W_])(?:[^\W\d_]+'[^\W\d_]*|th'|t')(?![^\W_])", re.IGNORECASE)
+
+
 def ordinary_tokens(text: str) -> list[str]:
-    return _EN(nfc(text)).split()
+    t = nfc(text).translate(_BRACKETS)
+    return _EN(_ELISION.sub(_unelide, t)).split()
 
 
 @lru_cache(maxsize=65536)

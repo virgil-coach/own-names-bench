@@ -26,6 +26,7 @@ def test_name_tokens():
     assert name_tokens("Mana-Yood-Sushai's tower") == ["mana", "yood", "sushai", "tower"]
     assert name_tokens("Carcë") != name_tokens("Carce")
     assert ordinary_tokens("Colour, twenty-one!") == ["color", "21"]
+    assert ordinary_tokens("(A privilege) lopp'd o'er th' sea; he'd") == ["a", "privilege", "lopped", "over", "the", "sea", "he", "would"]
 
 
 @pytest.fixture(scope="module")

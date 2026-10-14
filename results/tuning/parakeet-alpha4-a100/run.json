@@ -1,0 +1,47 @@
+{
+ "benchmark": "own-names-bench",
+ "benchmark_version": "1.0.0",
+ "dataset": "virgil-coach/own-names-bench@v1.0.0",
+ "manifest_sha256": "7b0adf32c2c70ad20145c9fa087dba63d319fad992eeac3260621e696a77e652",
+ "code_revision": "58f17a7",
+ "system": "parakeet",
+ "kind": "local",
+ "config": {
+  "model": "nvidia/parakeet-tdt-0.6b-v2@ae9ad07059c7c739ffaf932226a8fe64ae2620b0",
+  "runtime": "NeMo 3.0.0, torch 2.14.1+cu130",
+  "device": "cuda",
+  "decoding": "greedy_batch (TDT label looping)",
+  "long_form": "over 20 min: rel_pos_local_attn [256, 256]",
+  "list_feature": "GPU phrase boosting: decoding.greedy.boosting_tree.key_phrases_list",
+  "boosting": {
+   "boosting_tree_alpha": 4.0,
+   "context_score": 1.0,
+   "depth_scaling": 2.0,
+   "alpha_chosen_on": "the chapters task (grid 0.25, 0.5, 1, 2, 4)"
+  },
+  "fit": "all names"
+ },
+ "price": {},
+ "machine": {
+  "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.35",
+  "machine": "x86_64",
+  "python": "3.12.15",
+  "cpu": "AMD EPYC 7763 64-Core Processor",
+  "memory_gb": 2003.8,
+  "os": "Ubuntu 22.04.5 LTS",
+  "gpu": "NVIDIA A100-SXM4-80GB, 595.91.07, 81920 MiB"
+ },
+ "hourly_usd": 1.79,
+ "commands": [
+  {
+   "argv": "/gpu-cli-workspaces/jameslal/path-3b0609d92f9af37f/.pod/venv-parakeet/bin/bench run --system parakeet --label parakeet-alpha4-a100 --only chapter/ --hourly-usd 1.79",
+   "started": "2026-10-13T21:59:04+00:00",
+   "finished": "2026-10-13T22:00:57+00:00"
+  },
+  {
+   "argv": "/gpu-cli-workspaces/jameslal/path-3b0609d92f9af37f/.pod/venv-parakeet/bin/bench run --system parakeet --label parakeet-alpha4-a100 --only chapter/ --hourly-usd 1.79",
+   "started": "2026-10-13T22:10:04+00:00",
+   "finished": "2026-10-13T22:11:38+00:00"
+  }
+ ]
+}

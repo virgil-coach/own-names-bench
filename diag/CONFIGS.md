@@ -43,3 +43,9 @@ Each fix is kept only if dev says so; the benchmark is then run once with what w
 - Short windows: 4.0 s. ls_turns + ls_turns_far word error with level + guard: off 4.6 / 16.0, 2.5 s 4.5 / 15.3,
   4.0 s 4.5 / 14.5; books names right 94.0 vs 93.7 (off), overwrites 9.0 vs 8.7: within the 1.0-point limits.
 - Benchmark configuration: ours-fixed = guard + level + MIN_SPEECH_S 4.0, HOLD_S 1.0. Run once.
+
+### The combined run (once): ours-fixed on v1.2.0 calls, svq, modulate, AMI (none + own + untaught) and the audiobook clips
+
+16 shards (diag/shards.py fx 16), four RTX PRO 6000 pods, results/diag/ours-fixed--0..15; scored once with
+`python diag/score.py --only elevenlabs qwen-context ours ours-trace ours-trace+empty ours-fixed --md results/fixes/TABLES.md`.
+Not re-run, nothing tuned after it.

@@ -6,12 +6,18 @@ set -uo pipefail
 part=$1
 W=/root/w; cd $W; mkdir -p results/dev
 command -v uv >/dev/null || pip install -q uv
-export PYTHONWARNINGS=ignore UV_CACHE_DIR=/root/pod/uvcache UV_PROJECT_ENVIRONMENT=/root/pod/venv-qwen HF_HUB_OFFLINE=1
-export HF_HUB_CACHE=/gpu-cli-workspaces/jameslal/fixes-v12-pipeline-jl/.pod/hf DEV=/gpu-cli-workspaces/jameslal/fixes-v12-dev
+export PYTHONWARNINGS=ignore UV_CACHE_DIR=/root/pod/uvcache UV_PROJECT_ENVIRONMENT=/root/pod/venv-qwen
+export HF_HUB_CACHE=/root/hf DEV=/gpu-cli-workspaces/jameslal/fixes-v12-dev
 unset VIRTUAL_ENV
 df -h /root | tail -1
 command -v espeak-ng >/dev/null || (apt-get update -qq >/dev/null 2>&1; apt-get install -y -qq espeak-ng >/dev/null 2>&1)
 uv sync -q --frozen --extra qwen > results/dev/sync.log 2>&1 || { echo "SYNC FAILED"; tail results/dev/sync.log; exit 1; }
+uv run --frozen --extra qwen python -c "
+from own_names_bench.ours_ref.writer import Writer
+from own_names_bench.ours_ref.spotter import Spotter
+from own_names_bench.systems.ours_torch import ADAPTER
+Writer('cpu', ADAPTER).load(); Spotter('cpu').load()" > results/dev/models.log 2>&1 || { echo "MODEL LOAD FAILED"; tail results/dev/models.log; exit 1; }
+df -h /root | tail -1
 export OMP_NUM_THREADS=3 MKL_NUM_THREADS=3 NUMBA_NUM_THREADS=3
 pids=()
 for spec in base=- level=--level s25=--min-speech,2.5 s40=--min-speech,4.0 level_s25=--level,--min-speech,2.5 level_s40=--level,--min-speech,4.0; do

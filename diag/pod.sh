@@ -11,7 +11,8 @@ command -v espeak-ng >/dev/null || (apt-get update -qq >/dev/null 2>&1; apt-get 
 uv sync -q --frozen --extra qwen || { echo "SYNC FAILED"; exit 1; }
 uv run --frozen --extra qwen python -c "import torch, sys; sys.exit(0 if torch.cuda.is_available() else 3)" \
   || { echo "NO CUDA ($(nvidia-smi --query-gpu=name,driver_version --format=csv,noheader 2>&1 | head -1))"; exit 3; }
-uv run --frozen --extra qwen bench --data $OWN_NAMES_BENCH_DATA fetch --token --revision v1.2.0 >/dev/null || { echo "FETCH FAILED"; exit 1; }
+[ -f $OWN_NAMES_BENCH_DATA/.fetched ] || uv run --frozen --extra qwen bench --data $OWN_NAMES_BENCH_DATA fetch --token --revision v1.2.0 >/dev/null || { echo "FETCH FAILED"; exit 1; }
+touch $OWN_NAMES_BENCH_DATA/.fetched
 # load the models once so concurrent processes do not race on the download
 uv run --frozen --extra qwen python -c "
 from own_names_bench.ours_ref.writer import Writer

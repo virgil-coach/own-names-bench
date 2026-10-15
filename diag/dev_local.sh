@@ -4,7 +4,7 @@
 # usage (on the pod): bash /root/w/diag/dev_local.sh K/N
 set -uo pipefail
 part=$1
-W=/root/w; cd $W; mkdir -p results/dev
+W=$(cd "$(dirname "$0")/.." && pwd); cd $W; mkdir -p results/dev
 command -v uv >/dev/null || pip install -q uv
 export PYTHONWARNINGS=ignore UV_CACHE_DIR=/root/pod/uvcache UV_PROJECT_ENVIRONMENT=/root/pod/venv-qwen
 export HF_HUB_CACHE=/root/hf DEV=/gpu-cli-workspaces/jameslal/fixes-v12-dev

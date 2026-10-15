@@ -76,6 +76,10 @@ def config_fingerprint(system_name: str, config: dict, dataset_fp: str) -> str:
 def run(b: Bench, system: System, out: Path, *, chapters: bool, limit: int, only: str, hourly_usd: float | None,
         accept_config_change: str = "") -> Path:
     out.mkdir(parents=True, exist_ok=True)
+    if only.startswith("@"):  # diag: prefixes from a file, one per line
+        only = ",".join(Path(only[1:]).read_text().split())
+        if not only:
+            raise SystemExit("empty --only file")
     prefixes = tuple(x for x in only.split(",") if x)
     passes = [p for p in all_passes(b, system.variants, chapters) if not prefixes or p.id.startswith(prefixes)]
     if limit:

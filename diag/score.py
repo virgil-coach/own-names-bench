@@ -60,7 +60,7 @@ def configs() -> dict[str, dict[str, dict]]:
         out[lab] = read_rows([ROOT / "results/runs" / lab])
     groups: dict[str, list[Path]] = defaultdict(list)
     for d in sorted((ROOT / "results/diag").glob("*")):
-        if d.is_dir() and not d.name.startswith("smk"):
+        if d.is_dir() and not d.name.startswith("smk") and "--x" not in d.name:
             groups[d.name.split("--")[0]].append(d)
     trace = read_rows(groups.get("ours-trace", []))
     for cfg, paths in sorted(groups.items(), key=lambda kv: kv[0] != "ours-trace"):
@@ -103,7 +103,7 @@ def main() -> None:
         bench = b if suite == "books" else b.suites[suite]
         P = "" if suite == "books" else f"suite/{suite}/"
         lines += [f"\n## {suite}\n",
-                  "| Configuration | Names right | Untaught overwritten | Name-free items, a listed name inserted | … a name from another recording | Ordinary-word error | Mentions scored (own / untaught) | Names right − ElevenLabs | Untaught overwritten − ElevenLabs | Ordinary-word error − ElevenLabs | Names right − ours-trace | Overwritten − ours-trace | Inserted − ours-trace | Ordinary-word error − ours-trace |",
+                  "| Configuration | Names right | Untaught overwritten | Name-free items, a listed name inserted | … a name from another recording | Ordinary-word error | Mentions scored (own / untaught) | Names right − ElevenLabs | Untaught overwritten − ElevenLabs | Ordinary-word error − ElevenLabs | Names right − ours (trace; books: published) | Overwritten − ours | Inserted − ours | Ordinary-word error − ours |",
                   "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |"]
         for cfg, rows in cfgs.items():
             texts = {k[len(P):] if False else k: r["text"] for k, r in rows.items() if k.startswith(P) and (suite != "books" or k.startswith("clip/"))}
@@ -122,7 +122,7 @@ def main() -> None:
             n_unt = sum("own_overwritten" in r for r in m)
             ref = items[suite].get(args.ref)
             pr = paired_suite(s, ref) if ref is not None and cfg != args.ref else {}
-            base = items[suite].get("ours-trace") or items[suite].get("ours")
+            base = items[suite].get("ours") if suite == "books" else (items[suite].get("ours-trace") or items[suite].get("ours"))
             pt = paired_suite(s, base) if base is not None and base is not s else {}
             lines.append(f"| {cfg} | {cell(right)} | {cell(over)} | {cell(ins)} | {cell(fins)} | {cell(wer)} | {n_own} / {n_unt} | "
                          f"{pcell(pr.get('own_right'))} | {pcell(pr.get('own_overwritten'))} | {pcell(pr.get('own_ordinary_wer'))} | "

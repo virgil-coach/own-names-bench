@@ -92,6 +92,7 @@ def main() -> None:
     ap.add_argument("--md", type=Path, default=None)
     ap.add_argument("--ref", default="elevenlabs", help="paired differences against this configuration")
     ap.add_argument("--only", nargs="*", default=None, help="configurations to score")
+    ap.add_argument("--base", default="", help="the second paired column against this configuration (default: ours-trace; books: ours)")
     args = ap.parse_args()
     b = load(DATA, verify=False)
     cfgs = configs()
@@ -103,7 +104,7 @@ def main() -> None:
         bench = b if suite == "books" else b.suites[suite]
         P = "" if suite == "books" else f"suite/{suite}/"
         lines += [f"\n## {suite}\n",
-                  "| Configuration | Names right | Untaught overwritten | Name-free items, a listed name inserted | … a name from another recording | Ordinary-word error | Mentions scored (own / untaught) | Names right − ElevenLabs | Untaught overwritten − ElevenLabs | Ordinary-word error − ElevenLabs | Names right − ours (trace; books: published) | Overwritten − ours | Inserted − ours | Ordinary-word error − ours |",
+                  "| Configuration | Names right | Untaught overwritten | Name-free items, a listed name inserted | … a name from another recording | Ordinary-word error | Mentions scored (own / untaught) | Names right − ElevenLabs | Untaught overwritten − ElevenLabs | Ordinary-word error − ElevenLabs | " + (f"Names right − {args.base} | Overwritten − {args.base} | Inserted − {args.base} | Ordinary-word error − {args.base}" if args.base else "Names right − ours (trace; books: published) | Overwritten − ours | Inserted − ours | Ordinary-word error − ours") + " |",
                   "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |"]
         for cfg, rows in cfgs.items():
             texts = {k[len(P):] if False else k: r["text"] for k, r in rows.items() if k.startswith(P) and (suite != "books" or k.startswith("clip/"))}
@@ -122,7 +123,10 @@ def main() -> None:
             n_unt = sum("own_overwritten" in r for r in m)
             ref = items[suite].get(args.ref)
             pr = paired_suite(s, ref) if ref is not None and cfg != args.ref else {}
-            base = items[suite].get("ours") if suite == "books" else (items[suite].get("ours-trace") or items[suite].get("ours"))
+            if args.base:
+                base = items[suite].get(args.base)
+            else:
+                base = items[suite].get("ours") if suite == "books" else (items[suite].get("ours-trace") or items[suite].get("ours"))
             pt = paired_suite(s, base) if base is not None and base is not s else {}
             lines.append(f"| {cfg} | {cell(right)} | {cell(over)} | {cell(ins)} | {cell(fins)} | {cell(wer)} | {n_own} / {n_unt} | "
                          f"{pcell(pr.get('own_right'))} | {pcell(pr.get('own_overwritten'))} | {pcell(pr.get('own_ordinary_wer'))} | "

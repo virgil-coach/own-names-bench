@@ -72,7 +72,10 @@ class Writer:
         self.proc = AutoProcessor.from_pretrained(BASE[0], revision=BASE[1])
         model = Qwen3ASRForConditionalGeneration.from_pretrained(BASE[0], revision=BASE[1], dtype=self.dtype).to(self.device)
         repo, revision, folder = self.adapter
-        self.model = PeftModel.from_pretrained(model, repo, subfolder=folder, revision=revision).eval()
+        if revision is None:  # a folder on disk (systems/ours_torch.py OURS_ADAPTER)
+            self.model = PeftModel.from_pretrained(model, repo).eval()
+        else:
+            self.model = PeftModel.from_pretrained(model, repo, subfolder=folder, revision=revision).eval()
 
     @torch.no_grad()
     def _run(self, audio: np.ndarray, prompt: str | None) -> str:

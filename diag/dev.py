@@ -21,6 +21,8 @@ def main() -> None:
     ap.add_argument("--min-speech", type=float, default=0.0)
     ap.add_argument("--hold", type=float, default=HOLD_S)
     ap.add_argument("--sets", default="")
+    ap.add_argument("--part", default="0/1", help="k/n: every n-th item from the k-th (pods split the work)")
+    ap.add_argument("--skip", type=Path, help="ids already run elsewhere, one per line")
     args = ap.parse_args()
     items = [json.loads(line) for line in args.items.open()]
     if args.sets:
@@ -29,6 +31,10 @@ def main() -> None:
     done = set()
     if args.out.exists():
         done = {json.loads(line)["id"] for line in args.out.open() if line.strip()}
+    k, n = map(int, args.part.split("/"))
+    items = items[k::n]
+    if args.skip and args.skip.exists():
+        done |= set(args.skip.read_text().split())
     todo = [it for it in items if it["id"] not in done]
     print(f"{len(items)} items, {len(done)} done, {len(todo)} to go", flush=True)
     sys_ = OursFixed(name="dev", guard=False, level=args.level, min_speech_s=args.min_speech, hold_s=args.hold)

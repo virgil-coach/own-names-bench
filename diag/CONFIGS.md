@@ -17,3 +17,19 @@ Nothing below was tuned on test items. Every configuration that was run is liste
 | ours-level+empty | both | same | AMI 18.7 (ours with no list: 18.1); calls 95.9, modulate 90.8 |
 
 Not run (budget): the three engine fixes together (level + wholeclip-style windows + empty rule).
+
+## Fixes (branch fix/v12-pipeline): how the dev sets decide, written before any full dev number
+
+Dev sets: diag/dev_build.py (lore dev split books, the same pieces through a simulated far field, LibriSpeech
+test-other short utterances and joined turns, both also through the far field). Scored by diag/devscore.py.
+Each fix is kept only if dev says so; the benchmark is then run once with what was kept.
+
+- Guard (empty list answer -> no-list text): kept if, with it, no dev set loses names right or gains untaught
+  overwrites / name-free inserts beyond its paired interval, and ordinary-word error does not rise on any set.
+  The "suspiciously short" extension (+short) is kept only if it lowers ordinary-word error on the LibriSpeech sets
+  pooled without costing names right on books / books_far; otherwise the guard fires on empty answers only.
+- Level-match: kept on the same terms (no set worse beyond its interval; expected gain on the far sets).
+- Short windows: MIN_SPEECH_S from {off, 2.5, 4.0} (hold 1.0 s, fixed by the latency budget, not tuned), with
+  level-match and guard on: the value with the lowest ordinary-word error on ls_turns + ls_turns_far pooled,
+  provided books names right is not more than 1.0 point below off and books overwrites / inserts not more than 1.0
+  point above; within 0.1 point of word error the smaller value wins (less waiting in the live engine).

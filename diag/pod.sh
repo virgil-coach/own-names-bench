@@ -19,11 +19,11 @@ from own_names_bench.ours_ref.writer import Writer
 from own_names_bench.ours_ref.spotter import Spotter
 from own_names_bench.systems.ours_torch import ADAPTER
 Writer('cpu', ADAPTER).load(); Spotter('cpu').load()" >/dev/null 2>&1 || { echo "MODEL LOAD FAILED"; exit 1; }
-# every process reads the models from the cache (no hub calls: unauthenticated calls get rate-limited); few CPU threads each
-export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 OMP_NUM_THREADS=${THREADS:-2} MKL_NUM_THREADS=${THREADS:-2} NUMBA_NUM_THREADS=${THREADS:-2}
+# few CPU threads per process
+export OMP_NUM_THREADS=${THREADS:-2} MKL_NUM_THREADS=${THREADS:-2} NUMBA_NUM_THREADS=${THREADS:-2}
 mkdir -p results/diag
 pids=()
-for spec in "$@"; do
+for spec in $*; do  # word-split: the specs may arrive as one argument
   sys=${spec%%:*}; rest=${spec#*:}; label=${rest%%:*}; only=${rest#*:}; only=${only//;/,}
   echo "spec $sys $label only=${only:0:40} ($( [ "${only:0:1}" = "@" ] && wc -l < "${only:1}") prefixes)"
   ( uv run --frozen --extra qwen bench run --system $sys --label $label --out results/diag --no-chapters --hourly-usd $rate \

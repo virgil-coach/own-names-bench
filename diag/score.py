@@ -28,7 +28,7 @@ SUITES = ["calls", "svq", "modulate", "ami"]
 def read_rows(paths: list[Path]) -> dict[str, dict]:
     rows: dict[str, dict] = {}
     for d in paths:
-        for name in ("passes.jsonl", "passes.jsonl.gz"):
+        for name in ("passes.jsonl", "passes.jsonl.gz"):  # shards may be gzipped
             f = d / name
             if f.exists():
                 text = gzip.decompress(f.read_bytes()).decode() if name.endswith(".gz") else f.read_text()

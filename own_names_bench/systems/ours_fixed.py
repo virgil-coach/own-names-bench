@@ -22,7 +22,7 @@ from .base import Output
 from .ours_torch import CACHE_WINDOWS, TOP, OursTorch, read16k
 
 # set on the dev sets (diag/dev.py), never on benchmark items
-MIN_SPEECH_S = 2.5
+MIN_SPEECH_S = 4.0
 HOLD_S = 1.0
 
 

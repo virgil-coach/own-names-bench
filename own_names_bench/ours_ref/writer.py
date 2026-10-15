@@ -15,6 +15,25 @@ MAX_NEW = 200
 RECITED_MOST, RECITED_SHARE = 4, 0.5
 
 
+def speech_rms(x: np.ndarray, frame: int = 320) -> float:
+    """RMS over the louder half of 20 ms frames (the speech, not the pauses)."""
+    n = len(x) // frame
+    if n == 0:
+        return float(np.sqrt(np.mean(x**2) + 1e-12))
+    e = np.sqrt((x[: n * frame].reshape(n, frame) ** 2).mean(axis=1))
+    loud = e[e >= np.median(e)]
+    return float(np.sqrt(np.mean(loud**2)) + 1e-9)
+
+
+def level_matched(clip: np.ndarray, window: np.ndarray) -> np.ndarray:
+    """The taught recording at the window's speech level (writer.rs `level_matched`): a quiet far-field
+    window after loud close-talk recordings is otherwise often dropped by the writer."""
+    own = speech_rms(clip)
+    if own < 1e-6:  # no level to speak of: left as it is
+        return clip
+    return (clip * (speech_rms(window) / own)).astype(np.float32)
+
+
 def clean(heard: str) -> str:
     return heard.strip().rstrip(".!?,").strip()
 

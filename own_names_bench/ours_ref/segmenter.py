@@ -4,6 +4,12 @@ detailkeeper@10b709d), line for line, with the same float arithmetic: a window i
 seconds. Fed 0.1 s at a time, as the benchmark runners do on every runtime.
 
 The live app also cuts early when a draft is due; offline there are no drafts, so the cap does it.
+
+Short windows (`min_speech_s`, off at 0): a pause does not cut a window whose speech, first speech
+frame to last, is shorter than `min_speech_s`, unless the quiet has lasted `hold_s`: a short
+utterance waits for what is said next and goes to the writer with it (the cap still holds), and a
+short utterance after which the speaker stops is cut after `hold_s`. The writer given a shortlist
+drops very short windows (own-names-bench v1.2 diagnosis); this is the engine's rule (session.rs).
 """
 
 from dataclasses import dataclass
@@ -69,7 +75,8 @@ class Window:
 
 
 class Segmenter:
-    def __init__(self, at_s: float = 0.0) -> None:
+    def __init__(self, at_s: float = 0.0, min_speech_s: float = 0.0, hold_s: float = PAUSE_S) -> None:
+        self.min_speech_s, self.hold_s = min_speech_s, hold_s
         self.start_s = at_s
         self.from_s = at_s
         self.buf = np.zeros(0, dtype=np.float32)
@@ -133,6 +140,13 @@ class Segmenter:
         said = int(speech.sum())
         if len(self.buf) >= MIN_S * RATE and not speech[max(0, n - tail):].any() and said >= 10:
             st = step()
+            last = int(n - 1 - np.argmax(speech[::-1]))
+            if (last - int(np.argmax(speech)) + 1) * FRAME < self.min_speech_s * RATE:
+                # a short utterance: keep it for what comes next, unless the speaker has stopped
+                hold = int(self.hold_s * RATE / FRAME)
+                if n - 1 - last < hold:
+                    return None
+                return self.take(max(0, last + 1 + tail - 5) // st * st * FRAME, speech, True)
             return self.take(max(0, n - 5) // st * st * FRAME, speech, True)
         return None
 
@@ -155,8 +169,8 @@ class Segmenter:
         return None
 
 
-def windows(audio: np.ndarray) -> list[Window]:
-    seg = Segmenter(0.0)
+def windows(audio: np.ndarray, min_speech_s: float = 0.0, hold_s: float = PAUSE_S) -> list[Window]:
+    seg = Segmenter(0.0, min_speech_s, hold_s)
     out: list[Window] = []
     for i in range(0, len(audio), CHUNK):
         out += seg.push(audio[i : i + CHUNK])

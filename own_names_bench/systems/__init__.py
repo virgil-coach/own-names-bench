@@ -72,8 +72,15 @@ ABLATIONS: dict[str, Callable[[], System]] = {
     "ours-level": _ablate("ours-level", level=True, variants=("own",)),
 }
 
+
+def _fixed() -> System:
+    from .ours_fixed import OursFixed
+
+    return OursFixed()
+
 SYSTEMS: dict[str, Callable[[], System]] = {
     **ABLATIONS,
+    "ours-fixed": _fixed,         # ours + empty-answer guard, level-match, short windows (branch fix/v12-pipeline)
     "ours": _ours_torch,          # the reference runner (PyTorch; CUDA, CPU or MPS)
     "ours-mlx": _ours_mlx,        # the Detail Keeper engine itself (Rust, MLX, Apple silicon)
     "elevenlabs": _elevenlabs,

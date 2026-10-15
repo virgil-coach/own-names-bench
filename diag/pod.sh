@@ -18,6 +18,8 @@ from own_names_bench.ours_ref.writer import Writer
 from own_names_bench.ours_ref.spotter import Spotter
 from own_names_bench.systems.ours_torch import ADAPTER
 Writer('cpu', ADAPTER).load(); Spotter('cpu').load()" >/dev/null 2>&1 || { echo "MODEL LOAD FAILED"; exit 1; }
+# every process reads the models from the cache (no hub calls: unauthenticated calls get rate-limited); few CPU threads each
+export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 OMP_NUM_THREADS=${THREADS:-2} MKL_NUM_THREADS=${THREADS:-2} NUMBA_NUM_THREADS=${THREADS:-2}
 mkdir -p results/diag
 pids=()
 for spec in "$@"; do
@@ -28,7 +30,10 @@ for spec in "$@"; do
     && echo "DONE $label" || echo "FAILED $label (see results/diag/$label.log)" ) &
   pids+=($!)
 done
-( while sleep 60; do nvidia-smi --query-gpu=utilization.gpu,memory.used --format=csv,noheader | sed "s/^/$(date +%H:%M) gpu: /"; done ) &
+( while sleep 120; do
+    echo "$(date +%H:%M) gpu: $(nvidia-smi --query-gpu=utilization.gpu,memory.used --format=csv,noheader) load: $(cut -d' ' -f1 /proc/loadavg) mem: $(free -g | awk '/Mem/{print $3"/"$2"G"}')"
+    for f in results/diag/*.log; do echo "  $(basename $f .log): $(tr '\r' '\n' < $f | grep -E 'passes/s|passes,|Error|Traceback' | tail -1)"; done
+  done ) &
 mon=$!
 for p in "${pids[@]}"; do wait $p; done
 kill $mon 2>/dev/null

@@ -91,9 +91,12 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--md", type=Path, default=None)
     ap.add_argument("--ref", default="elevenlabs", help="paired differences against this configuration")
+    ap.add_argument("--only", nargs="*", default=None, help="configurations to score")
     args = ap.parse_args()
     b = load(DATA, verify=False)
     cfgs = configs()
+    if args.only:
+        cfgs = {k: v for k, v in cfgs.items() if k in args.only}
     lines: list[str] = []
     items: dict[str, dict[str, dict]] = {}
     for suite in SUITES + ["books"]:
@@ -124,6 +127,16 @@ def main() -> None:
             lines.append(f"| {cfg} | {cell(right)} | {cell(over)} | {cell(ins)} | {cell(fins)} | {cell(wer)} | {n_own} / {n_unt} | "
                          f"{pcell(pr.get('own_right'))} | {pcell(pr.get('own_overwritten'))} | {pcell(pr.get('own_ordinary_wer'))} | "
                          f"{pcell(pt.get('own_right'))} | {pcell(pt.get('own_overwritten'))} | {pcell(pt.get('own_free_inserted'))} | {pcell(pt.get('own_ordinary_wer'))} |")
+    lines += ["\n## calls by who taught the name, and svq by recording condition (names right)\n", "| Configuration | " + " | ".join(
+        ["calls: other speaker", "calls: same speaker", "svq: clean", "svq: background speech", "svq: media noise", "svq: traffic noise"]) + " |",
+              "| --- | --- | --- | --- | --- | --- | --- |"]
+    for cfg in cfgs:
+        cells = []
+        for suite, g in (("calls", "taught by the other speaker"), ("calls", "taught by the same speaker"), ("svq", "clean"),
+                         ("svq", "background_speech"), ("svq", "media_noise"), ("svq", "traffic_noise")):
+            s = items.get(suite, {}).get(cfg)
+            cells.append(cell(prop([r for r in s["mentions"] if r["group"] == g], "own_right", "book")) if s else "n/a")
+        lines.append(f"| {cfg} | " + " | ".join(cells) + " |")
     md = "\n".join(lines) + "\n"
     print(md)
     if args.md:

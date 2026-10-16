@@ -26,7 +26,8 @@ def speech_s(x: np.ndarray) -> float:
     n = len(x) // FRAME
     if n == 0:
         return 0.0
-    rms = np.sqrt((x[: n * FRAME].astype(np.float64).reshape(n, FRAME) ** 2).mean(axis=1))
+    # RMS in float64 kept as float32, as the engine (guard.rs) and the dev measure (lore-poc ctxft/guard_spans.py)
+    rms = np.sqrt((x[: n * FRAME].astype(np.float64).reshape(n, FRAME) ** 2).mean(axis=1)).astype(np.float32)
     on = np.flatnonzero(rms >= max(0.002, 0.08 * float(np.percentile(rms, 95))))
     return 0.0 if len(on) == 0 else (on[-1] - on[0] + 1) * FRAME / 16000
 

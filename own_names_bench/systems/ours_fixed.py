@@ -10,6 +10,12 @@ switchable, every window traced (no-list text, list answer, final text) so a pas
           speaker has stopped for `hold_s` (segmenter.Segmenter)
 
 `ours-fixed` is all three, as the engine branch engine/empty-level-short runs them.
+
+  name_guard  in a window with little speech, a listed name written that the no-list text does not hold, that the
+              no-list text has nothing like and whose recording does not match the audio, gives the window the no-list
+              text (ours_ref/guard.py; detailkeeper engine/name-guard guard.rs)
+
+`ours-guard` is `ours-fixed` with the name guard.
 """
 
 import hashlib
@@ -17,6 +23,7 @@ import time
 
 import numpy as np
 
+from ..ours_ref import guard as guard_rule
 from ..ours_ref import segmenter
 from .base import Output
 from .ours_torch import CACHE_WINDOWS, TOP, OursTorch, read16k
@@ -28,9 +35,10 @@ HOLD_S = 1.0
 
 class OursFixed(OursTorch):
     def __init__(self, name: str = "ours-fixed", guard: bool = True, level: bool = True, min_speech_s: float = MIN_SPEECH_S,
-                 hold_s: float = HOLD_S, variants: tuple[str, ...] = ("none", "own")) -> None:
+                 hold_s: float = HOLD_S, variants: tuple[str, ...] = ("none", "own"), name_guard: bool = False) -> None:
         super().__init__()
         self.name, self.guard, self.level, self.min_speech_s, self.hold_s = name, guard, level, min_speech_s, hold_s
+        self.name_guard = name_guard
         self.variants = variants
 
     def config(self) -> dict:
@@ -38,7 +46,10 @@ class OursFixed(OursTorch):
         c.update({"fixes": {"guard": "an empty list answer gets the no-list text" if self.guard else "off",
                             "level": "taught recordings scaled to the window's speech RMS (louder half of 20 ms frames)" if self.level else "off",
                             "short": (f"a pause cuts a window with under {self.min_speech_s} s of speech only after {self.hold_s} s of quiet"
-                                      if self.min_speech_s > 0 else "off")},
+                                      if self.min_speech_s > 0 else "off"),
+                          "name_guard": (f"under {guard_rule.SHORT_SPEECH_S} s of speech, a written listed name the no-list text lacks, "
+                                         f"letter agreement < {guard_rule.AGREES_AT} and recording match (emb) < {guard_rule.SOUNDS_AT}: "
+                                         "the no-list text" if self.name_guard else "off")},
                   "windows": c["windows"] + (f"; short windows held (min speech {self.min_speech_s} s, hold {self.hold_s} s)" if self.min_speech_s > 0 else ""),
                   "trace": "per-window plain / written / final text in extra.windows"})
         return c
@@ -74,6 +85,7 @@ class OursFixed(OursTorch):
                 reused += cached[1]
             plain = cached[0]
             text, written, was_recited, guarded = plain, None, False, False
+            unverified: str | None = None
             listed: list[str] = []
             if terms:
                 hits = self.spotter.rank(terms, w.audio, plain, TOP)
@@ -89,9 +101,12 @@ class OursFixed(OursTorch):
                         text, was_recited = plain, True
                     elif self.guard and not text.strip() and plain.strip():
                         text, guarded = plain, True
+                    elif self.name_guard and (h := guard_rule.unverified(text, plain, hits, w.audio)) is not None:
+                        text, unverified = plain, h.term.written
             texts.append(text)
             wins.append({"start_s": round(w.audio_from_s, 3), "end_s": round(w.end_s, 3), "shortlist": listed, "plain": plain,
-                         "written": written, "recited": was_recited, "guarded": guarded, "final": text})
+                         "written": written, "recited": was_recited, "guarded": guarded, "unverified": unverified,
+                         "final": text})
         return Output(" ".join(t for t in texts if t), extra={"windows": wins, "enroll_s": round(enroll_s, 3),
                                                                  "enrolled": {k: self.heard[k] for k in new}},
                       latency_s=time.perf_counter() - t0 + reused)

@@ -78,9 +78,16 @@ def _fixed() -> System:
 
     return OursFixed()
 
+
+def _guarded() -> System:
+    from .ours_fixed import OursFixed
+
+    return OursFixed(name="ours-guard", name_guard=True)
+
 SYSTEMS: dict[str, Callable[[], System]] = {
     **ABLATIONS,
     "ours-fixed": _fixed,         # ours + empty-answer guard, level-match, short windows (branch fix/v12-pipeline)
+    "ours-guard": _guarded,       # ours-fixed + the name guard (branch fix/name-guard; detailkeeper engine/name-guard)
     "ours": _ours_torch,          # the reference runner (PyTorch; CUDA, CPU or MPS)
     "ours-mlx": _ours_mlx,        # the Detail Keeper engine itself (Rust, MLX, Apple silicon)
     "elevenlabs": _elevenlabs,

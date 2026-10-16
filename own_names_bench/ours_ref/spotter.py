@@ -189,6 +189,8 @@ class Term:
 class Hit:
     term: Term
     score: float
+    # minus the best WavLM DTW cost of the entry's taught recording in this window (engine Hit::emb); None with none
+    emb: float | None = None
 
 
 @dataclass
@@ -347,4 +349,4 @@ class Spotter:
         if qs and b.forms:
             np.maximum.at(sim, b.fowner, cdist(qs, b.forms, scorer=Levenshtein.normalized_similarity, workers=THREADS).max(axis=0))
         fused = standardize(phon) + standardize(emb) + standardize(sim)
-        return [Hit(terms_t[i], float(fused[i])) for i in np.argsort(-fused, kind="stable")[:k]]
+        return [Hit(terms_t[i], float(fused[i]), float(emb[i]) if emb[i] > -1e8 else None) for i in np.argsort(-fused, kind="stable")[:k]]

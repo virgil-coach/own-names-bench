@@ -31,6 +31,18 @@ from .base import Fit, Output, System, unique
 # private littlebearlabs/own-names-qwen3-asr-lora@8ab4e83a it was developed against)
 ADAPTER = ("virgil-coach/own-names-qwen3-asr", "e02efd5e0db0f357f7ada3caf18e1ca293528098", "audio-text-note")
 ADAPTER_SHA256 = "67dbabef14851e89ad1b62d509e595713d4a2b6254fbc26cdb700fca1e097f55"
+# OURS_ADAPTER=<folder>: a candidate adapter on disk (adapter_config.json + adapter_model.safetensors) in place of
+# v0.3.0, nothing else changed (own-names adapter v0.6 runs, lore-poc ctxft/v06_preregistration.md)
+LOCAL_ADAPTER = os.environ.get("OURS_ADAPTER", "")
+
+
+def adapter() -> tuple[tuple[str, str | None, str], str, str]:
+    """(writer adapter reference, version label, adapter_model.safetensors SHA-256)."""
+    if not LOCAL_ADAPTER:
+        return ADAPTER, "v0.3.0", ADAPTER_SHA256
+    folder = Path(LOCAL_ADAPTER)
+    digest = hashlib.sha256((folder / "adapter_model.safetensors").read_bytes()).hexdigest()
+    return (str(folder), None, ""), os.environ.get("OURS_ADAPTER_VERSION", folder.name), digest
 TOP = 10
 # The no-list text and the spotter's acoustic features of a window do not depend on the list, and
 # every list variant of a recording is run back to back: they are worked out once per window and
@@ -66,8 +78,9 @@ class OursTorch(System):
         return {"runtime": "PyTorch reference (own_names_bench/ours_ref)", "device": self.device,
                 "torch": torch.__version__, "transformers": transformers.__version__,
                 "cuda_device": torch.cuda.get_device_name(0) if self.device == "cuda" else None,
-                "base": f"{writer.BASE[0]}@{writer.BASE[1]}", "adapter": f"{ADAPTER[0]}@{ADAPTER[1]}/{ADAPTER[2]}",
-                "adapter_version": "v0.3.0", "adapter_sha256": ADAPTER_SHA256, "dtype": "float32", "decoding": "greedy, at most 200 new tokens",
+                "base": f"{writer.BASE[0]}@{writer.BASE[1]}",
+                "adapter": f"{adapter()[0][0]}@{adapter()[0][1]}/{adapter()[0][2]}" if not LOCAL_ADAPTER else f"local:{LOCAL_ADAPTER}",
+                "adapter_version": adapter()[1], "adapter_sha256": adapter()[2], "dtype": "float32", "decoding": "greedy, at most 200 new tokens",
                 "spotter_phon": f"{spotter.PHON[0]}@{spotter.PHON[1]}", "spotter_wavlm": f"{spotter.WAVLM[0]}@{spotter.WAVLM[1]}",
                 "g2p": "own_names_bench/ours_ref/g2p.json (espeak-ng 1.52.0, every benchmark name)", "shortlist": TOP, "prune": "off", "gate": "none",
                 "windows": "Detail Keeper Segmenter (pause 0.45 s after 2 s, cap 8 s), fed 0.1 s at a time",
@@ -81,7 +94,7 @@ class OursTorch(System):
         from ..ours_ref.writer import Writer
 
         torch.manual_seed(0)
-        self.writer = Writer(self.device, ADAPTER)
+        self.writer = Writer(self.device, adapter()[0])
         self.writer.load()
         self.spotter = Spotter(self.device)
         self.spotter.load()

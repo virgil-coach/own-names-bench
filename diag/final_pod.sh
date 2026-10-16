@@ -93,7 +93,7 @@ from own_names_bench.ours_ref.writer import Writer
 from own_names_bench.ours_ref.spotter import Spotter
 from own_names_bench.systems.ours_torch import ADAPTER
 Writer('cpu', ADAPTER).load(); Spotter('cpu').load()" >/dev/null 2>&1 || { echo "MODEL LOAD FAILED"; exit 1; }
-export HF_HUB_OFFLINE=1
+# (not HF_HUB_OFFLINE: peft then looks for adapter_model.bin and fails on the hub adapter; the models are cached)
 export OMP_NUM_THREADS=${THREADS:-2} MKL_NUM_THREADS=${THREADS:-2} NUMBA_NUM_THREADS=${THREADS:-2}
 
 # 4. the specs, CONC at a time

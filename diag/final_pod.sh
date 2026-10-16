@@ -81,7 +81,8 @@ b = load(Path('$P/conv13')); print('conv13 loaded and verified:', {k: len(s.clip
   fi
 fi
 if [[ $need == *":v6j"* ]]; then
-  mkdir -p $P/adapters && cp -r $WS/adapters/qwen17B_audio_heard_v6j $P/adapters/
+  # V6J_SRC: the adapter folder on the volume (another pod's synced copy), else this workspace's
+  mkdir -p $P/adapters && cp -r ${V6J_SRC:-$WS/adapters/qwen17B_audio_heard_v6j} $P/adapters/qwen17B_audio_heard_v6j
   got=$(sha256sum $P/adapters/qwen17B_audio_heard_v6j/adapter_model.safetensors | cut -d' ' -f1)
   [ "$got" = "$V6J_SHA" ] && echo "v6j adapter $got" || { echo "V6J SHA MISMATCH $got"; exit 1; }
 fi

@@ -11,3 +11,5 @@ results/runs/
 resume/
 podin/
 results/runs/*/passes.discarded.jsonl
+/results/v06final/c13-*/
+/results/v06final/SHA256SUMS.c13*

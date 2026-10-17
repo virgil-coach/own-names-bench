@@ -17,3 +17,6 @@ error; 95% intervals clustered by book.
 
 | # | System | Adapter SHA-256 | Date | False insertions | Names right | Untaught overwritten | Word error |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | v7a (1:1 decoys) + guard + re-read (`ours-reread`) | 6453003345b92482dd899ab90d42482358069aafa160219d71c02c7c07d337df | 2026-10-17 | 2.5 [0.2, 6.1] (10/408) | 94.1 [91.1, 97.1] (1042/1107) | 5.7 [1.9, 9.2] (63/1107) | 2.7 [2.3, 3.2] |
+| 2 | v7b (2:1 decoys) + guard + re-read (`ours-reread`) | 192e7fec3a6a48ed7e7d4ed3e6cf5a3e9174729114aba57d4b2f0ad74c570a01 | 2026-10-17 | 2.5 [0.0, 6.6] (10/408) | 94.5 [91.0, 98.0] (1046/1107) | 4.5 [0.9, 7.9] (50/1107) | 2.7 [2.3, 3.2] |
+| 3 | v7c (+ phoneme-edit rows) + guard + re-read (`ours-reread`) | de91437d4fc828b49605e6482a32b817d55ac4853d1714ac1e2bf9be8f61226c | 2026-10-17 | 1.2 [0.2, 2.5] (5/408) | 93.0 [89.7, 96.3] (1029/1107) | 4.9 [1.1, 8.5] (54/1107) | 2.8 [2.3, 3.3] |

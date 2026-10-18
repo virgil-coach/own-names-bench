@@ -16,7 +16,9 @@ WS=$PWD
 P=/root/pod
 CONC=${CONC:-6}; [ "$CONC" -le 6 ] || { echo "CONC $CONC > 6"; exit 1; }
 mkdir -p $P/results/$out $WS/results/$out
-command -v uv >/dev/null || pip install -q uv
+export PATH=$HOME/.local/bin:/usr/local/bin:$PATH
+command -v uv >/dev/null || pip install -q uv || python3 -m pip install -q --break-system-packages uv
+command -v uv >/dev/null || { echo "NO UV ($(command -v pip) $(python3 --version))"; exit 1; }
 export PYTHONWARNINGS=ignore UV_CACHE_DIR=$P/uvcache HF_HUB_CACHE=$P/hf UV_PROJECT_ENVIRONMENT=$P/venv-qwen NUMBA_CACHE_DIR=$P/numba
 export BENCH_CODE_REVISION=${BENCH_CODE_REVISION:?}
 unset VIRTUAL_ENV

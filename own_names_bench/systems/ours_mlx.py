@@ -93,7 +93,9 @@ class OursMlx(System):
             if e["written"] in want and e["written"] not in seen:
                 seen.add(e["written"])
                 terms.append({"key": e["id"].replace("/", "__"), "written": e["written"], "sample": self._wav(e["sample_path"], "enroll/" + e["id"])})
-        job = {"id": str(audio), "audio": self._wav(audio, audio.stem), "terms": terms}
+        # keyed by the whole path: calls clips are 0034.flac etc. in one folder per conversation, so the stem alone
+        # gave many clips one cached WAV (the first one written)
+        job = {"id": str(audio), "audio": self._wav(audio, "clip/" + "/".join(audio.parts[-4:])), "terms": terms}
         self.proc.stdin.write(json.dumps(job, ensure_ascii=False) + "\n")
         self.proc.stdin.flush()
         line = self.proc.stdout.readline()

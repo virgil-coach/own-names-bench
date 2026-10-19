@@ -1,0 +1,27 @@
+ours-mlx: 1154 passes, 0 already done, 1154 to go
+setup: load 0/2
+setup: load 1/2
+  50/1154 (0 errors), 0.64 passes/s
+  100/1154 (0 errors), 0.68 passes/s
+  150/1154 (0 errors), 0.60 passes/s
+  200/1154 (0 errors), 0.64 passes/s
+  250/1154 (0 errors), 0.66 passes/s
+  300/1154 (0 errors), 0.69 passes/s
+  350/1154 (0 errors), 0.69 passes/s
+  400/1154 (0 errors), 0.67 passes/s
+  450/1154 (0 errors), 0.70 passes/s
+  500/1154 (0 errors), 0.72 passes/s
+  550/1154 (0 errors), 0.73 passes/s
+  600/1154 (0 errors), 0.72 passes/s
+  650/1154 (0 errors), 0.76 passes/s
+  700/1154 (0 errors), 0.80 passes/s
+  750/1154 (0 errors), 0.84 passes/s
+  800/1154 (0 errors), 0.89 passes/s
+  850/1154 (0 errors), 0.93 passes/s
+  900/1154 (0 errors), 0.97 passes/s
+  950/1154 (0 errors), 1.00 passes/s
+  1000/1154 (0 errors), 1.00 passes/s
+  1050/1154 (0 errors), 0.98 passes/s
+  1100/1154 (0 errors), 1.00 passes/s
+  1150/1154 (0 errors), 1.00 passes/s
+  1154/1154 (0 errors), 1.00 passes/s

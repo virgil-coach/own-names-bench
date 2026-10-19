@@ -23,6 +23,12 @@ class OursMlx(System):
     variants = ("none", "own", "all", "xr")
 
     def __init__(self) -> None:
+        # OURS_MLX_VARIANTS=none,own: the same passes as ours-fixed / ours-reread (for a side by side with them)
+        if os.environ.get("OURS_MLX_VARIANTS"):
+            self.variants = tuple(os.environ["OURS_MLX_VARIANTS"].split(","))
+        # another adapter than the released one (a candidate under test): a folder or hf:// path, its version, its SHA-256
+        self.adapter = os.environ.get("OURS_MLX_ADAPTER", f"hf://{ADAPTER[0]}@{ADAPTER[1]}/{ADAPTER[2]}")
+        self.adapter_version = os.environ.get("OURS_MLX_ADAPTER_VERSION", "v0.3.0")
         self.bin = Path(os.environ.get("DETAILKEEPER_BENCH", "detailkeeper-bench"))
         self.wavs = Path(os.environ.get("BENCH_WAV_CACHE", Path(tempfile.gettempdir()) / "own-names-bench-wav"))
         self.cache = self.wavs.parent / "detailkeeper-bench-cache"
@@ -33,7 +39,8 @@ class OursMlx(System):
         rev = os.environ.get("DETAILKEEPER_ENGINE_COMMIT") or subprocess.run(
             ["git", "-C", str(self.bin.resolve().parent), "rev-parse", "HEAD"], capture_output=True, text=True, check=False).stdout.strip()
         return {"runtime": "Detail Keeper engine (Rust, MLX), detailkeeper-bench", "engine_commit": rev or "unknown",
-                "binary": str(self.bin), "adapter": f"hf://{ADAPTER[0]}@{ADAPTER[1]}/{ADAPTER[2]}", "adapter_version": "v0.3.0",
+                "binary": str(self.bin), "adapter": self.adapter, "adapter_version": self.adapter_version,
+                "adapter_sha256": os.environ.get("OURS_MLX_ADAPTER_SHA256"),
                 "writer": "merged adapter, text decoder affine 8-bit, audio encoder bf16",
                 "g2p": "own_names_bench/ours_ref/g2p.json (espeak-ng 1.52.0, every benchmark name)", "shortlist": TOP, "prune": "off",
                 "gate": "none", "engine": self.ready,
@@ -48,7 +55,7 @@ class OursMlx(System):
         # the same pronunciations as the reference runner (see ours_ref/spotter.py G2P_TABLE)
         shutil.copyfile(Path(__file__).parent.parent / "ours_ref" / "g2p.json", self.cache / "g2p.json")
         self.proc = subprocess.Popen(
-            [str(self.bin), "--adapter", f"hf://{ADAPTER[0]}@{ADAPTER[1]}/{ADAPTER[2]}", "--format", "audio_heard",
+            [str(self.bin), "--adapter", self.adapter, "--format", "audio_heard",
              "--cache", str(self.cache)],
             stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True, bufsize=1)
         assert self.proc.stdout is not None

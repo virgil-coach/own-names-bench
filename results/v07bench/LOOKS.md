@@ -28,3 +28,11 @@ error; 95% intervals clustered by book.
 | 9 | g10b (v0.10: GRPO from v7c, k 4; selected by the pre-registered rule with the dev bars ignored, no arm passed dev) + guard + re-read (`ours-reread`), lore-poc train/v10-grpo | 6665d2edc59fdf83e6d61ad78db614aa3bbc993993094b20f3e1bafc7a8688dd | 2026-10-19 | 0.0 [0.0, 0.0] (0/408) | 61.2 [55.0, 68.4] (678/1107) | 1.3 [0.0, 2.8] (14/1107) | 3.8 [3.3, 4.3] |
 | 10 | v0.3.0 (published, `audio-text-note` e02efd5e) + guard + re-read on the shipped path: Detail Keeper engine af939d6 `detailkeeper-bench`, MLX, writer merged + affine 8-bit (`ours-mlx`, own-names-bench v7c/mlx-suites, Mac Studio + Mac mini), the app as it ships (0.1.1) | 67dbabef14851e89ad1b62d509e595713d4a2b6254fbc26cdb700fca1e097f55 | 2026-10-19 | 4.4 [0.7, 10.5] (18/408) | 95.9 [93.7, 98.5] (1062/1107) | 7.0 [2.3, 11.3] (78/1107) | 2.6 [2.3, 3.0] |
 | 11 | v7c (v0.7.0 candidate) + guard + re-read on the shipped path: Detail Keeper engine af939d6 `detailkeeper-bench`, MLX, writer merged + affine 8-bit (d7109615…6162; `ours-mlx`, own-names-bench v7c/mlx-suites, Mac Studio + Mac mini) | de91437d4fc828b49605e6482a32b817d55ac4853d1714ac1e2bf9be8f61226c | 2026-10-20 | 1.2 [0.2, 2.5] (5/408) | 92.6 [88.8, 96.5] (1025/1107) | 4.6 [1.1, 8.0] (51/1107) | 2.8 [2.3, 3.3] |
+| 12 | v7c, the same passes as look 11 (no new inference), re-scored paired against the hosted re-runs `elevenlabs-2026-10-26` and `deepgram-2026-10-26` for the Detail Keeper benchmark page draft (release check's `diag/mlx_score.py`) | de91437d4fc828b49605e6482a32b817d55ac4853d1714ac1e2bf9be8f61226c | 2026-10-26 | 1.2 [0.2, 2.5] (5/408) | 92.6 [88.8, 96.5] (1025/1107) | 4.6 [1.1, 8.0] (51/1107) | 2.8 [2.3, 3.3] |
+
+## Reference runs scored on the clips after the protocol (not candidates)
+
+| System | Date | Names right | Untaught overwritten | False insertions | Source |
+| --- | --- | --- | --- | --- | --- |
+| ElevenLabs Scribe v2 (keyterms), `elevenlabs-2026-10-26` | 2026-10-26 | 92.8 [88.5, 97.2] | 2.9 [1.2, 4.8] | 0.2 [0.0, 0.7] (1/408) | launch/hosted-2026-10-26, results/scores/HOSTED_RERUN_2026-10-26.md |
+| Deepgram Nova-3 (keyterm), `deepgram-2026-10-26` | 2026-10-26 | 75.1 [61.8, 89.5] | 8.5 [5.9, 11.1] | see HOSTED_RERUN_2026-10-26.md | same |

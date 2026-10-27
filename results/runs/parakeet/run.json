@@ -1,7 +1,7 @@
 {
  "benchmark": "own-names-bench",
- "benchmark_version": "1.1.0",
- "dataset": "virgil-coach/own-names-bench@v1.1.0",
+ "benchmark_version": "1.2.0",
+ "dataset": "virgil-coach/own-names-bench@v1.2.0",
  "manifest_sha256": "39f235296af82671254243b71c041e7491db8e863782f2fac40bc8c91e9397bd",
  "code_revision": "8d8f168",
  "system": "parakeet",
@@ -103,5 +103,22 @@
   "modulate": "7f4826d54b38e4dc"
  },
  "machines": "passes ran on several machines (each command records its own); machine and hourly_usd above are those of the v1.1.0 run 'parakeet-a100', which the clip latencies and the cost line come from",
- "label_history": "published as 'parakeet-a100' up to v1.1.0"
+ "label_history": "published as 'parakeet-a100' up to v1.1.0",
+ "speed_note": "not for speed or cost claims: the clip latencies are mostly the v1.0.0 command's (labelled parakeet-a100, --hourly-usd 1.79), whose machine was not recorded; the machine and $0.89/h shown are the 65-pass v1.1.0 rerun's",
+ "metadata_fixes": [
+  {
+   "field": "dataset",
+   "was": "virgil-coach/own-names-bench@v1.1.0",
+   "now": "virgil-coach/own-names-bench@v1.2.0",
+   "why": "every current row is of a v1.2.0 pass (completeness checks each row's list fingerprint against v1.2.0's) and the dataset fingerprint 1625ef57 is v1.2.0's: the v1.0.0 and v1.1.0 audiobook passes ran on audiobook data that v1.1.0 and v1.2.0 keep unchanged (CHANGES_v1.1_to_v1.2.md), the corrected and suite passes on v1.2.0 (see commands)",
+   "at": "2026-10-27"
+  },
+  {
+   "field": "benchmark_version",
+   "was": "1.1.0",
+   "now": "1.2.0",
+   "why": "the suite passes were made by v1.2.0 code (commands at 26ee0b8 / aa5d8b8); every current row is of a v1.2.0 pass (completeness checks each row's list fingerprint against v1.2.0's) and the dataset fingerprint 1625ef57 is v1.2.0's: the v1.0.0 and v1.1.0 audiobook passes ran on audiobook data that v1.1.0 and v1.2.0 keep unchanged (CHANGES_v1.1_to_v1.2.md), the corrected and suite passes on v1.2.0 (see commands)",
+   "at": "2026-10-27"
+  }
+ ]
 }

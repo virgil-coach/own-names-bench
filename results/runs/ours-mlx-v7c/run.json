@@ -1,0 +1,277 @@
+{
+ "benchmark": "own-names-bench",
+ "benchmark_version": "1.2.0",
+ "dataset": "virgil-coach/own-names-bench@v1.2.0",
+ "dataset_fingerprint": "1625ef57df22bdba",
+ "suite_fingerprints": {
+  "calls": "b9dee190988d10ff",
+  "svq": "42eced936a70332d",
+  "ami": "b1bebcfca0a17e9c",
+  "modulate": "7f4826d54b38e4dc"
+ },
+ "manifest_sha256": "3025b1e5421100f72a5f9412c5eceb0039c67592f8157cf487e7af4d2b7da8b4",
+ "code_revision": "unknown",
+ "system": "ours-mlx",
+ "variants": [
+  "none",
+  "own"
+ ],
+ "kind": "local",
+ "config": {
+  "runtime": "Detail Keeper engine (Rust, MLX), detailkeeper-bench",
+  "engine_commit": "af939d6",
+  "binary": "/Users/james/workroots/v7c-release/bin/detailkeeper-bench",
+  "adapter": "/Users/james/workroots/v7c-release/adapters/qwen17B_audio_heard_v7c",
+  "adapter_version": "v0.7.0-rc-v7c",
+  "adapter_sha256": "de91437d4fc828b49605e6482a32b817d55ac4853d1714ac1e2bf9be8f61226c",
+  "writer": "merged adapter, text decoder affine 8-bit, audio encoder bf16",
+  "g2p": "own_names_bench/ours_ref/g2p.json (espeak-ng 1.52.0, every benchmark name)",
+  "shortlist": 10,
+  "prune": "off",
+  "gate": "none",
+  "engine": {
+   "adapter": "qwen17B_audio_heard_v7c",
+   "device": "metal",
+   "model": "Qwen/Qwen3-ASR-1.7B-hf",
+   "ready": true
+  },
+  "list_feature": "spotter shortlist of the whole list -> writer prompt + taught recordings",
+  "fit": "no limit: the spotter ranks every name"
+ },
+ "fingerprint": "6ee6b9bc46122fc7",
+ "price": {},
+ "machine": {
+  "platform": "macOS-27.0.1-arm64-arm-64bit",
+  "machine": "arm64",
+  "python": "3.12.13",
+  "cpu": "Apple M5 Ultra",
+  "memory_gb": 256.0,
+  "os": "macOS 27.0.1 (26A434)"
+ },
+ "hourly_usd": null,
+ "commands": [
+  {
+   "argv": "/Users/james/workroots/v7c-release/venv/bin/bench run --system ours-mlx --label v7c-mlx--0 --out /Users/james/workroots/v7c-release/results --no-chapters --only @/Users/james/workroots/v7c-release/code/podin/mlx-0.txt",
+   "passes_to_do": 1150,
+   "machine": {
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
+    "machine": "arm64",
+    "python": "3.12.13",
+    "cpu": "Apple M5 Ultra",
+    "memory_gb": 256.0,
+    "os": "macOS 27.0.1 (26A434)"
+   },
+   "code_revision": "unknown",
+   "started": "2026-10-20T03:43:24+00:00",
+   "finished": "2026-10-20T04:01:18+00:00"
+  },
+  {
+   "argv": "/Users/james/workroots/v7c-release/venv/bin/bench run --system ours-mlx --label v7c-mlx--1 --out /Users/james/workroots/v7c-release/results --no-chapters --only @/Users/james/workroots/v7c-release/code/podin/mlx-1.txt",
+   "passes_to_do": 1139,
+   "machine": {
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
+    "machine": "arm64",
+    "python": "3.12.13",
+    "cpu": "Apple M5 Ultra",
+    "memory_gb": 256.0,
+    "os": "macOS 27.0.1 (26A434)"
+   },
+   "code_revision": "unknown",
+   "started": "2026-10-20T04:01:29+00:00",
+   "finished": "2026-10-20T04:18:20+00:00",
+   "merged_from": "v7c-mlx--1"
+  },
+  {
+   "argv": "/Users/james/workroots/v7c-release/venv/bin/bench run --system ours-mlx --label v7c-mlx--2 --out /Users/james/workroots/v7c-release/results --no-chapters --only @/Users/james/workroots/v7c-release/code/podin/mlx-2.txt",
+   "passes_to_do": 1124,
+   "machine": {
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
+    "machine": "arm64",
+    "python": "3.12.13",
+    "cpu": "Apple M5 Ultra",
+    "memory_gb": 256.0,
+    "os": "macOS 27.0.1 (26A434)"
+   },
+   "code_revision": "unknown",
+   "started": "2026-10-20T04:18:24+00:00",
+   "finished": "2026-10-20T04:34:22+00:00",
+   "merged_from": "v7c-mlx--2"
+  },
+  {
+   "argv": "/Users/james/workroots/v7c-release/venv/bin/bench run --system ours-mlx --label v7c-mlx--3 --out /Users/james/workroots/v7c-release/results --no-chapters --only @/Users/james/workroots/v7c-release/code/podin/mlx-3.txt",
+   "passes_to_do": 1141,
+   "machine": {
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
+    "machine": "arm64",
+    "python": "3.12.13",
+    "cpu": "Apple M5 Ultra",
+    "memory_gb": 256.0,
+    "os": "macOS 27.0.1 (26A434)"
+   },
+   "code_revision": "unknown",
+   "started": "2026-10-20T04:34:26+00:00",
+   "finished": "2026-10-20T04:51:02+00:00",
+   "merged_from": "v7c-mlx--3"
+  },
+  {
+   "argv": "/Users/james/workroots/v7c-release/venv/bin/bench run --system ours-mlx --label v7c-mlx--4 --out /Users/james/workroots/v7c-release/results --no-chapters --only @/Users/james/workroots/v7c-release/code/podin/mlx-4.txt",
+   "passes_to_do": 1138,
+   "machine": {
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
+    "machine": "arm64",
+    "python": "3.12.13",
+    "cpu": "Apple M5 Ultra",
+    "memory_gb": 256.0,
+    "os": "macOS 27.0.1 (26A434)"
+   },
+   "code_revision": "unknown",
+   "started": "2026-10-20T04:51:08+00:00",
+   "finished": "2026-10-20T05:08:38+00:00",
+   "merged_from": "v7c-mlx--4"
+  },
+  {
+   "argv": "/Users/james/workroots/v7c-release/venv/bin/bench run --system ours-mlx --label v7c-mlx--5 --out /Users/james/workroots/v7c-release/results --no-chapters --only @/Users/james/workroots/v7c-release/code/podin/mlx-5.txt",
+   "passes_to_do": 1154,
+   "machine": {
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
+    "machine": "arm64",
+    "python": "3.12.13",
+    "cpu": "Apple M5 Ultra",
+    "memory_gb": 256.0,
+    "os": "macOS 27.0.1 (26A434)"
+   },
+   "code_revision": "unknown",
+   "started": "2026-10-20T05:08:43+00:00",
+   "finished": "2026-10-20T05:28:08+00:00",
+   "merged_from": "v7c-mlx--5"
+  },
+  {
+   "argv": "/Users/james/workroots/v7c-release/venv/bin/bench run --system ours-mlx --label v7c-mlx--6 --out /Users/james/workroots/v7c-release/results --no-chapters --only @/Users/james/workroots/v7c-release/code/podin/mlx-6.txt",
+   "passes_to_do": 1125,
+   "machine": {
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
+    "machine": "arm64",
+    "python": "3.12.13",
+    "cpu": "Apple M5 Ultra",
+    "memory_gb": 256.0,
+    "os": "macOS 27.0.1 (26A434)"
+   },
+   "code_revision": "unknown",
+   "started": "2026-10-20T05:28:15+00:00",
+   "finished": "2026-10-20T05:49:18+00:00",
+   "merged_from": "v7c-mlx--6"
+  },
+  {
+   "argv": "/Users/virgil/workroots/v7c-release/venv/bin/bench run --system ours-mlx --label v7c-mlx--7 --out /Users/virgil/workroots/v7c-release/results --no-chapters --only @/Users/virgil/workroots/v7c-release/code/podin/mlx-7.txt",
+   "passes_to_do": 1143,
+   "machine": {
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "machine": "arm64",
+    "python": "3.12.13",
+    "cpu": "Apple M5 Pro",
+    "memory_gb": 64.0,
+    "os": "macOS 27.0 (26A428)"
+   },
+   "code_revision": "unknown",
+   "started": "2026-10-20T03:43:11+00:00",
+   "finished": "2026-10-20T04:03:19+00:00",
+   "merged_from": "v7c-mlx--7",
+   "config_local": {
+    "adapter": "/Users/virgil/workroots/v7c-release/adapters/qwen17B_audio_heard_v7c",
+    "binary": "/Users/virgil/workroots/v7c-release/bin/detailkeeper-bench"
+   }
+  },
+  {
+   "argv": "/Users/virgil/workroots/v7c-release/venv/bin/bench run --system ours-mlx --label v7c-mlx--8 --out /Users/virgil/workroots/v7c-release/results --no-chapters --only @/Users/virgil/workroots/v7c-release/code/podin/mlx-8.txt",
+   "passes_to_do": 1140,
+   "machine": {
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "machine": "arm64",
+    "python": "3.12.13",
+    "cpu": "Apple M5 Pro",
+    "memory_gb": 64.0,
+    "os": "macOS 27.0 (26A428)"
+   },
+   "code_revision": "unknown",
+   "started": "2026-10-20T04:03:20+00:00",
+   "finished": "2026-10-20T04:22:45+00:00",
+   "merged_from": "v7c-mlx--8",
+   "config_local": {
+    "adapter": "/Users/virgil/workroots/v7c-release/adapters/qwen17B_audio_heard_v7c",
+    "binary": "/Users/virgil/workroots/v7c-release/bin/detailkeeper-bench"
+   }
+  },
+  {
+   "argv": "/Users/virgil/workroots/v7c-release/venv/bin/bench run --system ours-mlx --label v7c-mlx--9 --out /Users/virgil/workroots/v7c-release/results --no-chapters --only @/Users/virgil/workroots/v7c-release/code/podin/mlx-9.txt",
+   "passes_to_do": 1141,
+   "machine": {
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "machine": "arm64",
+    "python": "3.12.13",
+    "cpu": "Apple M5 Pro",
+    "memory_gb": 64.0,
+    "os": "macOS 27.0 (26A428)"
+   },
+   "code_revision": "unknown",
+   "started": "2026-10-20T04:22:48+00:00",
+   "finished": "2026-10-20T04:41:30+00:00",
+   "merged_from": "v7c-mlx--9",
+   "config_local": {
+    "adapter": "/Users/virgil/workroots/v7c-release/adapters/qwen17B_audio_heard_v7c",
+    "binary": "/Users/virgil/workroots/v7c-release/bin/detailkeeper-bench"
+   }
+  },
+  {
+   "argv": "/Users/virgil/workroots/v7c-release/venv/bin/bench run --system ours-mlx --label v7c-mlx--10 --out /Users/virgil/workroots/v7c-release/results --no-chapters --only @/Users/virgil/workroots/v7c-release/code/podin/mlx-10.txt",
+   "passes_to_do": 1150,
+   "machine": {
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "machine": "arm64",
+    "python": "3.12.13",
+    "cpu": "Apple M5 Pro",
+    "memory_gb": 64.0,
+    "os": "macOS 27.0 (26A428)"
+   },
+   "code_revision": "unknown",
+   "started": "2026-10-20T04:41:32+00:00",
+   "finished": "2026-10-20T05:00:53+00:00",
+   "merged_from": "v7c-mlx--10",
+   "config_local": {
+    "adapter": "/Users/virgil/workroots/v7c-release/adapters/qwen17B_audio_heard_v7c",
+    "binary": "/Users/virgil/workroots/v7c-release/bin/detailkeeper-bench"
+   }
+  },
+  {
+   "argv": "/Users/virgil/workroots/v7c-release/venv/bin/bench run --system ours-mlx --label v7c-mlx--11 --out /Users/virgil/workroots/v7c-release/results --no-chapters --only @/Users/virgil/workroots/v7c-release/code/podin/mlx-11.txt",
+   "passes_to_do": 1125,
+   "machine": {
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "machine": "arm64",
+    "python": "3.12.13",
+    "cpu": "Apple M5 Pro",
+    "memory_gb": 64.0,
+    "os": "macOS 27.0 (26A428)"
+   },
+   "code_revision": "unknown",
+   "started": "2026-10-20T05:00:55+00:00",
+   "finished": "2026-10-20T05:19:10+00:00",
+   "merged_from": "v7c-mlx--11",
+   "config_local": {
+    "adapter": "/Users/virgil/workroots/v7c-release/adapters/qwen17B_audio_heard_v7c",
+    "binary": "/Users/virgil/workroots/v7c-release/bin/detailkeeper-bench"
+   }
+  }
+ ],
+ "chapters": false,
+ "note": "v7c (HF virgil-coach/own-names-qwen3-asr v0.7.0, adapter SHA-256 de91437d...1226c) + name guard + re-read on the shipped path (Detail Keeper engine af939d6, MLX, writer merged + affine 8-bit). Run 2026-10-20 as 12 shards (results/v7crel/v7c-mlx--0..11): 0-6 on the Mac Studio (M5 Ultra), 7-11 on the Mac mini (M5 Pro), whose 8-bit writer builds were bit-identical; folded into this run with build/merge_runs.py --local-paths adapter,binary (only the home folder in those two paths differs). The code was copied to the Macs without its git history (branch v7c/mlx-suites, results committed in 1d205d1), so its revision is not recorded. Variants none and own, no chapters task. Under results/v07bench/PROTOCOL.md the v1.2.0 audiobook clips are a selection target for this system, not a held-out estimate (LOOKS.md looks 11, 12, 16).",
+ "metadata_fixes": [
+  {
+   "field": "chapters",
+   "was": null,
+   "now": false,
+   "why": "not written by the code of the time; every command ran with --no-chapters",
+   "at": "2026-10-27"
+  }
+ ],
+ "speed_note": "not for speed claims: shards 0-6 ran on the Mac Studio (M5 Ultra) and 7-11 on the Mac mini (M5 Pro), so the latencies mix two machines"
+}

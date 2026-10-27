@@ -131,6 +131,6 @@
   "ami": "b1bebcfca0a17e9c",
   "modulate": "7f4826d54b38e4dc"
  },
- "machines": "passes ran on several machines (each command records its own); machine and hourly_usd above are those of the v1.1.0 run 'ours-rtx4090', which the clip latencies and the cost line come from",
+ "machines": "passes ran on several machines (each command records its own); machine and hourly_usd above are those of the v1.1.0 run 'ours-rtx4090', which the clip latencies and the cost line come from; the audiobook clips and chapters ran on the RTX 4090, the calls, svq, ami and modulate suites on an RTX PRO 6000 Blackwell at $1.69-1.79/h (commands 5 and 6): the speed and cost rows use audiobook passes only",
  "label_history": "published as 'ours-rtx4090' up to v1.1.0"
 }

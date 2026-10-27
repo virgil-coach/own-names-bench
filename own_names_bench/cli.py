@@ -4,7 +4,7 @@ import argparse
 import json
 from pathlib import Path
 
-from .data import DATASET_REVISION, default_dir, fetch, load
+from .data import DATASET_REVISION, check_sealed, default_dir, fetch, load
 from .passes import all_passes, view
 
 
@@ -46,6 +46,8 @@ def main() -> None:
         fetch(root, args.revision or DATASET_REVISION, use_token=args.token)
         b = load(root)
         print(f"{root}: {len(b.m['files'])} files, all checked")
+        for name, h in check_sealed(root).items():
+            print(f"{root / name}: sealed suite hash {h[:8]}…{h[-5:]}, every file checked")
         return
     b = load(root, verify=args.cmd == "run", samples=not getattr(args, "no_sample_files", False))
     if args.cmd == "run":

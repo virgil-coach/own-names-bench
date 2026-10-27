@@ -3,7 +3,11 @@
 (same pass id and list fingerprint) are added to RUN_A, and RUN_B's commands (with their machines)
 are appended to RUN_A's run.json. Both runs must be the same system, configuration and dataset.
 
-usage: python build/merge_runs.py RUN_A RUN_B
+--local-paths KEY,...: the configurations may differ only in these keys, and only as paths on each
+machine (the same adapter and binary, checked by SHA-256 when the run was made, under another home
+folder). RUN_B's values are recorded with each of its commands (`config_local`).
+
+usage: python build/merge_runs.py [--local-paths KEY,...] RUN_A RUN_B
 """
 import gzip
 import json
@@ -18,16 +22,26 @@ def rows(d: Path) -> list[dict]:
 
 
 def main() -> None:
-    a, b = Path(sys.argv[1]), Path(sys.argv[2])
+    args = sys.argv[1:]
+    local: list[str] = []
+    if args and args[0] == "--local-paths":
+        local, args = args[1].split(","), args[2:]
+    a, b = Path(args[0]), Path(args[1])
     ma, mb = json.loads((a / "run.json").read_text()), json.loads((b / "run.json").read_text())
-    for k in ("system", "fingerprint", "dataset_fingerprint"):
+    for k in ("system", "dataset_fingerprint", "variants", "chapters"):
         if ma.get(k) != mb.get(k):
             raise SystemExit(f"{k} differs: {ma.get(k)} vs {mb.get(k)}")
+    from own_names_bench.run import VOLATILE_CONFIG
+
+    ca, cb = ma["config"], mb["config"]
+    differ = sorted(k for k in set(ca) | set(cb) if k not in VOLATILE_CONFIG and ca.get(k) != cb.get(k))
+    if ma.get("fingerprint") != mb.get("fingerprint") and (not differ or set(differ) - set(local)):
+        raise SystemExit(f"configuration differs: {', '.join(differ) or 'fingerprint'}")
     from own_names_bench.data import default_dir, load, suite_fingerprints
     from own_names_bench.passes import all_passes
 
     bench = load(default_dir(), verify=False)
-    expected = {(p.id, p.list_sha) for p in all_passes(bench, tuple(ma.get("variants") or mb.get("variants")), True)}
+    expected = {(p.id, p.list_sha) for p in all_passes(bench, tuple(ma.get("variants") or mb.get("variants")), ma.get("chapters", True))}
     # one row per (pass, list): a pod's output sync can hand back a file with rows repeated
     ra = list({(r["id"], r.get("list_sha")): r for r in rows(a)}.values())
     have = {(r["id"], r.get("list_sha")) for r in ra if not r.get("error")}
@@ -42,7 +56,8 @@ def main() -> None:
     (a / "passes.jsonl.gz").write_bytes(gzip.compress(("\n".join(json.dumps(r, ensure_ascii=False) for r in out) + "\n").encode(), mtime=0))
     (a / "passes.jsonl").unlink(missing_ok=True)
     known = {c["started"] for c in ma["commands"]}
-    ma["commands"] += [dict(c, merged_from=b.name) for c in mb["commands"] if c["started"] not in known]
+    extra = {"config_local": {k: cb.get(k) for k in differ}} if differ else {}
+    ma["commands"] += [dict(c, merged_from=b.name, **extra) for c in mb["commands"] if c["started"] not in known]
     ma["suite_fingerprints"] = suite_fingerprints(bench)
     (a / "run.json").write_text(json.dumps(ma, indent=1) + "\n")
     print(f"{a.name}: +{len(new)} rows from {b.name} ({len(out)} in all, {len(aside)} not of the current benchmark set aside)")

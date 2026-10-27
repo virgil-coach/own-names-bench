@@ -17,7 +17,6 @@ texts recorded so a pass can be taken apart afterwards:
 
 import hashlib
 import time
-from collections import OrderedDict
 from pathlib import Path
 
 import numpy as np

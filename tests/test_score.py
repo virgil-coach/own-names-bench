@@ -205,3 +205,24 @@ def test_suite_insertions_tell_names_of_the_recording_from_others_and_skip_non_n
     texts[pid] = clip["reference"] + " " + calls.entries[junk]["written"]
     row = next(r for r in score(bench, texts)["suites"]["calls"]["name_free"] if r["clip"] == nf["clip"])
     assert not row["own_inserted"] and not row["own_inserted_foreign"]
+
+
+def test_a_run_without_chapters_is_complete_without_them(bench):
+    from own_names_bench.passes import all_passes
+    from own_names_bench.report import completeness
+
+    ps = all_passes(bench, ("none",), False)
+    rows = {p.id: {"list_sha": p.list_sha, "text": ""} for p in ps}
+    assert not completeness(bench, {"system": "qwen", "variants": ["none"]}, rows, {})["complete"]
+    c = completeness(bench, {"system": "qwen", "variants": ["none"], "chapters": False}, rows, {})
+    assert c["complete"] and c["expected"] == len(ps)
+
+
+def test_a_stale_run_is_listed_but_left_out_of_the_tables():
+    from own_names_bench.report import render
+
+    comp = {"variants": ["none"], "chapters": True, "expected": 1, "completed": 1, "failed": 0, "stale": 0, "missing": 0, "complete": True}
+    meta = {"system": "qwen", "stale": "code not recorded", "config": {}, "machine": {}, "commands": [{"argv": "", "started": ""}]}
+    md = render({"old": {"meta": meta, "summary": {}, "items": {}, "completeness": comp}}, None)
+    assert "stale: left out of every table below** (code not recorded)" in md
+    assert "| old | n/a" not in md and "- **old**" not in md

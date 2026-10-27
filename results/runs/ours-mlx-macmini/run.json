@@ -51,5 +51,6 @@
   "xr"
  ],
  "migrated": "v1.0.0 run; list fingerprints added from v1.0.0's pass definitions (build/migrate_v1_1.py)",
- "fingerprint": "056ab993d896793a"
+ "fingerprint": "056ab993d896793a",
+ "stale": "1 of its 1 commands ran from a working tree with uncommitted changes (code revision -dirty), which were not recorded, so its code is not known exactly"
 }

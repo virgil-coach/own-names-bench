@@ -1,1 +1,1 @@
-# report-args: --baseline ours --only ours ours-mlx-macmini elevenlabs-2026-10-26 deepgram-2026-10-26 elevenlabs deepgram whisper parakeet qwen qwen-context --pair ours ours-mlx-macmini --pair whisper whisper-a100
+# report-args: --baseline ours-mlx-v7c --only ours-mlx-v7c elevenlabs-2026-10-26 deepgram-2026-10-26 ours whisper parakeet qwen qwen-context elevenlabs deepgram ours-mlx-macmini --pair whisper whisper-a100

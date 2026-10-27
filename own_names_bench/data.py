@@ -5,7 +5,12 @@ From v1.2 the manifest also points at suites (suites/<name>/suite.json): other s
 own folder under its own licence, with the same shape as the audiobook data (entries, lists, clips,
 mentions, name-free items). A suite whose source may not be re-hosted (`rehosted: false`) carries no
 audio; `bench fetch` reads it from the source at the pinned revision and cuts it locally, checked
-against the PCM hash in the suite."""
+against the PCM hash in the suite.
+
+From v1.3 the dataset also holds the two sealed launch suites, each a dataset folder of its own beside
+the v1.2.0 data (run one with `bench --data <dataset>/books13 run ...`): `books13` (held-out audiobooks,
+the clips task) and `conv13` (held-out conversation, eight suites). They are published exactly as they
+were sealed and scored, so their suite hashes (SEALED_SUITES) recompute from the files."""
 
 import hashlib
 import json
@@ -13,10 +18,13 @@ import os
 from dataclasses import dataclass
 from pathlib import Path
 
-from . import BENCH_VERSION
+from . import DATA_FORMAT
 
 DATASET_REPO = "virgil-coach/own-names-bench"
-DATASET_REVISION = "v1.2.0"  # a git tag of the dataset repo; the tag names the benchmark version
+DATASET_REVISION = "v1.3.0"  # a git tag of the dataset repo; the tag names the benchmark version
+# folder -> (the sealed suite's hash: SHA-256 of the sorted '<sha256>  <path>' lines of every file under `under`, under)
+SEALED_SUITES = {"books13": ("3d6d8b65d4810c4f9571e8274bf02659a1bb507e65c7d0c333a48145a41e202f", ""),
+                 "conv13": ("dbff73e6e5785d0efcf36be582af061b63d59d351cd655ccb6e153ffa850fdd3", "suites")}
 
 
 def default_dir() -> Path:
@@ -82,6 +90,27 @@ def materialize(root: Path) -> None:
             raise SystemExit(f"{ref['name']}: {len(missing)} clips not found in {repo}@{rev}, e.g. {missing[:2]}")
 
 
+def sealed_suite_hash(folder: Path) -> str:
+    """The suite hash a sealed suite was sealed with: SHA-256 of the sorted '<sha256>  <relative path>' lines of every file."""
+    lines = sorted(f"{_sha256(p)}  {p.relative_to(folder).as_posix()}\n" for p in folder.rglob("*") if p.is_file())
+    return hashlib.sha256("".join(lines).encode()).hexdigest()
+
+
+def check_sealed(root: Path) -> dict[str, str]:
+    """Each sealed suite of the dataset: its files against the hash it was sealed with."""
+    out = {}
+    for name, (want, under) in SEALED_SUITES.items():
+        folder = root / name / under if under else root / name
+        if not folder.is_dir():
+            raise SystemExit(f"{folder}: missing; run `bench fetch`")
+        got = sealed_suite_hash(folder)
+        if got != want:
+            raise SystemExit(f"{folder}: suite hash {got}, sealed as {want}; run `bench fetch`")
+        load(root / name)
+        out[name] = got
+    return out
+
+
 def _sha256(path: Path) -> str:
     h = hashlib.sha256()
     with path.open("rb") as f:
@@ -125,8 +154,8 @@ class Bench:
 def load(root: Path, verify: bool = True, samples: bool = True) -> Bench:
     """samples=False: the taught recordings need not be on disk (clips are still checked)."""
     m = json.loads((root / "manifest.json").read_text(encoding="utf-8"))
-    if m["version"] != BENCH_VERSION:
-        raise SystemExit(f"{root}: dataset version {m['version']}, this code is benchmark version {BENCH_VERSION}")
+    if m["version"] != DATA_FORMAT:
+        raise SystemExit(f"{root}: data format {m['version']}, this code reads data format {DATA_FORMAT}")
     if verify:
         bad = [rel for rel, digest in m["files"].items() if not (root / rel).is_file() or _sha256(root / rel) != digest]
         if bad:

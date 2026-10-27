@@ -1,7 +1,7 @@
 {
  "benchmark": "own-names-bench",
- "benchmark_version": "1.0.0",
- "dataset": "virgil-coach/own-names-bench@v1.0.0",
+ "benchmark_version": "1.2.0",
+ "dataset": "virgil-coach/own-names-bench@v1.2.0",
  "manifest_sha256": "7b0adf32c2c70ad20145c9fa087dba63d319fad992eeac3260621e696a77e652",
  "code_revision": "1ba0dc2da466d4576e3b34d2efb94f41116f662b",
  "system": "whisper",
@@ -88,5 +88,21 @@
   "modulate": "7f4826d54b38e4dc"
  },
  "machines": "passes ran on several machines (each command records its own); machine and hourly_usd above are those of the v1.1.0 run 'whisper-rtx4090', which the clip latencies and the cost line come from",
- "label_history": "published as 'whisper-rtx4090' up to v1.1.0"
+ "label_history": "published as 'whisper-rtx4090' up to v1.1.0",
+ "metadata_fixes": [
+  {
+   "field": "dataset",
+   "was": "virgil-coach/own-names-bench@v1.0.0",
+   "now": "virgil-coach/own-names-bench@v1.2.0",
+   "why": "every current row is of a v1.2.0 pass (completeness checks each row's list fingerprint against v1.2.0's) and the dataset fingerprint 1625ef57 is v1.2.0's: the v1.0.0 and v1.1.0 audiobook passes ran on audiobook data that v1.1.0 and v1.2.0 keep unchanged (CHANGES_v1.1_to_v1.2.md), the corrected and suite passes on v1.2.0 (see commands)",
+   "at": "2026-10-27"
+  },
+  {
+   "field": "benchmark_version",
+   "was": "1.0.0",
+   "now": "1.2.0",
+   "why": "the suite passes were made by v1.2.0 code (commands at 26ee0b8 / aa5d8b8); every current row is of a v1.2.0 pass (completeness checks each row's list fingerprint against v1.2.0's) and the dataset fingerprint 1625ef57 is v1.2.0's: the v1.0.0 and v1.1.0 audiobook passes ran on audiobook data that v1.1.0 and v1.2.0 keep unchanged (CHANGES_v1.1_to_v1.2.md), the corrected and suite passes on v1.2.0 (see commands)",
+   "at": "2026-10-27"
+  }
+ ]
 }

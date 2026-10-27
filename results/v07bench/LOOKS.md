@@ -29,13 +29,14 @@ error; 95% intervals clustered by book.
 | 10 | v0.3.0 (published, `audio-text-note` e02efd5e) + guard + re-read on the shipped path: Detail Keeper engine af939d6 `detailkeeper-bench`, MLX, writer merged + affine 8-bit (`ours-mlx`, own-names-bench v7c/mlx-suites, Mac Studio + Mac mini), the app as it ships (0.1.1) | 67dbabef14851e89ad1b62d509e595713d4a2b6254fbc26cdb700fca1e097f55 | 2026-10-19 | 4.4 [0.7, 10.5] (18/408) | 95.9 [93.7, 98.5] (1062/1107) | 7.0 [2.3, 11.3] (78/1107) | 2.6 [2.3, 3.0] |
 | 11 | v7c (v0.7.0 candidate) + guard + re-read on the shipped path: Detail Keeper engine af939d6 `detailkeeper-bench`, MLX, writer merged + affine 8-bit (d7109615…6162; `ours-mlx`, own-names-bench v7c/mlx-suites, Mac Studio + Mac mini) | de91437d4fc828b49605e6482a32b817d55ac4853d1714ac1e2bf9be8f61226c | 2026-10-20 | 1.2 [0.2, 2.5] (5/408) | 92.6 [88.8, 96.5] (1025/1107) | 4.6 [1.1, 8.0] (51/1107) | 2.8 [2.3, 3.3] |
 | 12 | v7c, the same passes as look 11 (no new inference), re-scored paired against the hosted re-runs `elevenlabs-2026-10-26` and `deepgram-2026-10-26` for the Detail Keeper benchmark page draft (release check's `diag/mlx_score.py`) | de91437d4fc828b49605e6482a32b817d55ac4853d1714ac1e2bf9be8f61226c | 2026-10-26 | 1.2 [0.2, 2.5] (5/408) | 92.6 [88.8, 96.5] (1025/1107) | 4.6 [1.1, 8.0] (51/1107) | 2.8 [2.3, 3.3] |
+| 16 | v7c, the same passes as looks 11 and 12 (no new inference), re-scored by the benchmark's own `bench report` for the v1.3.0 release: the 12 shards folded into one run `results/runs/ours-mlx-v7c` (13,670/13,670 passes, 0 failed; variants none and own, no chapters), paired against `elevenlabs-2026-10-26` and `deepgram-2026-10-26` (`results/scores/REPORT.md`, `results/scores/ours-mlx-v7c.json`). Same aggregates as look 12, and every paired difference and verdict on the audiobook clips and the four v1.2.0 suites the same as the page draft's (rounded to 0.1) | de91437d4fc828b49605e6482a32b817d55ac4853d1714ac1e2bf9be8f61226c | 2026-10-27 | 1.2 [0.2, 2.5] (5/408) | 92.6 [88.8, 96.5] (1025/1107) | 4.6 [1.1, 8.0] (51/1107) | 2.8 [2.3, 3.3] |
 
 ## Reference runs scored on the clips after the protocol (not candidates)
 
 | System | Date | Names right | Untaught overwritten | False insertions | Source |
 | --- | --- | --- | --- | --- | --- |
 | ElevenLabs Scribe v2 (keyterms), `elevenlabs-2026-10-26` | 2026-10-26 | 92.8 [88.5, 97.2] | 2.9 [1.2, 4.8] | 0.2 [0.0, 0.7] (1/408) | launch/hosted-2026-10-26, results/scores/HOSTED_RERUN_2026-10-26.md |
-| Deepgram Nova-3 (keyterm), `deepgram-2026-10-26` | 2026-10-26 | 75.1 [61.8, 89.5] | 8.5 [5.9, 11.1] | see HOSTED_RERUN_2026-10-26.md | same |
+| Deepgram Nova-3 (keyterm), `deepgram-2026-10-26` | 2026-10-26 | 75.1 [61.8, 89.5] | 8.5 [5.9, 11.1] | 1.7 [0.5, 2.9] (7/408) | same; `results/scores/deepgram-2026-10-26.json` |
 
 ## Looks at the sealed v1.3 launch suites (scored once per final system)
 

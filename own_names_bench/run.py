@@ -138,7 +138,7 @@ def run(b: Bench, system: System, out: Path, *, chapters: bool, limit: int, only
     meta.update({
         "benchmark": BENCH_NAME, "benchmark_version": BENCH_VERSION, "dataset": f"{DATASET_REPO}@{DATASET_REVISION}",
         "dataset_fingerprint": dataset_fp, "suite_fingerprints": suite_fps, "manifest_sha256": manifest_sha256(b.root), "code_revision": code_revision(),
-        "system": system.name, "variants": list(system.variants), "kind": system.kind, "config": config, "fingerprint": fp,
+        "system": system.name, "variants": list(system.variants), "chapters": chapters, "kind": system.kind, "config": config, "fingerprint": fp,
         "price": system.price(), "machine": machine(), "hourly_usd": hourly_usd,
     })
     meta.setdefault("commands", []).append({"argv": " ".join(shlex.quote(a) for a in sys.argv), "passes_to_do": len(todo),

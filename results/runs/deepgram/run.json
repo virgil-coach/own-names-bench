@@ -89,5 +89,6 @@
    "rows_set_aside": 3646,
    "at": "2026-10-14T16:08:31+00:00"
   }
- ]
+ ],
+ "stale": "2 of its 3 commands (13291 passes to do) ran from a working tree with uncommitted changes (code revision -dirty), which were not recorded, so its code is not known exactly; superseded by deepgram-2026-10-26"
 }

@@ -1,9 +1,10 @@
 """Scores every run and writes the results: one JSON file per run and a Markdown report.
 
 Only complete runs are compared. A run is complete when every pass the benchmark expects of that
-system (its list variants, every clip and chapter) has a transcript made from the current pass
-definition (same list fingerprint) and none failed. Incomplete runs are listed with their counts
-and left out of every result table, so a missing outcome can never quietly shrink a denominator.
+system (its list variants, every clip, and every chapter unless the run was made without the chapters
+task) has a transcript made from the current pass definition (same list fingerprint) and none failed.
+Incomplete runs are listed with their counts and left out of every result table, so a missing outcome
+can never quietly shrink a denominator. So are runs whose run.json marks them `stale` (with why).
 """
 
 import json
@@ -64,11 +65,12 @@ def ratio(rows: list[dict], num: str, den: str, group: str) -> dict | None:
 
 def completeness(b: Bench, meta: dict, rows: dict[str, dict], failed: dict[str, dict]) -> dict:
     variants = tuple(meta.get("variants") or SYSTEM_VARIANTS[meta["system"]])
-    expected = {p.id: p for p in all_passes(b, variants, True)}
+    chapters = meta.get("chapters", True)
+    expected = {p.id: p for p in all_passes(b, variants, chapters)}
     done = {pid for pid, r in rows.items() if pid in expected and r.get("list_sha") == expected[pid].list_sha}
     stale = [pid for pid, r in rows.items() if pid in expected and r.get("list_sha") != expected[pid].list_sha]
     bad = [pid for pid in failed if pid in expected and pid not in done]
-    return {"variants": list(variants), "expected": len(expected), "completed": len(done), "failed": len(bad),
+    return {"variants": list(variants), "chapters": chapters, "expected": len(expected), "completed": len(done), "failed": len(bad),
             "stale": len(stale), "missing": len(expected) - len(done), "complete": len(done) == len(expected)}
 
 
@@ -289,7 +291,7 @@ def build(b: Bench, runs: list[Path], out_dir: Path, baseline: str | None, pairs
             if ones:
                 meta["load_average_1min"] = {"min": min(ones), "median": float(np.median(ones)), "max": max(ones), "samples": len(ones)}
         comp = completeness(b, meta, rows, failed)
-        expected = {p.id: p.list_sha for p in all_passes(b, tuple(comp["variants"]), True)}
+        expected = {p.id: p.list_sha for p in all_passes(b, tuple(comp["variants"]), comp["chapters"])}
         current = {pid: r for pid, r in rows.items() if expected.get(pid) == r.get("list_sha")}
         s = score(b, {pid: r["text"] for pid, r in current.items()})
         summary = summarize(b, s, current, meta)
@@ -325,9 +327,12 @@ def render(results: dict, baseline: str | None) -> str:
          "| --- | --- | --- | --- | --- | --- | --- | --- |"]
     for label, r in results.items():
         c = r["completeness"]
-        L.append(f"| {label} | {r['meta']['system']} | {', '.join(c['variants'])} | {c['expected']} | {c['completed']} | {c['failed']} | "
-                 f"{c['stale']} | {'yes' if c['complete'] else '**no: left out of every table below**'} |")
-    results = {k: v for k, v in results.items() if v["completeness"]["complete"]}
+        status = "yes" if c["complete"] else "**no: left out of every table below**"
+        if c["complete"] and r["meta"].get("stale"):
+            status = f"yes, but **stale: left out of every table below** ({r['meta']['stale']})"
+        L.append(f"| {label} | {r['meta']['system']} | {', '.join(c['variants'])}{'' if c.get('chapters', True) else ' (no chapters)'} | "
+                 f"{c['expected']} | {c['completed']} | {c['failed']} | {c['stale']} | {status} |")
+    results = {k: v for k, v in results.items() if v["completeness"]["complete"] and not v["meta"].get("stale")}
     for v, title in (("own", "Clips, the book's own name list"), ("all", "Clips, all-books list (902 entries)")):
         L += ["", f"## {title}", "",
               "| System | Names right, invented | Names right, traditional | Names right, all | Untaught overwritten | Wrong name written | "
@@ -336,7 +341,9 @@ def render(results: dict, baseline: str | None) -> str:
         for label, r in results.items():
             d = r["summary"]["clips"].get(v)
             if not d:
-                L.append(f"| {label} | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | its feature cannot take this list |")
+                can = v in SYSTEM_VARIANTS.get(r["meta"]["system"], ())
+                L.append(f"| {label} | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | "
+                         f"{'not run (this run made only the ' + ', '.join(r['completeness']['variants']) + ' lists)' if can else 'its feature cannot take this list'} |")
                 continue
             L.append(f"| {label} | {fmt_p(d['invented']['right'])} | {fmt_p(d['traditional']['right'])} | {fmt_p(d['all']['right'])} | "
                      f"{fmt_p(d['all']['overwritten'])} | {fmt_p(d['all']['wrong_name'])} | {fmt_p(d['name_free_inserted'])} | "
@@ -355,6 +362,9 @@ def render(results: dict, baseline: str | None) -> str:
           "| --- | --- | --- | --- | --- | --- | --- | --- | --- |"]
     for label, r in results.items():
         c = r["summary"]["chapters"]
+        if not r["completeness"].get("chapters", True):
+            L.append(f"| {label} | not run (made without the chapters task) |" + " |" * 8)
+            continue
         t, u, n = c.get("taught"), c.get("untaught"), c.get("none")
         L.append(f"| {label} | {fmt_p(t and t['right'])} | {fmt_p(t and t['right_same_reader'])} | {fmt_p(t and t['right_other_reader'])} | "
                  f"{fmt_r(t and t['wrong_writes_per_min'], 1, 2)} | {fmt_p(u and u['overwritten'])} | {fmt_r(t and t['ordinary_wer'])} | "
@@ -419,6 +429,8 @@ def render(results: dict, baseline: str | None) -> str:
         if r["meta"].get("load_average_1min"):
             la = r["meta"]["load_average_1min"]
             mach += f" (shared; 1-min load {la['min']:.0f}–{la['max']:.0f}, median {la['median']:.0f}: not for latency claims)"
+        if r["meta"].get("speed_note"):
+            mach += f" ({r['meta']['speed_note']})"
         cl = sp.get("clip", {})
         if cost["basis"] == "list price":
             nominal = f"${cost['usd_per_audio_hour_with_list']:.3f} with a list, ${cost['usd_per_audio_hour_no_list']:.3f} without ({cost['checked']})"
@@ -457,10 +469,15 @@ def render(results: dict, baseline: str | None) -> str:
     L += ["", "## Runs", ""]
     for label, r in results.items():
         m = r["meta"]
+        revs = list(dict.fromkeys(c.get("code_revision") or "not recorded" for c in m["commands"]))
+        machines = list(dict.fromkeys((c.get("machine") or {}).get("gpu") or (c.get("machine") or {}).get("cpu") or "not recorded"
+                                      for c in m["commands"]))
         L.append(f"- **{label}**: `{m['system']}` {json.dumps(m['config'], ensure_ascii=False)}; machine {json.dumps(m['machine'])}; "
                  f"code {m['code_revision']}; dataset {m['dataset']} (fingerprint {m.get('dataset_fingerprint', '')[:12]}); "
-                 f"commands {[c['argv'] for c in m['commands']]}; started {m['commands'][0]['started']}"
-                 + (f"; note: {m['note']}" if m.get("note") else ""))
+                 f"commands {[c['argv'] for c in m['commands']]}; code per command {revs}; machine per command {machines}; "
+                 f"started {m['commands'][0]['started']}"
+                 + (f"; note: {m['note']}" if m.get("note") else "")
+                 + "".join(f"; metadata corrected: {x['field']} was {json.dumps(x['was'])} ({x['why']})" for x in m.get("metadata_fixes", [])))
     return "\n".join(L) + "\n"
 
 

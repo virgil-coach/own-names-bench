@@ -23,6 +23,8 @@ def main() -> None:
     r.add_argument("--only", default="", help="only passes whose id starts with this, e.g. chapter/")
     r.add_argument("--no-chapters", action="store_true")
     r.add_argument("--hourly-usd", type=float, default=None, help="what the machine costs per hour, for cost per audio hour")
+    r.add_argument("--no-sample-files", action="store_true",
+                   help="do not require the taught recordings on disk (a system that takes names as text, e.g. keyterms)")
     r.add_argument("--accept-config-change", default="", metavar="REASON",
                    help="resume a run whose configuration changed, recording why (only for changes that cannot alter a transcript)")
     s = sub.add_parser("report", help="score every run and write results/scores/*.json and REPORT.md")
@@ -45,7 +47,7 @@ def main() -> None:
         b = load(root)
         print(f"{root}: {len(b.m['files'])} files, all checked")
         return
-    b = load(root, verify=args.cmd == "run")
+    b = load(root, verify=args.cmd == "run", samples=not getattr(args, "no_sample_files", False))
     if args.cmd == "run":
         from .run import run
         from .systems import SYSTEMS

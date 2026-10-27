@@ -1,0 +1,71 @@
+{
+ "benchmark": "own-names-bench",
+ "benchmark_version": "1.2.0",
+ "dataset": "virgil-coach/own-names-bench@v1.2.0",
+ "dataset_fingerprint": "54d0fa007c55db72",
+ "suite_fingerprints": {
+  "conv13-conv": "c3c706d5c77658a6",
+  "conv13-far": "2e303b1f78f7ca6e",
+  "conv13-level": "fc5fcb8af5e32dff",
+  "conv13-near": "a280f27ce6dcb63c",
+  "conv13-short": "9902300b24c4daef",
+  "conv13-street": "a9b3b5ebfb16db64",
+  "conv13-tel": "4845c28cfc2635a7",
+  "conv13-xspk": "f752912952d80edc"
+ },
+ "manifest_sha256": "48286d151a41d685325c524b8bb3cc4b80d7103f3d77602b2ec76f219b2ce09e",
+ "code_revision": "v06/final@b086d92",
+ "system": "elevenlabs",
+ "variants": [
+  "none",
+  "own",
+  "all"
+ ],
+ "kind": "cloud",
+ "config": {
+  "service": "ElevenLabs Speech to Text",
+  "endpoint": "https://api.elevenlabs.io/v1/speech-to-text",
+  "model_id": "scribe_v2",
+  "language_code": "en",
+  "tag_audio_events": false,
+  "temperature": 0.0,
+  "seed": 0,
+  "list_feature": "keyterms",
+  "limits": "<=1000 terms, each <50 chars and <=5 words, no <>{}[]\\",
+  "fit": "drop terms that break a per-term rule, then keep the first 1000 (most frequent in the book first)"
+ },
+ "fingerprint": "03893042daebfd36",
+ "price": {
+  "usd_per_audio_hour": 0.22,
+  "usd_per_audio_hour_with_list": 0.27,
+  "min_billable_s_over_100_terms": 20,
+  "checked": "2026-10-13",
+  "source": "https://elevenlabs.io/pricing/api"
+ },
+ "machine": {
+  "platform": "macOS-26.3.1-arm64-arm-64bit",
+  "machine": "arm64",
+  "python": "3.12.13",
+  "cpu": "Apple M4 Max",
+  "memory_gb": 128.0,
+  "os": "macOS 26.3.1 (25D771280a)"
+ },
+ "hourly_usd": null,
+ "commands": [
+  {
+   "argv": "/Users/jameslal/workspace/jl/own-names-bench-wt-final/.venv/bin/bench --data /private/tmp/claude-501/-Users-jameslal-workspace-jl/1530f64d-f911-490c-b89a-551312343212/scratchpad/c13asm/data run --system elevenlabs --label c13-elevenlabs --out results/v06final --no-chapters --no-sample-files",
+   "passes_to_do": 9373,
+   "machine": {
+    "platform": "macOS-26.3.1-arm64-arm-64bit",
+    "machine": "arm64",
+    "python": "3.12.13",
+    "cpu": "Apple M4 Max",
+    "memory_gb": 128.0,
+    "os": "macOS 26.3.1 (25D771280a)"
+   },
+   "code_revision": "v06/final@b086d92",
+   "started": "2026-10-16T19:33:42+00:00",
+   "finished": "2026-10-16T20:02:40+00:00"
+  }
+ ]
+}

@@ -122,7 +122,8 @@ class Bench:
         return [self.entries[i]["written"] for i in ids]
 
 
-def load(root: Path, verify: bool = True) -> Bench:
+def load(root: Path, verify: bool = True, samples: bool = True) -> Bench:
+    """samples=False: the taught recordings need not be on disk (clips are still checked)."""
     m = json.loads((root / "manifest.json").read_text(encoding="utf-8"))
     if m["version"] != BENCH_VERSION:
         raise SystemExit(f"{root}: dataset version {m['version']}, this code is benchmark version {BENCH_VERSION}")
@@ -144,7 +145,7 @@ def load(root: Path, verify: bool = True) -> Bench:
                 p = root / c["audio"]
                 if not p.is_file() or ("sha256" in c and _sha256(p) != c["sha256"]):
                     bad.append(c["audio"])
-            for e in s["entries"].values():
+            for e in (s["entries"].values() if samples else ()):
                 p = root / e["sample"]
                 if not p.is_file() or ("sample_sha256" in e and _sha256(p) != e["sample_sha256"]):
                     bad.append(e["sample"])

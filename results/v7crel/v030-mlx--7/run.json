@@ -1,0 +1,69 @@
+{
+ "benchmark": "own-names-bench",
+ "benchmark_version": "1.2.0",
+ "dataset": "virgil-coach/own-names-bench@v1.2.0",
+ "dataset_fingerprint": "1625ef57df22bdba",
+ "suite_fingerprints": {
+  "calls": "b9dee190988d10ff",
+  "svq": "42eced936a70332d",
+  "ami": "b1bebcfca0a17e9c",
+  "modulate": "7f4826d54b38e4dc"
+ },
+ "manifest_sha256": "3025b1e5421100f72a5f9412c5eceb0039c67592f8157cf487e7af4d2b7da8b4",
+ "code_revision": "unknown",
+ "system": "ours-mlx",
+ "variants": [
+  "none",
+  "own"
+ ],
+ "kind": "local",
+ "config": {
+  "runtime": "Detail Keeper engine (Rust, MLX), detailkeeper-bench",
+  "engine_commit": "af939d6",
+  "binary": "/Users/virgil/workroots/v7c-release/bin/detailkeeper-bench",
+  "adapter": "hf://virgil-coach/own-names-qwen3-asr@e02efd5e0db0f357f7ada3caf18e1ca293528098/audio-text-note",
+  "adapter_version": "v0.3.0",
+  "adapter_sha256": "-",
+  "writer": "merged adapter, text decoder affine 8-bit, audio encoder bf16",
+  "g2p": "own_names_bench/ours_ref/g2p.json (espeak-ng 1.52.0, every benchmark name)",
+  "shortlist": 10,
+  "prune": "off",
+  "gate": "none",
+  "engine": {
+   "adapter": "audio-text-note",
+   "device": "metal",
+   "model": "Qwen/Qwen3-ASR-1.7B-hf",
+   "ready": true
+  },
+  "list_feature": "spotter shortlist of the whole list -> writer prompt + taught recordings",
+  "fit": "no limit: the spotter ranks every name"
+ },
+ "fingerprint": "bdfcaec1f8846334",
+ "price": {},
+ "machine": {
+  "platform": "macOS-27.0-arm64-arm-64bit",
+  "machine": "arm64",
+  "python": "3.12.13",
+  "cpu": "Apple M5 Pro",
+  "memory_gb": 64.0,
+  "os": "macOS 27.0 (26A428)"
+ },
+ "hourly_usd": null,
+ "commands": [
+  {
+   "argv": "/Users/virgil/workroots/v7c-release/venv/bin/bench run --system ours-mlx --label v030-mlx--7 --out /Users/virgil/workroots/v7c-release/results --no-chapters --only @/Users/virgil/workroots/v7c-release/code/podin/mlx-7.txt",
+   "passes_to_do": 1143,
+   "machine": {
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "machine": "arm64",
+    "python": "3.12.13",
+    "cpu": "Apple M5 Pro",
+    "memory_gb": 64.0,
+    "os": "macOS 27.0 (26A428)"
+   },
+   "code_revision": "unknown",
+   "started": "2026-10-19T19:59:52+00:00",
+   "finished": "2026-10-19T20:18:05+00:00"
+  }
+ ]
+}

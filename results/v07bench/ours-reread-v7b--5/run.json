@@ -1,0 +1,81 @@
+{
+ "benchmark": "own-names-bench",
+ "benchmark_version": "1.2.0",
+ "dataset": "virgil-coach/own-names-bench@v1.2.0",
+ "dataset_fingerprint": "1625ef57df22bdba",
+ "suite_fingerprints": {
+  "calls": "b9dee190988d10ff",
+  "svq": "42eced936a70332d",
+  "ami": "b1bebcfca0a17e9c",
+  "modulate": "7f4826d54b38e4dc"
+ },
+ "manifest_sha256": "3025b1e5421100f72a5f9412c5eceb0039c67592f8157cf487e7af4d2b7da8b4",
+ "code_revision": "v07/bench@ecdb4df",
+ "system": "ours-reread",
+ "variants": [
+  "none",
+  "own"
+ ],
+ "kind": "local",
+ "config": {
+  "runtime": "PyTorch reference (own_names_bench/ours_ref)",
+  "device": "cuda",
+  "torch": "2.14.1+cu130",
+  "transformers": "5.19.0",
+  "cuda_device": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+  "base": "Qwen/Qwen3-ASR-1.7B-hf@bcd2b5b7f32b480ab5790554cfa8347f246a14f3",
+  "adapter": "local:/root/pod/adapters/192e7fec3a6a48ed7e7d4ed3e6cf5a3e9174729114aba57d4b2f0ad74c570a01/qwen17B_audio_heard_v7b",
+  "adapter_version": "qwen17B_audio_heard_v7b",
+  "adapter_sha256": "192e7fec3a6a48ed7e7d4ed3e6cf5a3e9174729114aba57d4b2f0ad74c570a01",
+  "dtype": "float32",
+  "decoding": "greedy, at most 200 new tokens",
+  "spotter_phon": "facebook/wav2vec2-lv-60-espeak-cv-ft@0c380a877907192512147c466ead03055f200cad",
+  "spotter_wavlm": "microsoft/wavlm-base-plus@98fd61b9c652129c839c0a25a05987d8f59256a4",
+  "g2p": "own_names_bench/ours_ref/g2p.json (espeak-ng 1.52.0, every benchmark name)",
+  "shortlist": 10,
+  "prune": "off",
+  "gate": "none",
+  "windows": "Detail Keeper Segmenter (pause 0.45 s after 2 s, cap 8 s), fed 0.1 s at a time; short windows held (min speech 4.0 s, hold 1.0 s)",
+  "list_feature": "spotter shortlist of the whole list -> writer prompt + taught recordings",
+  "fit": "no limit: the spotter ranks every name",
+  "platform": "Linux-6.8.0-137-generic-x86_64-with-glibc2.35",
+  "fixes": {
+   "guard": "an empty list answer gets the no-list text",
+   "level": "taught recordings scaled to the window's speech RMS (louder half of 20 ms frames)",
+   "short": "a pause cuts a window with under 4.0 s of speech only after 1.0 s of quiet",
+   "name_guard": "under 1.2 s of speech, a written listed name the no-list text lacks, letter agreement < 0.55 and recording match (emb) < -0.48: the no-list text",
+   "reread": "a window with under 4.0 s of speech and a neighbour is written again with up to 4.0 s either side (10.0 s at most) and the merged shortlists, keeping its part of the answer"
+  },
+  "trace": "per-window plain / written / final text in extra.windows"
+ },
+ "fingerprint": "84d4cdc755857352",
+ "price": {},
+ "machine": {
+  "platform": "Linux-6.8.0-137-generic-x86_64-with-glibc2.35",
+  "machine": "x86_64",
+  "python": "3.12.15",
+  "cpu": "AMD EPYC 9535 64-Core Processor",
+  "memory_gb": 1511.4,
+  "os": "Ubuntu 22.04.5 LTS",
+  "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition, 595.91.07, 97887 MiB"
+ },
+ "hourly_usd": 1.74,
+ "commands": [
+  {
+   "argv": "/root/pod/venv-qwen/bin/bench --data /root/pod/data run --system ours-reread --label ours-reread-v7b--5 --out /root/pod/results/v07bench --no-chapters --hourly-usd 1.74 --only @podin/bk-5.txt",
+   "passes_to_do": 670,
+   "machine": {
+    "platform": "Linux-6.8.0-137-generic-x86_64-with-glibc2.35",
+    "machine": "x86_64",
+    "python": "3.12.15",
+    "cpu": "AMD EPYC 9535 64-Core Processor",
+    "memory_gb": 1511.4,
+    "os": "Ubuntu 22.04.5 LTS",
+    "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition, 595.91.07, 97887 MiB"
+   },
+   "code_revision": "v07/bench@ecdb4df",
+   "started": "2026-10-17T21:15:07+00:00",
+   "finished": "2026-10-17T21:56:31+00:00"
+  }
+ ]
+}

@@ -1,0 +1,2198 @@
+{
+ "conv13-v7c-mlx": {
+  "label": "conv13-v7c-mlx",
+  "benchmark_version": "1.2.0",
+  "run": {
+   "benchmark": "own-names-bench",
+   "benchmark_version": "1.2.0",
+   "dataset": "virgil-coach/own-names-bench@v1.2.0",
+   "dataset_fingerprint": "54d0fa007c55db72",
+   "suite_fingerprints": {
+    "conv13-conv": "c3c706d5c77658a6",
+    "conv13-far": "2e303b1f78f7ca6e",
+    "conv13-level": "fc5fcb8af5e32dff",
+    "conv13-near": "a280f27ce6dcb63c",
+    "conv13-short": "9902300b24c4daef",
+    "conv13-street": "a9b3b5ebfb16db64",
+    "conv13-tel": "4845c28cfc2635a7",
+    "conv13-xspk": "f752912952d80edc"
+   },
+   "manifest_sha256": "48286d151a41d685325c524b8bb3cc4b80d7103f3d77602b2ec76f219b2ce09e",
+   "code_revision": "unknown",
+   "system": "ours-mlx",
+   "variants": [
+    "none",
+    "own"
+   ],
+   "kind": "local",
+   "config": {
+    "runtime": "Detail Keeper engine (Rust, MLX), detailkeeper-bench",
+    "engine_commit": "af939d6",
+    "binary": "/Users/virgil/workroots/v7c-release/bin/detailkeeper-bench",
+    "adapter": "/Users/virgil/workroots/v7c-release/adapters/qwen17B_audio_heard_v7c",
+    "adapter_version": "v0.7.0",
+    "adapter_sha256": "de91437d4fc828b49605e6482a32b817d55ac4853d1714ac1e2bf9be8f61226c",
+    "writer": "merged adapter, text decoder affine 8-bit, audio encoder bf16",
+    "g2p": "own_names_bench/ours_ref/g2p.json (espeak-ng 1.52.0, every benchmark name)",
+    "shortlist": 10,
+    "prune": "off",
+    "gate": "none",
+    "engine": {
+     "adapter": "qwen17B_audio_heard_v7c",
+     "device": "metal",
+     "model": "Qwen/Qwen3-ASR-1.7B-hf",
+     "ready": true
+    },
+    "list_feature": "spotter shortlist of the whole list -> writer prompt + taught recordings",
+    "fit": "no limit: the spotter ranks every name"
+   },
+   "fingerprint": "28395c4747991a15",
+   "price": {},
+   "machine": {
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "machine": "arm64",
+    "python": "3.12.13",
+    "cpu": "Apple M5 Pro",
+    "memory_gb": 64.0,
+    "os": "macOS 27.0 (26A428)"
+   },
+   "hourly_usd": null,
+   "commands": [
+    {
+     "argv": "/Users/virgil/workroots/v7c-release/venv/bin/bench --data /Users/virgil/workroots/v7c-release/conv13 run --system ours-mlx --label conv13-v7c-mlx --out /Users/virgil/workroots/v7c-release/results/conv13 --no-chapters",
+     "passes_to_do": 9373,
+     "machine": {
+      "platform": "macOS-27.0-arm64-arm-64bit",
+      "machine": "arm64",
+      "python": "3.12.13",
+      "cpu": "Apple M5 Pro",
+      "memory_gb": 64.0,
+      "os": "macOS 27.0 (26A428)"
+     },
+     "code_revision": "unknown",
+     "started": "2026-10-27T11:20:52+00:00",
+     "finished": "2026-10-27T15:11:42+00:00"
+    }
+   ],
+   "load_average_1min": {
+    "min": 1.64,
+    "median": 2.43,
+    "max": 7.12,
+    "samples": 231
+   }
+  },
+  "completeness": {
+   "variants": [
+    "none",
+    "own"
+   ],
+   "expected": 9373,
+   "completed": 9373,
+   "failed": 0,
+   "stale": 0,
+   "missing": 0,
+   "complete": true
+  },
+  "summary": {
+   "clips": {},
+   "chapters": {},
+   "suites": {
+    "conv13-conv": {
+     "right": {
+      "k": 130,
+      "n": 132,
+      "rate": 0.9848484848484849,
+      "lo": 0.9621212121212122,
+      "hi": 1.0
+     },
+     "right_by_group": {
+      "name never seen in training": {
+       "k": 26,
+       "n": 27,
+       "rate": 0.9629629629629629,
+       "lo": 0.8888888888888888,
+       "hi": 1.0
+      },
+      "name seen in training": {
+       "k": 104,
+       "n": 105,
+       "rate": 0.9904761904761905,
+       "lo": 0.97,
+       "hi": 1.0
+      }
+     },
+     "overwritten": {
+      "k": 0,
+      "n": 132,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "wrong_name": {
+      "k": 0,
+      "n": 132,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "mentions": 132,
+     "none_right": {
+      "k": 119,
+      "n": 132,
+      "rate": 0.9015151515151515,
+      "lo": 0.8484848484848485,
+      "hi": 0.9481481481481482
+     },
+     "own_free_inserted": {
+      "k": 0,
+      "n": 200,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "own_free_per_min": {
+      "num": 0.0,
+      "den": 25.684866666666668,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "own_free_foreign": {
+      "k": 0,
+      "n": 200,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "own_free_foreign_per_min": {
+      "num": 0.0,
+      "den": 25.684866666666668,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "own_ordinary_wer": {
+      "num": 389.0,
+      "den": 6130.0,
+      "rate": 0.0634584013050571,
+      "lo": 0.0557138096333043,
+      "hi": 0.0712477727407499
+     },
+     "own_full_wer": {
+      "num": 445.0,
+      "den": 7336.0,
+      "rate": 0.060659760087241006,
+      "lo": 0.05365258061021586,
+      "hi": 0.06767043274566792
+     },
+     "none_free_inserted": {
+      "k": 0,
+      "n": 200,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_free_per_min": {
+      "num": 0.0,
+      "den": 25.684866666666668,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_free_foreign": {
+      "k": 0,
+      "n": 200,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_free_foreign_per_min": {
+      "num": 0.0,
+      "den": 25.684866666666668,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_ordinary_wer": {
+      "num": 399.0,
+      "den": 6130.0,
+      "rate": 0.06508972267536704,
+      "lo": 0.0572401618845349,
+      "hi": 0.07295565255783547
+     },
+     "none_full_wer": {
+      "num": 466.0,
+      "den": 7336.0,
+      "rate": 0.06352235550708833,
+      "lo": 0.05643075158777424,
+      "hi": 0.07063945713555918
+     },
+     "free_items": 200,
+     "free_minutes": 25.7
+    },
+    "conv13-far": {
+     "right": {
+      "k": 276,
+      "n": 333,
+      "rate": 0.8288288288288288,
+      "lo": 0.7826054117956128,
+      "hi": 0.8723404255319149
+     },
+     "right_by_group": {
+      "name never seen in training": {
+       "k": 182,
+       "n": 227,
+       "rate": 0.801762114537445,
+       "lo": 0.740909090909091,
+       "hi": 0.8584905660377359
+      },
+      "name seen in training": {
+       "k": 94,
+       "n": 106,
+       "rate": 0.8867924528301887,
+       "lo": 0.826519520851819,
+       "hi": 0.9411764705882353
+      }
+     },
+     "overwritten": {
+      "k": 18,
+      "n": 333,
+      "rate": 0.05405405405405406,
+      "lo": 0.031161252460000174,
+      "hi": 0.07886435331230283
+     },
+     "wrong_name": {
+      "k": 3,
+      "n": 333,
+      "rate": 0.009009009009009009,
+      "lo": 0.0,
+      "hi": 0.020710059171597635
+     },
+     "mentions": 333,
+     "none_right": {
+      "k": 186,
+      "n": 333,
+      "rate": 0.5585585585585585,
+      "lo": 0.5014834606934342,
+      "hi": 0.6153846153846154
+     },
+     "own_free_inserted": {
+      "k": 0,
+      "n": 150,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "own_free_per_min": {
+      "num": 0.0,
+      "den": 16.8262,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "own_free_foreign": {
+      "k": 0,
+      "n": 150,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "own_free_foreign_per_min": {
+      "num": 0.0,
+      "den": 16.8262,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "own_ordinary_wer": {
+      "num": 1752.0,
+      "den": 8665.0,
+      "rate": 0.2021927293710329,
+      "lo": 0.17598946496823512,
+      "hi": 0.22942638123498657
+     },
+     "own_full_wer": {
+      "num": 2036.0,
+      "den": 10775.0,
+      "rate": 0.18895591647331786,
+      "lo": 0.16402473449172358,
+      "hi": 0.21455284064045388
+     },
+     "none_free_inserted": {
+      "k": 0,
+      "n": 150,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_free_per_min": {
+      "num": 0.0,
+      "den": 16.8262,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_free_foreign": {
+      "k": 0,
+      "n": 150,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_free_foreign_per_min": {
+      "num": 0.0,
+      "den": 16.8262,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_ordinary_wer": {
+      "num": 1636.0,
+      "den": 8665.0,
+      "rate": 0.18880553952683207,
+      "lo": 0.16609546697060174,
+      "hi": 0.21233165456770653
+     },
+     "none_full_wer": {
+      "num": 1924.0,
+      "den": 10775.0,
+      "rate": 0.1785614849187935,
+      "lo": 0.15664338884015427,
+      "hi": 0.2011806101982469
+     },
+     "free_items": 150,
+     "free_minutes": 16.8
+    },
+    "conv13-level": {
+     "right": {
+      "k": 236,
+      "n": 300,
+      "rate": 0.7866666666666666,
+      "lo": 0.7373729382431914,
+      "hi": 0.8345413388915035
+     },
+     "right_by_group": {
+      "name never seen in training": {
+       "k": 152,
+       "n": 207,
+       "rate": 0.7342995169082126,
+       "lo": 0.6730769230769231,
+       "hi": 0.7964639268036597
+      },
+      "name seen in training": {
+       "k": 84,
+       "n": 93,
+       "rate": 0.9032258064516129,
+       "lo": 0.8426966292134831,
+       "hi": 0.956989247311828
+      }
+     },
+     "overwritten": {
+      "k": 16,
+      "n": 300,
+      "rate": 0.05333333333333334,
+      "lo": 0.029900332225913623,
+      "hi": 0.07876712328767123
+     },
+     "wrong_name": {
+      "k": 11,
+      "n": 300,
+      "rate": 0.03666666666666667,
+      "lo": 0.017123287671232876,
+      "hi": 0.05825597051945286
+     },
+     "mentions": 300,
+     "none_right": {
+      "k": 146,
+      "n": 300,
+      "rate": 0.4866666666666667,
+      "lo": 0.42809335914234664,
+      "hi": 0.5454545454545454
+     },
+     "own_free_inserted": {
+      "k": 2,
+      "n": 120,
+      "rate": 0.016666666666666666,
+      "lo": 0.0,
+      "hi": 0.041666666666666664
+     },
+     "own_free_per_min": {
+      "num": 3.0,
+      "den": 14.019333333333334,
+      "rate": 0.21399020400399452,
+      "lo": 0.0,
+      "hi": 0.5851463716506048
+     },
+     "own_free_foreign": {
+      "k": 0,
+      "n": 120,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "own_free_foreign_per_min": {
+      "num": 0.0,
+      "den": 14.019333333333334,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "own_ordinary_wer": {
+      "num": 1421.0,
+      "den": 7560.0,
+      "rate": 0.18796296296296297,
+      "lo": 0.1640847651050339,
+      "hi": 0.21375691596848367
+     },
+     "own_full_wer": {
+      "num": 1662.0,
+      "den": 9425.0,
+      "rate": 0.1763395225464191,
+      "lo": 0.15405682874537957,
+      "hi": 0.2003690755520923
+     },
+     "none_free_inserted": {
+      "k": 0,
+      "n": 120,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_free_per_min": {
+      "num": 0.0,
+      "den": 14.019333333333334,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_free_foreign": {
+      "k": 0,
+      "n": 120,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_free_foreign_per_min": {
+      "num": 0.0,
+      "den": 14.019333333333334,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_ordinary_wer": {
+      "num": 1463.0,
+      "den": 7560.0,
+      "rate": 0.1935185185185185,
+      "lo": 0.1715651860050211,
+      "hi": 0.21710495582612543
+     },
+     "none_full_wer": {
+      "num": 1692.0,
+      "den": 9425.0,
+      "rate": 0.17952254641909815,
+      "lo": 0.15933590980676324,
+      "hi": 0.20142887959104205
+     },
+     "free_items": 120,
+     "free_minutes": 14.0
+    },
+    "conv13-near": {
+     "right": {
+      "k": 258,
+      "n": 280,
+      "rate": 0.9214285714285714,
+      "lo": 0.8892857142857142,
+      "hi": 0.9512195121951219
+     },
+     "right_by_group": {
+      "name never seen in training": {
+       "k": 193,
+       "n": 215,
+       "rate": 0.8976744186046511,
+       "lo": 0.8571428571428571,
+       "hi": 0.9354838709677419
+      },
+      "name seen in training": {
+       "k": 65,
+       "n": 65,
+       "rate": 1.0,
+       "lo": 1.0,
+       "hi": 1.0
+      }
+     },
+     "overwritten": {
+      "k": 15,
+      "n": 280,
+      "rate": 0.05357142857142857,
+      "lo": 0.028169014084507043,
+      "hi": 0.0821917808219178
+     },
+     "wrong_name": {
+      "k": 3,
+      "n": 280,
+      "rate": 0.010714285714285714,
+      "lo": 0.0,
+      "hi": 0.02491103202846975
+     },
+     "mentions": 280,
+     "none_right": {
+      "k": 191,
+      "n": 280,
+      "rate": 0.6821428571428572,
+      "lo": 0.6219081272084805,
+      "hi": 0.7419354838709677
+     },
+     "own_ordinary_wer": {
+      "num": 388.0,
+      "den": 5238.0,
+      "rate": 0.07407407407407407,
+      "lo": 0.05899679105356862,
+      "hi": 0.09187931328059917
+     },
+     "own_full_wer": {
+      "num": 450.0,
+      "den": 6685.0,
+      "rate": 0.06731488406881077,
+      "lo": 0.05385134806843898,
+      "hi": 0.08324217997001225
+     },
+     "none_ordinary_wer": {
+      "num": 436.0,
+      "den": 5238.0,
+      "rate": 0.08323787705231005,
+      "lo": 0.06868961321778214,
+      "hi": 0.10043605054487255
+     },
+     "none_full_wer": {
+      "num": 516.0,
+      "den": 6685.0,
+      "rate": 0.07718773373223635,
+      "lo": 0.06361991134459309,
+      "hi": 0.09362413688897417
+     },
+     "free_items": 0,
+     "free_minutes": 0
+    },
+    "conv13-short": {
+     "right": {
+      "k": 293,
+      "n": 344,
+      "rate": 0.8517441860465116,
+      "lo": 0.8110447390811117,
+      "hi": 0.8901734104046243
+     },
+     "right_by_group": {
+      "name never seen in training": {
+       "k": 204,
+       "n": 237,
+       "rate": 0.8607594936708861,
+       "lo": 0.8097345132743363,
+       "hi": 0.908695652173913
+      },
+      "name seen in training": {
+       "k": 89,
+       "n": 107,
+       "rate": 0.8317757009345794,
+       "lo": 0.7614678899082569,
+       "hi": 0.8969072164948454
+      }
+     },
+     "overwritten": {
+      "k": 17,
+      "n": 344,
+      "rate": 0.04941860465116279,
+      "lo": 0.028409090909090908,
+      "hi": 0.07267441860465117
+     },
+     "wrong_name": {
+      "k": 6,
+      "n": 344,
+      "rate": 0.01744186046511628,
+      "lo": 0.005649717514124294,
+      "hi": 0.03254437869822485
+     },
+     "mentions": 344,
+     "none_right": {
+      "k": 167,
+      "n": 344,
+      "rate": 0.48546511627906974,
+      "lo": 0.42857142857142855,
+      "hi": 0.5436046511627907
+     },
+     "own_free_inserted": {
+      "k": 4,
+      "n": 376,
+      "rate": 0.010638297872340425,
+      "lo": 0.0025,
+      "hi": 0.021693152881260003
+     },
+     "own_free_per_min": {
+      "num": 4.0,
+      "den": 5.65365,
+      "rate": 0.7075075393772164,
+      "lo": 0.16565978877162188,
+      "hi": 1.4460301568189433
+     },
+     "own_free_foreign": {
+      "k": 0,
+      "n": 376,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "own_free_foreign_per_min": {
+      "num": 0.0,
+      "den": 5.65365,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "own_ordinary_wer": {
+      "num": 536.0,
+      "den": 1304.0,
+      "rate": 0.4110429447852761,
+      "lo": 0.36503038326063125,
+      "hi": 0.4588681710730498
+     },
+     "own_full_wer": {
+      "num": 642.0,
+      "den": 1880.0,
+      "rate": 0.3414893617021277,
+      "lo": 0.3041708940519354,
+      "hi": 0.3800211711435367
+     },
+     "none_free_inserted": {
+      "k": 0,
+      "n": 376,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_free_per_min": {
+      "num": 0.0,
+      "den": 5.65365,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_free_foreign": {
+      "k": 0,
+      "n": 376,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_free_foreign_per_min": {
+      "num": 0.0,
+      "den": 5.65365,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_ordinary_wer": {
+      "num": 614.0,
+      "den": 1304.0,
+      "rate": 0.4708588957055215,
+      "lo": 0.4207445012839204,
+      "hi": 0.5260558362482186
+     },
+     "none_full_wer": {
+      "num": 739.0,
+      "den": 1880.0,
+      "rate": 0.3930851063829787,
+      "lo": 0.3580178122188296,
+      "hi": 0.4295933587772185
+     },
+     "free_items": 376,
+     "free_minutes": 5.7
+    },
+    "conv13-street": {
+     "right": {
+      "k": 300,
+      "n": 320,
+      "rate": 0.9375,
+      "lo": 0.9088050314465409,
+      "hi": 0.9641693811074918
+     },
+     "right_by_group": {
+      "name never seen in training": {
+       "k": 209,
+       "n": 227,
+       "rate": 0.920704845814978,
+       "lo": 0.8842592592592593,
+       "hi": 0.9549560810810811
+      },
+      "name seen in training": {
+       "k": 91,
+       "n": 93,
+       "rate": 0.978494623655914,
+       "lo": 0.9438202247191011,
+       "hi": 1.0
+      }
+     },
+     "overwritten": {
+      "k": 18,
+      "n": 320,
+      "rate": 0.05625,
+      "lo": 0.03289473684210526,
+      "hi": 0.08250825082508251
+     },
+     "wrong_name": {
+      "k": 4,
+      "n": 320,
+      "rate": 0.0125,
+      "lo": 0.002967359050445104,
+      "hi": 0.02631578947368421
+     },
+     "mentions": 320,
+     "none_right": {
+      "k": 209,
+      "n": 320,
+      "rate": 0.653125,
+      "lo": 0.5975222462371245,
+      "hi": 0.7096774193548387
+     },
+     "own_free_inserted": {
+      "k": 0,
+      "n": 150,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "own_free_per_min": {
+      "num": 0.0,
+      "den": 18.6696,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "own_free_foreign": {
+      "k": 0,
+      "n": 150,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "own_free_foreign_per_min": {
+      "num": 0.0,
+      "den": 18.6696,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "own_ordinary_wer": {
+      "num": 621.0,
+      "den": 8634.0,
+      "rate": 0.07192494788047255,
+      "lo": 0.06350529957162347,
+      "hi": 0.08063804715033089
+     },
+     "own_full_wer": {
+      "num": 724.0,
+      "den": 10685.0,
+      "rate": 0.06775854000935891,
+      "lo": 0.059848209400347435,
+      "hi": 0.07585261342757389
+     },
+     "none_free_inserted": {
+      "k": 0,
+      "n": 150,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_free_per_min": {
+      "num": 0.0,
+      "den": 18.6696,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_free_foreign": {
+      "k": 0,
+      "n": 150,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_free_foreign_per_min": {
+      "num": 0.0,
+      "den": 18.6696,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_ordinary_wer": {
+      "num": 731.0,
+      "den": 8634.0,
+      "rate": 0.08466527681260134,
+      "lo": 0.07506985199348208,
+      "hi": 0.09469620750466437
+     },
+     "none_full_wer": {
+      "num": 856.0,
+      "den": 10685.0,
+      "rate": 0.0801123069723912,
+      "lo": 0.07126516964261466,
+      "hi": 0.08940788957030914
+     },
+     "free_items": 150,
+     "free_minutes": 18.7
+    },
+    "conv13-tel": {
+     "right": {
+      "k": 265,
+      "n": 270,
+      "rate": 0.9814814814814815,
+      "lo": 0.9633699633699634,
+      "hi": 0.9962825278810409
+     },
+     "right_by_group": {
+      "name never seen in training": {
+       "k": 174,
+       "n": 177,
+       "rate": 0.9830508474576272,
+       "lo": 0.9612858422939068,
+       "hi": 1.0
+      },
+      "name seen in training": {
+       "k": 91,
+       "n": 93,
+       "rate": 0.978494623655914,
+       "lo": 0.9431818181818182,
+       "hi": 1.0
+      }
+     },
+     "overwritten": {
+      "k": 7,
+      "n": 270,
+      "rate": 0.025925925925925925,
+      "lo": 0.007722007722007722,
+      "hi": 0.046762589928057555
+     },
+     "wrong_name": {
+      "k": 1,
+      "n": 270,
+      "rate": 0.003703703703703704,
+      "lo": 0.0,
+      "hi": 0.011673151750972763
+     },
+     "mentions": 270,
+     "none_right": {
+      "k": 198,
+      "n": 270,
+      "rate": 0.7333333333333333,
+      "lo": 0.6765799256505576,
+      "hi": 0.7886792452830189
+     },
+     "own_free_inserted": {
+      "k": 0,
+      "n": 200,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "own_free_per_min": {
+      "num": 0.0,
+      "den": 22.034416666666665,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "own_free_foreign": {
+      "k": 0,
+      "n": 200,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "own_free_foreign_per_min": {
+      "num": 0.0,
+      "den": 22.034416666666665,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "own_ordinary_wer": {
+      "num": 413.0,
+      "den": 8333.0,
+      "rate": 0.049561982479299174,
+      "lo": 0.042401179554415976,
+      "hi": 0.05714638717530375
+     },
+     "own_full_wer": {
+      "num": 477.0,
+      "den": 10236.0,
+      "rate": 0.04660023446658851,
+      "lo": 0.039922284635907426,
+      "hi": 0.05364865473500103
+     },
+     "none_free_inserted": {
+      "k": 0,
+      "n": 200,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_free_per_min": {
+      "num": 0.0,
+      "den": 22.034416666666665,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_free_foreign": {
+      "k": 0,
+      "n": 200,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_free_foreign_per_min": {
+      "num": 0.0,
+      "den": 22.034416666666665,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_ordinary_wer": {
+      "num": 480.0,
+      "den": 8333.0,
+      "rate": 0.057602304092163686,
+      "lo": 0.05090564407791961,
+      "hi": 0.064604128037305
+     },
+     "none_full_wer": {
+      "num": 561.0,
+      "den": 10236.0,
+      "rate": 0.05480656506447831,
+      "lo": 0.048632165067318885,
+      "hi": 0.06134431031022955
+     },
+     "free_items": 200,
+     "free_minutes": 22.0
+    },
+    "conv13-xspk": {
+     "right": {
+      "k": 345,
+      "n": 348,
+      "rate": 0.9913793103448276,
+      "lo": 0.9803370786516854,
+      "hi": 1.0
+     },
+     "right_by_group": {
+      "name never seen in training": {
+       "k": 60,
+       "n": 60,
+       "rate": 1.0,
+       "lo": 1.0,
+       "hi": 1.0
+      },
+      "name seen in training": {
+       "k": 285,
+       "n": 288,
+       "rate": 0.9895833333333334,
+       "lo": 0.9761904761904762,
+       "hi": 1.0
+      }
+     },
+     "overwritten": {
+      "k": 2,
+      "n": 348,
+      "rate": 0.005747126436781609,
+      "lo": 0.0,
+      "hi": 0.014577259475218658
+     },
+     "wrong_name": {
+      "k": 0,
+      "n": 348,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "mentions": 348,
+     "none_right": {
+      "k": 336,
+      "n": 348,
+      "rate": 0.9655172413793104,
+      "lo": 0.9457831325301205,
+      "hi": 0.9828092509209988
+     },
+     "own_ordinary_wer": {
+      "num": 326.0,
+      "den": 6473.0,
+      "rate": 0.05036304650084968,
+      "lo": 0.042502667766145634,
+      "hi": 0.058823529411764705
+     },
+     "own_full_wer": {
+      "num": 375.0,
+      "den": 8321.0,
+      "rate": 0.04506669871409686,
+      "lo": 0.038007476448627245,
+      "hi": 0.05264615096149243
+     },
+     "none_ordinary_wer": {
+      "num": 329.0,
+      "den": 6473.0,
+      "rate": 0.05082651011895566,
+      "lo": 0.04265229410429055,
+      "hi": 0.059589692163410694
+     },
+     "none_full_wer": {
+      "num": 376.0,
+      "den": 8321.0,
+      "rate": 0.04518687657733445,
+      "lo": 0.038106921234866684,
+      "hi": 0.05282481300780036
+     },
+     "free_items": 0,
+     "free_minutes": 0
+    }
+   },
+   "speed": {},
+   "cost": {
+    "basis": "local",
+    "note": "real-time factor on the recorded machine only"
+   }
+  },
+  "scored": "2026-10-27T16:08:49+00:00"
+ },
+ "conv13-elevenlabs-2026-10-16": {
+  "label": "conv13-elevenlabs-2026-10-16",
+  "benchmark_version": "1.2.0",
+  "run": {
+   "benchmark": "own-names-bench",
+   "benchmark_version": "1.2.0",
+   "dataset": "virgil-coach/own-names-bench@v1.2.0",
+   "dataset_fingerprint": "54d0fa007c55db72",
+   "suite_fingerprints": {
+    "conv13-conv": "c3c706d5c77658a6",
+    "conv13-far": "2e303b1f78f7ca6e",
+    "conv13-level": "fc5fcb8af5e32dff",
+    "conv13-near": "a280f27ce6dcb63c",
+    "conv13-short": "9902300b24c4daef",
+    "conv13-street": "a9b3b5ebfb16db64",
+    "conv13-tel": "4845c28cfc2635a7",
+    "conv13-xspk": "f752912952d80edc"
+   },
+   "manifest_sha256": "48286d151a41d685325c524b8bb3cc4b80d7103f3d77602b2ec76f219b2ce09e",
+   "code_revision": "v06/final@b086d92",
+   "system": "elevenlabs",
+   "variants": [
+    "none",
+    "own",
+    "all"
+   ],
+   "kind": "cloud",
+   "config": {
+    "service": "ElevenLabs Speech to Text",
+    "endpoint": "https://api.elevenlabs.io/v1/speech-to-text",
+    "model_id": "scribe_v2",
+    "language_code": "en",
+    "tag_audio_events": false,
+    "temperature": 0.0,
+    "seed": 0,
+    "list_feature": "keyterms",
+    "limits": "<=1000 terms, each <50 chars and <=5 words, no <>{}[]\\",
+    "fit": "drop terms that break a per-term rule, then keep the first 1000 (most frequent in the book first)"
+   },
+   "fingerprint": "03893042daebfd36",
+   "price": {
+    "usd_per_audio_hour": 0.22,
+    "usd_per_audio_hour_with_list": 0.27,
+    "min_billable_s_over_100_terms": 20,
+    "checked": "2026-10-13",
+    "source": "https://elevenlabs.io/pricing/api"
+   },
+   "machine": {
+    "platform": "macOS-26.3.1-arm64-arm-64bit",
+    "machine": "arm64",
+    "python": "3.12.13",
+    "cpu": "Apple M4 Max",
+    "memory_gb": 128.0,
+    "os": "macOS 26.3.1 (25D771280a)"
+   },
+   "hourly_usd": null,
+   "commands": [
+    {
+     "argv": "/Users/jameslal/workspace/jl/own-names-bench-wt-final/.venv/bin/bench --data /private/tmp/claude-501/-Users-jameslal-workspace-jl/1530f64d-f911-490c-b89a-551312343212/scratchpad/c13asm/data run --system elevenlabs --label c13-elevenlabs --out results/v06final --no-chapters --no-sample-files",
+     "passes_to_do": 9373,
+     "machine": {
+      "platform": "macOS-26.3.1-arm64-arm-64bit",
+      "machine": "arm64",
+      "python": "3.12.13",
+      "cpu": "Apple M4 Max",
+      "memory_gb": 128.0,
+      "os": "macOS 26.3.1 (25D771280a)"
+     },
+     "code_revision": "v06/final@b086d92",
+     "started": "2026-10-16T19:33:42+00:00",
+     "finished": "2026-10-16T20:02:40+00:00"
+    }
+   ]
+  },
+  "completeness": {
+   "variants": [
+    "none",
+    "own",
+    "all"
+   ],
+   "expected": 9373,
+   "completed": 9373,
+   "failed": 0,
+   "stale": 0,
+   "missing": 0,
+   "complete": true
+  },
+  "summary": {
+   "clips": {},
+   "chapters": {},
+   "suites": {
+    "conv13-conv": {
+     "right": {
+      "k": 129,
+      "n": 132,
+      "rate": 0.9772727272727273,
+      "lo": 0.9481481481481482,
+      "hi": 1.0
+     },
+     "right_by_group": {
+      "name never seen in training": {
+       "k": 26,
+       "n": 27,
+       "rate": 0.9629629629629629,
+       "lo": 0.88,
+       "hi": 1.0
+      },
+      "name seen in training": {
+       "k": 103,
+       "n": 105,
+       "rate": 0.9809523809523809,
+       "lo": 0.9509803921568627,
+       "hi": 1.0
+      }
+     },
+     "overwritten": {
+      "k": 1,
+      "n": 132,
+      "rate": 0.007575757575757576,
+      "lo": 0.0,
+      "hi": 0.024193548387096774
+     },
+     "wrong_name": {
+      "k": 2,
+      "n": 132,
+      "rate": 0.015151515151515152,
+      "lo": 0.0,
+      "hi": 0.03875968992248062
+     },
+     "mentions": 132,
+     "none_right": {
+      "k": 127,
+      "n": 132,
+      "rate": 0.9621212121212122,
+      "lo": 0.924812030075188,
+      "hi": 0.9923076923076923
+     },
+     "own_free_inserted": {
+      "k": 0,
+      "n": 200,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "own_free_per_min": {
+      "num": 0.0,
+      "den": 25.684866666666668,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "own_free_foreign": {
+      "k": 0,
+      "n": 200,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "own_free_foreign_per_min": {
+      "num": 0.0,
+      "den": 25.684866666666668,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "own_ordinary_wer": {
+      "num": 429.0,
+      "den": 6130.0,
+      "rate": 0.0699836867862969,
+      "lo": 0.06004188368892922,
+      "hi": 0.08133395943284229
+     },
+     "own_full_wer": {
+      "num": 498.0,
+      "den": 7336.0,
+      "rate": 0.06788440567066521,
+      "lo": 0.058288829994791215,
+      "hi": 0.07865903199109596
+     },
+     "none_free_inserted": {
+      "k": 0,
+      "n": 200,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_free_per_min": {
+      "num": 0.0,
+      "den": 25.684866666666668,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_free_foreign": {
+      "k": 0,
+      "n": 200,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_free_foreign_per_min": {
+      "num": 0.0,
+      "den": 25.684866666666668,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_ordinary_wer": {
+      "num": 427.0,
+      "den": 6130.0,
+      "rate": 0.0696574225122349,
+      "lo": 0.06089732213282852,
+      "hi": 0.07860812654213868
+     },
+     "none_full_wer": {
+      "num": 492.0,
+      "den": 7336.0,
+      "rate": 0.06706652126499454,
+      "lo": 0.058856523104256334,
+      "hi": 0.07527843288987193
+     },
+     "free_items": 200,
+     "free_minutes": 25.7
+    },
+    "conv13-far": {
+     "right": {
+      "k": 293,
+      "n": 333,
+      "rate": 0.8798798798798799,
+      "lo": 0.84375,
+      "hi": 0.9148264984227129
+     },
+     "right_by_group": {
+      "name never seen in training": {
+       "k": 195,
+       "n": 227,
+       "rate": 0.8590308370044053,
+       "lo": 0.8106995884773662,
+       "hi": 0.9054726368159204
+      },
+      "name seen in training": {
+       "k": 98,
+       "n": 106,
+       "rate": 0.9245283018867925,
+       "lo": 0.877046027742749,
+       "hi": 0.9696969696969697
+      }
+     },
+     "overwritten": {
+      "k": 38,
+      "n": 333,
+      "rate": 0.11411411411411411,
+      "lo": 0.08307667731629392,
+      "hi": 0.14803625377643503
+     },
+     "wrong_name": {
+      "k": 8,
+      "n": 333,
+      "rate": 0.024024024024024024,
+      "lo": 0.009036144578313253,
+      "hi": 0.04113924050632911
+     },
+     "mentions": 333,
+     "none_right": {
+      "k": 183,
+      "n": 333,
+      "rate": 0.5495495495495496,
+      "lo": 0.4864128382372258,
+      "hi": 0.6123630617977528
+     },
+     "own_free_inserted": {
+      "k": 2,
+      "n": 150,
+      "rate": 0.013333333333333334,
+      "lo": 0.0,
+      "hi": 0.03424657534246575
+     },
+     "own_free_per_min": {
+      "num": 2.0,
+      "den": 16.8262,
+      "rate": 0.11886225053785163,
+      "lo": 0.0,
+      "hi": 0.30752632438092187
+     },
+     "own_free_foreign": {
+      "k": 0,
+      "n": 150,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "own_free_foreign_per_min": {
+      "num": 0.0,
+      "den": 16.8262,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "own_ordinary_wer": {
+      "num": 1657.0,
+      "den": 8665.0,
+      "rate": 0.19122908251586843,
+      "lo": 0.13565889228338915,
+      "hi": 0.28524495015294093
+     },
+     "own_full_wer": {
+      "num": 1901.0,
+      "den": 10775.0,
+      "rate": 0.17642691415313225,
+      "lo": 0.12864419686951614,
+      "hi": 0.25402887941184965
+     },
+     "none_free_inserted": {
+      "k": 0,
+      "n": 150,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_free_per_min": {
+      "num": 0.0,
+      "den": 16.8262,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_free_foreign": {
+      "k": 0,
+      "n": 150,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_free_foreign_per_min": {
+      "num": 0.0,
+      "den": 16.8262,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_ordinary_wer": {
+      "num": 1464.0,
+      "den": 8665.0,
+      "rate": 0.16895556837853434,
+      "lo": 0.14602554431685175,
+      "hi": 0.19380962763636472
+     },
+     "none_full_wer": {
+      "num": 1708.0,
+      "den": 10775.0,
+      "rate": 0.15851508120649652,
+      "lo": 0.1368246334783942,
+      "hi": 0.18220019238001867
+     },
+     "free_items": 150,
+     "free_minutes": 16.8
+    },
+    "conv13-level": {
+     "right": {
+      "k": 253,
+      "n": 300,
+      "rate": 0.8433333333333334,
+      "lo": 0.7979443105341033,
+      "hi": 0.8867313915857605
+     },
+     "right_by_group": {
+      "name never seen in training": {
+       "k": 166,
+       "n": 207,
+       "rate": 0.8019323671497585,
+       "lo": 0.7427148418725368,
+       "hi": 0.8571428571428571
+      },
+      "name seen in training": {
+       "k": 87,
+       "n": 93,
+       "rate": 0.9354838709677419,
+       "lo": 0.8817204301075269,
+       "hi": 0.9791666666666666
+      }
+     },
+     "overwritten": {
+      "k": 33,
+      "n": 300,
+      "rate": 0.11,
+      "lo": 0.07792106647246834,
+      "hi": 0.14383561643835616
+     },
+     "wrong_name": {
+      "k": 15,
+      "n": 300,
+      "rate": 0.05,
+      "lo": 0.02702475202475203,
+      "hi": 0.07516339869281045
+     },
+     "mentions": 300,
+     "none_right": {
+      "k": 165,
+      "n": 300,
+      "rate": 0.55,
+      "lo": 0.4859796630248782,
+      "hi": 0.6114655061112068
+     },
+     "own_free_inserted": {
+      "k": 2,
+      "n": 120,
+      "rate": 0.016666666666666666,
+      "lo": 0.0,
+      "hi": 0.0423728813559322
+     },
+     "own_free_per_min": {
+      "num": 2.0,
+      "den": 14.019333333333334,
+      "rate": 0.14266013600266303,
+      "lo": 0.0,
+      "hi": 0.3776935110207298
+     },
+     "own_free_foreign": {
+      "k": 0,
+      "n": 120,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "own_free_foreign_per_min": {
+      "num": 0.0,
+      "den": 14.019333333333334,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "own_ordinary_wer": {
+      "num": 1112.0,
+      "den": 7560.0,
+      "rate": 0.14708994708994708,
+      "lo": 0.12833567587560907,
+      "hi": 0.16785694001490184
+     },
+     "own_full_wer": {
+      "num": 1280.0,
+      "den": 9425.0,
+      "rate": 0.13580901856763924,
+      "lo": 0.11876679426908619,
+      "hi": 0.15479767467123795
+     },
+     "none_free_inserted": {
+      "k": 0,
+      "n": 120,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_free_per_min": {
+      "num": 0.0,
+      "den": 14.019333333333334,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_free_foreign": {
+      "k": 0,
+      "n": 120,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_free_foreign_per_min": {
+      "num": 0.0,
+      "den": 14.019333333333334,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_ordinary_wer": {
+      "num": 1295.0,
+      "den": 7560.0,
+      "rate": 0.1712962962962963,
+      "lo": 0.14997429564956002,
+      "hi": 0.1944928949481965
+     },
+     "none_full_wer": {
+      "num": 1491.0,
+      "den": 9425.0,
+      "rate": 0.15819628647214853,
+      "lo": 0.13842231800681154,
+      "hi": 0.17963696009639038
+     },
+     "free_items": 120,
+     "free_minutes": 14.0
+    },
+    "conv13-near": {
+     "right": {
+      "k": 259,
+      "n": 280,
+      "rate": 0.925,
+      "lo": 0.8928571428571429,
+      "hi": 0.9540636042402827
+     },
+     "right_by_group": {
+      "name never seen in training": {
+       "k": 197,
+       "n": 215,
+       "rate": 0.9162790697674419,
+       "lo": 0.8783783783783784,
+       "hi": 0.9516924103737605
+      },
+      "name seen in training": {
+       "k": 62,
+       "n": 65,
+       "rate": 0.9538461538461539,
+       "lo": 0.8939393939393939,
+       "hi": 1.0
+      }
+     },
+     "overwritten": {
+      "k": 35,
+      "n": 280,
+      "rate": 0.125,
+      "lo": 0.08561643835616438,
+      "hi": 0.16923588039867102
+     },
+     "wrong_name": {
+      "k": 13,
+      "n": 280,
+      "rate": 0.04642857142857143,
+      "lo": 0.02422145328719723,
+      "hi": 0.07272727272727272
+     },
+     "mentions": 280,
+     "none_right": {
+      "k": 203,
+      "n": 280,
+      "rate": 0.725,
+      "lo": 0.6666666666666666,
+      "hi": 0.7822920308150448
+     },
+     "own_ordinary_wer": {
+      "num": 315.0,
+      "den": 5238.0,
+      "rate": 0.06013745704467354,
+      "lo": 0.046072225808835694,
+      "hi": 0.07704818881203668
+     },
+     "own_full_wer": {
+      "num": 384.0,
+      "den": 6685.0,
+      "rate": 0.057442034405385194,
+      "lo": 0.04447303669068721,
+      "hi": 0.07304541780719363
+     },
+     "none_ordinary_wer": {
+      "num": 409.0,
+      "den": 5238.0,
+      "rate": 0.0780832378770523,
+      "lo": 0.06281056244236294,
+      "hi": 0.09583998110240127
+     },
+     "none_full_wer": {
+      "num": 477.0,
+      "den": 6685.0,
+      "rate": 0.07135377711293941,
+      "lo": 0.057412029043520975,
+      "hi": 0.08790586610261084
+     },
+     "free_items": 0,
+     "free_minutes": 0
+    },
+    "conv13-short": {
+     "right": {
+      "k": 291,
+      "n": 344,
+      "rate": 0.8459302325581395,
+      "lo": 0.802195627591406,
+      "hi": 0.8879322121726022
+     },
+     "right_by_group": {
+      "name never seen in training": {
+       "k": 199,
+       "n": 237,
+       "rate": 0.8396624472573839,
+       "lo": 0.784808707498439,
+       "hi": 0.8927038626609443
+      },
+      "name seen in training": {
+       "k": 92,
+       "n": 107,
+       "rate": 0.8598130841121495,
+       "lo": 0.7835008591065292,
+       "hi": 0.9292035398230089
+      }
+     },
+     "overwritten": {
+      "k": 47,
+      "n": 344,
+      "rate": 0.13662790697674418,
+      "lo": 0.10059171597633136,
+      "hi": 0.17355619339832729
+     },
+     "wrong_name": {
+      "k": 17,
+      "n": 344,
+      "rate": 0.04941860465116279,
+      "lo": 0.02727272727272727,
+      "hi": 0.07374631268436578
+     },
+     "mentions": 344,
+     "none_right": {
+      "k": 135,
+      "n": 344,
+      "rate": 0.39244186046511625,
+      "lo": 0.33636295386295384,
+      "hi": 0.44800178041543026
+     },
+     "own_free_inserted": {
+      "k": 24,
+      "n": 376,
+      "rate": 0.06382978723404255,
+      "lo": 0.038461538461538464,
+      "hi": 0.09154972000678771
+     },
+     "own_free_per_min": {
+      "num": 24.0,
+      "den": 5.65365,
+      "rate": 4.245045236263298,
+      "lo": 2.5244970148897465,
+      "hi": 6.173682385226958
+     },
+     "own_free_foreign": {
+      "k": 0,
+      "n": 376,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "own_free_foreign_per_min": {
+      "num": 0.0,
+      "den": 5.65365,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "own_ordinary_wer": {
+      "num": 690.0,
+      "den": 1304.0,
+      "rate": 0.5291411042944786,
+      "lo": 0.48348106365834004,
+      "hi": 0.5768925643111974
+     },
+     "own_full_wer": {
+      "num": 839.0,
+      "den": 1880.0,
+      "rate": 0.44627659574468087,
+      "lo": 0.4084507042253521,
+      "hi": 0.48371717577450435
+     },
+     "none_free_inserted": {
+      "k": 0,
+      "n": 376,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_free_per_min": {
+      "num": 0.0,
+      "den": 5.65365,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_free_foreign": {
+      "k": 0,
+      "n": 376,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_free_foreign_per_min": {
+      "num": 0.0,
+      "den": 5.65365,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_ordinary_wer": {
+      "num": 909.0,
+      "den": 1304.0,
+      "rate": 0.6970858895705522,
+      "lo": 0.6322337404146549,
+      "hi": 0.7712076555054671
+     },
+     "none_full_wer": {
+      "num": 1111.0,
+      "den": 1880.0,
+      "rate": 0.5909574468085106,
+      "lo": 0.546459006474015,
+      "hi": 0.6388202570303277
+     },
+     "free_items": 376,
+     "free_minutes": 5.7
+    },
+    "conv13-street": {
+     "right": {
+      "k": 306,
+      "n": 320,
+      "rate": 0.95625,
+      "lo": 0.9331210191082803,
+      "hi": 0.9771986970684039
+     },
+     "right_by_group": {
+      "name never seen in training": {
+       "k": 217,
+       "n": 227,
+       "rate": 0.9559471365638766,
+       "lo": 0.9294605809128631,
+       "hi": 0.9793409686086453
+      },
+      "name seen in training": {
+       "k": 89,
+       "n": 93,
+       "rate": 0.956989247311828,
+       "lo": 0.9101123595505618,
+       "hi": 0.9899015151515151
+      }
+     },
+     "overwritten": {
+      "k": 22,
+      "n": 320,
+      "rate": 0.06875,
+      "lo": 0.043478260869565216,
+      "hi": 0.09554140127388536
+     },
+     "wrong_name": {
+      "k": 5,
+      "n": 320,
+      "rate": 0.015625,
+      "lo": 0.0031645569620253164,
+      "hi": 0.030395136778115502
+     },
+     "mentions": 320,
+     "none_right": {
+      "k": 233,
+      "n": 320,
+      "rate": 0.728125,
+      "lo": 0.6766661676646706,
+      "hi": 0.7806465761177136
+     },
+     "own_free_inserted": {
+      "k": 0,
+      "n": 150,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "own_free_per_min": {
+      "num": 0.0,
+      "den": 18.6696,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "own_free_foreign": {
+      "k": 0,
+      "n": 150,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "own_free_foreign_per_min": {
+      "num": 0.0,
+      "den": 18.6696,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "own_ordinary_wer": {
+      "num": 527.0,
+      "den": 8634.0,
+      "rate": 0.061037757702107946,
+      "lo": 0.05189345313434728,
+      "hi": 0.07109426791837137
+     },
+     "own_full_wer": {
+      "num": 616.0,
+      "den": 10685.0,
+      "rate": 0.05765091249415068,
+      "lo": 0.049362811558474544,
+      "hi": 0.06662131519128903
+     },
+     "none_free_inserted": {
+      "k": 0,
+      "n": 150,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_free_per_min": {
+      "num": 0.0,
+      "den": 18.6696,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_free_foreign": {
+      "k": 0,
+      "n": 150,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_free_foreign_per_min": {
+      "num": 0.0,
+      "den": 18.6696,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_ordinary_wer": {
+      "num": 602.0,
+      "den": 8634.0,
+      "rate": 0.06972434561037757,
+      "lo": 0.06091303690580035,
+      "hi": 0.07927353714414027
+     },
+     "none_full_wer": {
+      "num": 700.0,
+      "den": 10685.0,
+      "rate": 0.06551240056153486,
+      "lo": 0.05749584246312873,
+      "hi": 0.07391224608838852
+     },
+     "free_items": 150,
+     "free_minutes": 18.7
+    },
+    "conv13-tel": {
+     "right": {
+      "k": 262,
+      "n": 270,
+      "rate": 0.9703703703703703,
+      "lo": 0.9485294117647058,
+      "hi": 0.9888888888888889
+     },
+     "right_by_group": {
+      "name never seen in training": {
+       "k": 174,
+       "n": 177,
+       "rate": 0.9830508474576272,
+       "lo": 0.9617486338797814,
+       "hi": 1.0
+      },
+      "name seen in training": {
+       "k": 88,
+       "n": 93,
+       "rate": 0.946236559139785,
+       "lo": 0.8941176470588236,
+       "hi": 0.9891304347826086
+      }
+     },
+     "overwritten": {
+      "k": 22,
+      "n": 270,
+      "rate": 0.08148148148148149,
+      "lo": 0.05078125,
+      "hi": 0.11363636363636363
+     },
+     "wrong_name": {
+      "k": 6,
+      "n": 270,
+      "rate": 0.022222222222222223,
+      "lo": 0.007194244604316547,
+      "hi": 0.041666666666666664
+     },
+     "mentions": 270,
+     "none_right": {
+      "k": 215,
+      "n": 270,
+      "rate": 0.7962962962962963,
+      "lo": 0.7434919688574033,
+      "hi": 0.8461538461538461
+     },
+     "own_free_inserted": {
+      "k": 1,
+      "n": 200,
+      "rate": 0.005,
+      "lo": 0.0,
+      "hi": 0.015873015873015872
+     },
+     "own_free_per_min": {
+      "num": 1.0,
+      "den": 22.034416666666665,
+      "rate": 0.04538354770756355,
+      "lo": 0.0,
+      "hi": 0.1518929084213692
+     },
+     "own_free_foreign": {
+      "k": 0,
+      "n": 200,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "own_free_foreign_per_min": {
+      "num": 0.0,
+      "den": 22.034416666666665,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "own_ordinary_wer": {
+      "num": 392.0,
+      "den": 8333.0,
+      "rate": 0.04704188167526701,
+      "lo": 0.03928323287313026,
+      "hi": 0.05550587442889416
+     },
+     "own_full_wer": {
+      "num": 468.0,
+      "den": 10236.0,
+      "rate": 0.04572098475967175,
+      "lo": 0.03821449173896075,
+      "hi": 0.05405136446188235
+     },
+     "none_free_inserted": {
+      "k": 0,
+      "n": 200,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_free_per_min": {
+      "num": 0.0,
+      "den": 22.034416666666665,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_free_foreign": {
+      "k": 0,
+      "n": 200,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_free_foreign_per_min": {
+      "num": 0.0,
+      "den": 22.034416666666665,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "none_ordinary_wer": {
+      "num": 467.0,
+      "den": 8333.0,
+      "rate": 0.056042241689667587,
+      "lo": 0.047933712499009774,
+      "hi": 0.064785051728603
+     },
+     "none_full_wer": {
+      "num": 537.0,
+      "den": 10236.0,
+      "rate": 0.05246189917936694,
+      "lo": 0.04522511582840984,
+      "hi": 0.06023794297102145
+     },
+     "free_items": 200,
+     "free_minutes": 22.0
+    },
+    "conv13-xspk": {
+     "right": {
+      "k": 346,
+      "n": 348,
+      "rate": 0.9942528735632183,
+      "lo": 0.9853801169590644,
+      "hi": 1.0
+     },
+     "right_by_group": {
+      "name never seen in training": {
+       "k": 60,
+       "n": 60,
+       "rate": 1.0,
+       "lo": 1.0,
+       "hi": 1.0
+      },
+      "name seen in training": {
+       "k": 286,
+       "n": 288,
+       "rate": 0.9930555555555556,
+       "lo": 0.9822695035460993,
+       "hi": 1.0
+      }
+     },
+     "overwritten": {
+      "k": 6,
+      "n": 348,
+      "rate": 0.017241379310344827,
+      "lo": 0.005633802816901409,
+      "hi": 0.03206997084548105
+     },
+     "wrong_name": {
+      "k": 1,
+      "n": 348,
+      "rate": 0.0028735632183908046,
+      "lo": 0.0,
+      "hi": 0.009146341463414634
+     },
+     "mentions": 348,
+     "none_right": {
+      "k": 333,
+      "n": 348,
+      "rate": 0.9568965517241379,
+      "lo": 0.9345780485091233,
+      "hi": 0.9769452449567724
+     },
+     "own_ordinary_wer": {
+      "num": 285.0,
+      "den": 6473.0,
+      "rate": 0.044029043720067974,
+      "lo": 0.034004737228679936,
+      "hi": 0.05825365769623585
+     },
+     "own_full_wer": {
+      "num": 342.0,
+      "den": 8321.0,
+      "rate": 0.04110082922725634,
+      "lo": 0.031253530354499064,
+      "hi": 0.05596909126054333
+     },
+     "none_ordinary_wer": {
+      "num": 609.0,
+      "den": 6473.0,
+      "rate": 0.09408311447551367,
+      "lo": 0.040906666570466245,
+      "hi": 0.196084999098596
+     },
+     "none_full_wer": {
+      "num": 678.0,
+      "den": 8321.0,
+      "rate": 0.08148059127508712,
+      "lo": 0.037222024021881316,
+      "hi": 0.16495006384099234
+     },
+     "free_items": 0,
+     "free_minutes": 0
+    }
+   },
+   "speed": {},
+   "cost": {
+    "basis": "list price",
+    "usd_per_audio_hour_no_list": 0.22,
+    "usd_per_audio_hour_with_list": 0.27,
+    "checked": "2026-10-13",
+    "source": "https://elevenlabs.io/pricing/api",
+    "effective": {
+     "conv13-conv: no list": {
+      "usd": 0.173,
+      "audio_hours": 0.787,
+      "usd_per_audio_hour": 0.22
+     },
+     "conv13-conv: own list": {
+      "usd": 0.309,
+      "audio_hours": 1.146,
+      "usd_per_audio_hour": 0.27
+     },
+     "conv13-far: no list": {
+      "usd": 0.231,
+      "audio_hours": 1.051,
+      "usd_per_audio_hour": 0.22
+     },
+     "conv13-far: own list": {
+      "usd": 0.492,
+      "audio_hours": 1.821,
+      "usd_per_audio_hour": 0.27
+     },
+     "conv13-level: no list": {
+      "usd": 0.203,
+      "audio_hours": 0.924,
+      "usd_per_audio_hour": 0.22
+     },
+     "conv13-level: own list": {
+      "usd": 0.436,
+      "audio_hours": 1.614,
+      "usd_per_audio_hour": 0.27
+     },
+     "conv13-near: no list": {
+      "usd": 0.143,
+      "audio_hours": 0.648,
+      "usd_per_audio_hour": 0.22
+     },
+     "conv13-near: own list": {
+      "usd": 0.35,
+      "audio_hours": 1.295,
+      "usd_per_audio_hour": 0.27
+     },
+     "conv13-short: no list": {
+      "usd": 0.042,
+      "audio_hours": 0.189,
+      "usd_per_audio_hour": 0.22
+     },
+     "conv13-short: own list": {
+      "usd": 0.077,
+      "audio_hours": 0.284,
+      "usd_per_audio_hour": 0.27
+     },
+     "conv13-street: no list": {
+      "usd": 0.228,
+      "audio_hours": 1.037,
+      "usd_per_audio_hour": 0.22
+     },
+     "conv13-street: own list": {
+      "usd": 0.476,
+      "audio_hours": 1.763,
+      "usd_per_audio_hour": 0.27
+     },
+     "conv13-tel: no list": {
+      "usd": 0.221,
+      "audio_hours": 1.005,
+      "usd_per_audio_hour": 0.22
+     },
+     "conv13-tel: own list": {
+      "usd": 0.443,
+      "audio_hours": 1.642,
+      "usd_per_audio_hour": 0.27
+     },
+     "conv13-xspk: no list": {
+      "usd": 0.18,
+      "audio_hours": 0.819,
+      "usd_per_audio_hour": 0.22
+     },
+     "conv13-xspk: own list": {
+      "usd": 0.443,
+      "audio_hours": 1.639,
+      "usd_per_audio_hour": 0.27
+     }
+    }
+   }
+  },
+  "scored": "2026-10-27T16:08:34+00:00"
+ }
+}

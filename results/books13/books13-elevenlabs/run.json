@@ -1,0 +1,62 @@
+{
+ "benchmark": "own-names-bench",
+ "benchmark_version": "1.2.0",
+ "dataset": "virgil-coach/own-names-bench@v1.2.0",
+ "dataset_fingerprint": "455a97ea15754481",
+ "suite_fingerprints": {},
+ "manifest_sha256": "e02be6a469c44ee55a679900d93d65f7da31b4427c4fc4f6490015ca098257c8",
+ "code_revision": "51848f128c244536529c548b122d59b50aaaaef4",
+ "system": "elevenlabs",
+ "variants": [
+  "none",
+  "own",
+  "all"
+ ],
+ "kind": "cloud",
+ "config": {
+  "service": "ElevenLabs Speech to Text",
+  "endpoint": "https://api.elevenlabs.io/v1/speech-to-text",
+  "model_id": "scribe_v2",
+  "language_code": "en",
+  "tag_audio_events": false,
+  "temperature": 0.0,
+  "seed": 0,
+  "list_feature": "keyterms",
+  "limits": "<=1000 terms, each <50 chars and <=5 words, no <>{}[]\\",
+  "fit": "drop terms that break a per-term rule, then keep the first 1000 (most frequent in the book first)"
+ },
+ "fingerprint": "ee81ac4928877b74",
+ "price": {
+  "usd_per_audio_hour": 0.22,
+  "usd_per_audio_hour_with_list": 0.27,
+  "min_billable_s_over_100_terms": 20,
+  "checked": "2026-10-13",
+  "source": "https://elevenlabs.io/pricing/api"
+ },
+ "machine": {
+  "platform": "macOS-26.3.1-arm64-arm-64bit",
+  "machine": "arm64",
+  "python": "3.12.13",
+  "cpu": "Apple M4 Max",
+  "memory_gb": 128.0,
+  "os": "macOS 26.3.1 (25D771280a)"
+ },
+ "hourly_usd": null,
+ "commands": [
+  {
+   "argv": "/Users/jameslal/workspace/jl/own-names-bench-wt-v7crel/.venv/bin/bench --data /Users/jameslal/workspace/jl/onb-v13-books-SEALED/data run --system elevenlabs --label books13-elevenlabs --out results/books13 --no-chapters",
+   "passes_to_do": 5612,
+   "machine": {
+    "platform": "macOS-26.3.1-arm64-arm-64bit",
+    "machine": "arm64",
+    "python": "3.12.13",
+    "cpu": "Apple M4 Max",
+    "memory_gb": 128.0,
+    "os": "macOS 26.3.1 (25D771280a)"
+   },
+   "code_revision": "51848f128c244536529c548b122d59b50aaaaef4",
+   "started": "2026-10-27T10:16:38+00:00",
+   "finished": "2026-10-27T10:36:38+00:00"
+  }
+ ]
+}

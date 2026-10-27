@@ -1,0 +1,73 @@
+{
+ "benchmark": "own-names-bench",
+ "benchmark_version": "1.2.0",
+ "dataset": "virgil-coach/own-names-bench@v1.2.0",
+ "dataset_fingerprint": "54d0fa007c55db72",
+ "suite_fingerprints": {
+  "conv13-conv": "c3c706d5c77658a6",
+  "conv13-far": "2e303b1f78f7ca6e",
+  "conv13-level": "fc5fcb8af5e32dff",
+  "conv13-near": "a280f27ce6dcb63c",
+  "conv13-short": "9902300b24c4daef",
+  "conv13-street": "a9b3b5ebfb16db64",
+  "conv13-tel": "4845c28cfc2635a7",
+  "conv13-xspk": "f752912952d80edc"
+ },
+ "manifest_sha256": "48286d151a41d685325c524b8bb3cc4b80d7103f3d77602b2ec76f219b2ce09e",
+ "code_revision": "unknown",
+ "system": "ours-mlx",
+ "variants": [
+  "none",
+  "own"
+ ],
+ "kind": "local",
+ "config": {
+  "runtime": "Detail Keeper engine (Rust, MLX), detailkeeper-bench",
+  "engine_commit": "af939d6",
+  "binary": "/Users/virgil/workroots/v7c-release/bin/detailkeeper-bench",
+  "adapter": "/Users/virgil/workroots/v7c-release/adapters/qwen17B_audio_heard_v7c",
+  "adapter_version": "v0.7.0",
+  "adapter_sha256": "de91437d4fc828b49605e6482a32b817d55ac4853d1714ac1e2bf9be8f61226c",
+  "writer": "merged adapter, text decoder affine 8-bit, audio encoder bf16",
+  "g2p": "own_names_bench/ours_ref/g2p.json (espeak-ng 1.52.0, every benchmark name)",
+  "shortlist": 10,
+  "prune": "off",
+  "gate": "none",
+  "engine": {
+   "adapter": "qwen17B_audio_heard_v7c",
+   "device": "metal",
+   "model": "Qwen/Qwen3-ASR-1.7B-hf",
+   "ready": true
+  },
+  "list_feature": "spotter shortlist of the whole list -> writer prompt + taught recordings",
+  "fit": "no limit: the spotter ranks every name"
+ },
+ "fingerprint": "28395c4747991a15",
+ "price": {},
+ "machine": {
+  "platform": "macOS-27.0-arm64-arm-64bit",
+  "machine": "arm64",
+  "python": "3.12.13",
+  "cpu": "Apple M5 Pro",
+  "memory_gb": 64.0,
+  "os": "macOS 27.0 (26A428)"
+ },
+ "hourly_usd": null,
+ "commands": [
+  {
+   "argv": "/Users/virgil/workroots/v7c-release/venv/bin/bench --data /Users/virgil/workroots/v7c-release/conv13 run --system ours-mlx --label conv13-v7c-mlx --out /Users/virgil/workroots/v7c-release/results/conv13 --no-chapters",
+   "passes_to_do": 9373,
+   "machine": {
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "machine": "arm64",
+    "python": "3.12.13",
+    "cpu": "Apple M5 Pro",
+    "memory_gb": 64.0,
+    "os": "macOS 27.0 (26A428)"
+   },
+   "code_revision": "unknown",
+   "started": "2026-10-27T11:20:52+00:00",
+   "finished": "2026-10-27T15:11:42+00:00"
+  }
+ ]
+}

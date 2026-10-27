@@ -1,0 +1,11 @@
+{
+ "test split utterances": 9957,
+ "chapter of a benchmark, held-out, v0.3.0 or train/dev book (or unknown)": 2167,
+ "text with digits or symbols": 77,
+ "text shares 8 words with train, dev or benchmark": 5,
+ "reader of a benchmark, lore held-out or v0.3.0 training book": 161,
+ "test named": 2119,
+ "test free": 2425,
+ "outside 1.5-20 s": 762,
+ "named: alignment failed": 2
+}

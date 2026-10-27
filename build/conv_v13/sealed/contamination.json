@@ -1,0 +1,110 @@
+{
+ "against": {
+  "train_dev": "/gpu-cli-workspaces/jameslal/v06-conv/lore-conv",
+  "benchmark": {
+   "dataset": "virgil-coach/own-names-bench@v1.2.0",
+   "suites": {
+    "calls": {
+     "repo": "apptek-com/apptek_callcenter_dialogues",
+     "revision": "b98967d9946f7f59f58d08624a2a00fe98fe0219"
+    },
+    "svq": {
+     "repo": "google/svq",
+     "revision": "74f17ec92f0654860c160029d3542199626f63ef"
+    },
+    "ami": {
+     "repo": "edinburghcstr/ami",
+     "revision": "46f28f2503e2ec48f8867a84eef356c70476beab"
+    },
+    "modulate": {
+     "repo": "modulate/entity-transcription-benchmark",
+     "revision": "45b2f1411ff15a6598b68db1ec8423b9965153e5"
+    }
+   }
+  },
+  "reserved_for_v1_3": [
+   "ICSI",
+   "Earnings-21"
+  ],
+  "v030_training_data": "attribution_v030/ (LibriTTS speakers, LibriVox books and readers)"
+ },
+ "counts": {
+  "train_dev_utterances": 72896,
+  "train_rows": 23211,
+  "dev_rows": 7662,
+  "train_dev_noise_files": 1769,
+  "test_utterances_prepared": 5421,
+  "test_utterances_used": 2316,
+  "test_noise_files": 351,
+  "suites": 8
+ },
+ "sources": {
+  "test_utterances_by_source": {
+   "voxpopuli": 877,
+   "libritts": 4544
+  },
+  "used_by_source": {
+   "libritts": 1912,
+   "voxpopuli": 404
+  },
+  "bad": 0
+ },
+ "speakers": {
+  "test_speakers": 235,
+  "train_dev_speakers": 3481,
+  "train_dev": 0,
+  "benchmark_suite_ids": 0,
+  "v030_libritts": 0,
+  "benchmark_lore_v030_readers": 0
+ },
+ "sessions": {
+  "libritts_chapters": 130,
+  "libritts_chapters_or_books_shared": 0,
+  "voxpopuli_debate_items_used": 203,
+  "voxpopuli_debate_items_shared_with_train_dev (allowed: speaker-disjoint, as dev)": 148,
+  "voxpopuli_utterances_used_in_a_shared_debate_item": 265,
+  "voxpopuli_utterances_used": 404
+ },
+ "recordings": {
+  "test_utterances_used": 2316,
+  "shared_with_train_dev": 0
+ },
+ "audio": {
+  "train_dev_files_hashed": 122143,
+  "test_files_hashed": 92615,
+  "benchmark_hashes": 6123,
+  "test_equal_to_train_dev": 0,
+  "test_equal_to_benchmark": 0,
+  "train_dev_files_unreadable": 0,
+  "test_files_empty": 0,
+  "test_files_with_a_repeated_hash": 61757
+ },
+ "text": {
+  "test_texts": 5421,
+  "train_dev_and_benchmark_texts": 77768,
+  "sharing_an_8_word_run": 0
+ },
+ "noise": {
+  "clip_ids_shared": 0,
+  "uploaders_shared": 0,
+  "files_hash_equal": 0,
+  "envelope_near_duplicates": 0,
+  "envelope_max_correlation": 0.949,
+  "envelope_near_duplicate_pairs": []
+ },
+ "rooms": {
+  "test_rooms": 120,
+  "train_dev_rooms": 420,
+  "shared": 0
+ },
+ "names": {
+  "mentions": 2327,
+  "mentions_name_never_seen_in_train": 1377,
+  "list_entries": 83320,
+  "list_entries_never_seen_in_train": 79902,
+  "distinct_test_names_on_lists": 1019,
+  "distinct_on_lists_never_seen_in_train": 753
+ },
+ "fails": [],
+ "verdict": "PASS"
+}

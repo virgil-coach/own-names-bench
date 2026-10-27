@@ -1,0 +1,10 @@
+{
+ "test split utterances": 1842,
+ "speaker in train or dev": 653,
+ "no speaker id": 150,
+ "text with digits or symbols": 84,
+ "text shares 8 words with train, dev or benchmark": 7,
+ "test free": 659,
+ "test named": 218,
+ "outside 1.5-20 s": 71
+}

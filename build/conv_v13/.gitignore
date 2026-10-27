@@ -1,0 +1,5 @@
+_onb/
+out/
+.venv/
+__pycache__/
+excl.json

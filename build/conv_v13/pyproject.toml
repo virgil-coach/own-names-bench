@@ -1,0 +1,35 @@
+[project]
+name = "onb-conv-v13-build"
+version = "1.3.0"
+description = "Build of the own-names-bench v1.3 conversation test suite (held out, sealed); the dev recipe's pinned stack"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "torch==2.11.0",
+    "torchvision==0.26.0",
+    "torchaudio==2.11.0",  # the pod image has its own torch stack on the path; the venv must shadow all of it
+    "transformers==5.19.0",
+    "soundfile==0.14.0",
+    "scipy==1.17.1",
+    "numpy==2.4.6",
+    "pyarrow==26.0.0",
+    "huggingface_hub==2.2.0",
+    "rapidfuzz==3.14.6",
+    "wordfreq==3.1.1",
+    "pyroomacoustics==0.10.1",
+    "regex==2026.9.29",
+    "more-itertools==11.2.1",
+]
+
+[tool.setuptools]
+py-modules = []
+
+# RunPod hosts with CUDA 12.8 drivers need cu128 wheels
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[tool.uv.sources]
+torch = [{ index = "pytorch-cu128", marker = "sys_platform == 'linux'" }]
+torchaudio = [{ index = "pytorch-cu128", marker = "sys_platform == 'linux'" }]
+torchvision = [{ index = "pytorch-cu128", marker = "sys_platform == 'linux'" }]

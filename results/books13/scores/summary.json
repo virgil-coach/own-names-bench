@@ -1,0 +1,560 @@
+{
+ "books13-v7c-mlx": {
+  "label": "books13-v7c-mlx",
+  "benchmark_version": "1.2.0",
+  "run": {
+   "benchmark": "own-names-bench",
+   "benchmark_version": "1.2.0",
+   "dataset": "virgil-coach/own-names-bench@v1.2.0",
+   "dataset_fingerprint": "455a97ea15754481",
+   "suite_fingerprints": {},
+   "manifest_sha256": "e02be6a469c44ee55a679900d93d65f7da31b4427c4fc4f6490015ca098257c8",
+   "code_revision": "unknown",
+   "system": "ours-mlx",
+   "variants": [
+    "none",
+    "own"
+   ],
+   "kind": "local",
+   "config": {
+    "runtime": "Detail Keeper engine (Rust, MLX), detailkeeper-bench",
+    "engine_commit": "af939d6",
+    "binary": "/Users/james/workroots/v7c-release/bin/detailkeeper-bench",
+    "adapter": "/Users/james/workroots/v7c-release/adapters/qwen17B_audio_heard_v7c",
+    "adapter_version": "v0.7.0",
+    "adapter_sha256": "de91437d4fc828b49605e6482a32b817d55ac4853d1714ac1e2bf9be8f61226c",
+    "writer": "merged adapter, text decoder affine 8-bit, audio encoder bf16",
+    "g2p": "own_names_bench/ours_ref/g2p.json (espeak-ng 1.52.0, every benchmark name)",
+    "shortlist": 10,
+    "prune": "off",
+    "gate": "none",
+    "engine": {
+     "adapter": "qwen17B_audio_heard_v7c",
+     "device": "metal",
+     "model": "Qwen/Qwen3-ASR-1.7B-hf",
+     "ready": true
+    },
+    "list_feature": "spotter shortlist of the whole list -> writer prompt + taught recordings",
+    "fit": "no limit: the spotter ranks every name"
+   },
+   "fingerprint": "767658862c252a0e",
+   "price": {},
+   "machine": {
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
+    "machine": "arm64",
+    "python": "3.12.13",
+    "cpu": "Apple M5 Ultra",
+    "memory_gb": 256.0,
+    "os": "macOS 27.0.1 (26A434)"
+   },
+   "hourly_usd": null,
+   "commands": [
+    {
+     "argv": "/Users/james/workroots/v7c-release/venv/bin/bench --data /Users/james/workroots/v7c-release/books13 run --system ours-mlx --label books13-v7c-mlx --out /Users/james/workroots/v7c-release/results/books13 --no-chapters",
+     "passes_to_do": 5612,
+     "machine": {
+      "platform": "macOS-27.0.1-arm64-arm-64bit",
+      "machine": "arm64",
+      "python": "3.12.13",
+      "cpu": "Apple M5 Ultra",
+      "memory_gb": 256.0,
+      "os": "macOS 27.0.1 (26A434)"
+     },
+     "code_revision": "unknown",
+     "started": "2026-10-27T00:45:17+00:00",
+     "finished": "2026-10-27T01:44:51+00:00"
+    }
+   ],
+   "load_average_1min": {
+    "min": 6.05,
+    "median": 13.83,
+    "max": 32.42,
+    "samples": 60
+   }
+  },
+  "completeness": {
+   "variants": [
+    "none",
+    "own"
+   ],
+   "expected": 5612,
+   "completed": 5612,
+   "failed": 0,
+   "stale": 0,
+   "missing": 0,
+   "complete": true
+  },
+  "summary": {
+   "clips": {
+    "own": {
+     "invented": {
+      "right": {
+       "k": 722,
+       "n": 777,
+       "rate": 0.9292149292149292,
+       "lo": 0.9115138592750534,
+       "hi": 0.9507257525083612
+      },
+      "wrong_name": {
+       "k": 3,
+       "n": 777,
+       "rate": 0.003861003861003861,
+       "lo": 0.0,
+       "hi": 0.007972665148063782
+      },
+      "overwritten": {
+       "k": 13,
+       "n": 777,
+       "rate": 0.01673101673101673,
+       "lo": 0.005154639175257732,
+       "hi": 0.02872796672799031
+      },
+      "right_untaught": {
+       "k": 227,
+       "n": 777,
+       "rate": 0.29214929214929214,
+       "lo": 0.20216170688299323,
+       "hi": 0.3994178999239447
+      }
+     },
+     "traditional": {
+      "right": {
+       "k": 264,
+       "n": 323,
+       "rate": 0.8173374613003096,
+       "lo": 0.7179474708171206,
+       "hi": 0.9605739181100693
+      },
+      "wrong_name": {
+       "k": 6,
+       "n": 323,
+       "rate": 0.018575851393188854,
+       "lo": 0.0,
+       "hi": 0.034220532319391636
+      },
+      "overwritten": {
+       "k": 27,
+       "n": 323,
+       "rate": 0.08359133126934984,
+       "lo": 0.0,
+       "hi": 0.11702182270959849
+      },
+      "right_untaught": {
+       "k": 77,
+       "n": 323,
+       "rate": 0.23839009287925697,
+       "lo": 0.15839694656488548,
+       "hi": 0.37156182994129844
+      }
+     },
+     "all": {
+      "right": {
+       "k": 986,
+       "n": 1100,
+       "rate": 0.8963636363636364,
+       "lo": 0.8344773004559173,
+       "hi": 0.9442551939219719
+      },
+      "wrong_name": {
+       "k": 9,
+       "n": 1100,
+       "rate": 0.008181818181818182,
+       "lo": 0.0,
+       "hi": 0.017543859649122806
+      },
+      "overwritten": {
+       "k": 40,
+       "n": 1100,
+       "rate": 0.03636363636363636,
+       "lo": 0.010955660952786668,
+       "hi": 0.0660708551728124
+      },
+      "right_untaught": {
+       "k": 304,
+       "n": 1100,
+       "rate": 0.27636363636363637,
+       "lo": 0.20526660143046044,
+       "hi": 0.3651417243348785
+      }
+     },
+     "name_free_inserted": {
+      "k": 2,
+      "n": 1200,
+      "rate": 0.0016666666666666668,
+      "lo": 0.0,
+      "hi": 0.004166666666666667
+     },
+     "ordinary_wer": {
+      "num": 1178.0,
+      "den": 55743.0,
+      "rate": 0.02113269827601672,
+      "lo": 0.016753006606179243,
+      "hi": 0.025645465543327594
+     },
+     "full_wer": {
+      "num": 1208.0,
+      "den": 57395.0,
+      "rate": 0.021047129540900777,
+      "lo": 0.016627414875323286,
+      "hi": 0.025623889402351867
+     },
+     "spoken_name_sent": {
+      "k": 1100,
+      "n": 1100,
+      "rate": 1.0,
+      "lo": 1.0,
+      "hi": 1.0
+     }
+    },
+    "none": {
+     "invented": {
+      "right": {
+       "k": 180,
+       "n": 777,
+       "rate": 0.23166023166023167,
+       "lo": 0.15248558922203398,
+       "hi": 0.31415944718191857
+      }
+     },
+     "traditional": {
+      "right": {
+       "k": 62,
+       "n": 323,
+       "rate": 0.19195046439628483,
+       "lo": 0.11349937013239104,
+       "hi": 0.3228927203065133
+      }
+     },
+     "all": {
+      "right": {
+       "k": 242,
+       "n": 1100,
+       "rate": 0.22,
+       "lo": 0.15648820638145972,
+       "hi": 0.291167167112645
+      }
+     },
+     "name_free_inserted": {
+      "k": 0,
+      "n": 1200,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "ordinary_wer": {
+      "num": 2186.0,
+      "den": 55743.0,
+      "rate": 0.0392156862745098,
+      "lo": 0.030887925073224083,
+      "hi": 0.047599649282034064
+     },
+     "full_wer": {
+      "num": 2254.0,
+      "den": 57395.0,
+      "rate": 0.039271713563899295,
+      "lo": 0.031222055274118483,
+      "hi": 0.04725764776721523
+     }
+    }
+   },
+   "chapters": {},
+   "suites": {},
+   "speed": {
+    "clip": {
+     "passes": 5612,
+     "p50_s": 0.52145,
+     "p90_s": 1.1450400000000003,
+     "rtf": 0.06189098643330488
+    }
+   },
+   "cost": {
+    "basis": "local",
+    "note": "real-time factor on the recorded machine only"
+   }
+  },
+  "scored": "2026-10-27T10:37:01+00:00"
+ },
+ "books13-elevenlabs": {
+  "label": "books13-elevenlabs",
+  "benchmark_version": "1.2.0",
+  "run": {
+   "benchmark": "own-names-bench",
+   "benchmark_version": "1.2.0",
+   "dataset": "virgil-coach/own-names-bench@v1.2.0",
+   "dataset_fingerprint": "455a97ea15754481",
+   "suite_fingerprints": {},
+   "manifest_sha256": "e02be6a469c44ee55a679900d93d65f7da31b4427c4fc4f6490015ca098257c8",
+   "code_revision": "51848f128c244536529c548b122d59b50aaaaef4",
+   "system": "elevenlabs",
+   "variants": [
+    "none",
+    "own",
+    "all"
+   ],
+   "kind": "cloud",
+   "config": {
+    "service": "ElevenLabs Speech to Text",
+    "endpoint": "https://api.elevenlabs.io/v1/speech-to-text",
+    "model_id": "scribe_v2",
+    "language_code": "en",
+    "tag_audio_events": false,
+    "temperature": 0.0,
+    "seed": 0,
+    "list_feature": "keyterms",
+    "limits": "<=1000 terms, each <50 chars and <=5 words, no <>{}[]\\",
+    "fit": "drop terms that break a per-term rule, then keep the first 1000 (most frequent in the book first)"
+   },
+   "fingerprint": "ee81ac4928877b74",
+   "price": {
+    "usd_per_audio_hour": 0.22,
+    "usd_per_audio_hour_with_list": 0.27,
+    "min_billable_s_over_100_terms": 20,
+    "checked": "2026-10-13",
+    "source": "https://elevenlabs.io/pricing/api"
+   },
+   "machine": {
+    "platform": "macOS-26.3.1-arm64-arm-64bit",
+    "machine": "arm64",
+    "python": "3.12.13",
+    "cpu": "Apple M4 Max",
+    "memory_gb": 128.0,
+    "os": "macOS 26.3.1 (25D771280a)"
+   },
+   "hourly_usd": null,
+   "commands": [
+    {
+     "argv": "/Users/jameslal/workspace/jl/own-names-bench-wt-v7crel/.venv/bin/bench --data /Users/jameslal/workspace/jl/onb-v13-books-SEALED/data run --system elevenlabs --label books13-elevenlabs --out results/books13 --no-chapters",
+     "passes_to_do": 5612,
+     "machine": {
+      "platform": "macOS-26.3.1-arm64-arm-64bit",
+      "machine": "arm64",
+      "python": "3.12.13",
+      "cpu": "Apple M4 Max",
+      "memory_gb": 128.0,
+      "os": "macOS 26.3.1 (25D771280a)"
+     },
+     "code_revision": "51848f128c244536529c548b122d59b50aaaaef4",
+     "started": "2026-10-27T10:16:38+00:00",
+     "finished": "2026-10-27T10:36:38+00:00"
+    }
+   ]
+  },
+  "completeness": {
+   "variants": [
+    "none",
+    "own",
+    "all"
+   ],
+   "expected": 5612,
+   "completed": 5612,
+   "failed": 0,
+   "stale": 0,
+   "missing": 0,
+   "complete": true
+  },
+  "summary": {
+   "clips": {
+    "own": {
+     "invented": {
+      "right": {
+       "k": 718,
+       "n": 777,
+       "rate": 0.924066924066924,
+       "lo": 0.8858265350545124,
+       "hi": 0.9605842887178673
+      },
+      "wrong_name": {
+       "k": 3,
+       "n": 777,
+       "rate": 0.003861003861003861,
+       "lo": 0.0,
+       "hi": 0.008620689655172414
+      },
+      "overwritten": {
+       "k": 10,
+       "n": 777,
+       "rate": 0.01287001287001287,
+       "lo": 0.003194129898491528,
+       "hi": 0.02402757452346836
+      },
+      "right_untaught": {
+       "k": 265,
+       "n": 777,
+       "rate": 0.3410553410553411,
+       "lo": 0.24177050212970186,
+       "hi": 0.45516442330057866
+      }
+     },
+     "traditional": {
+      "right": {
+       "k": 252,
+       "n": 323,
+       "rate": 0.7801857585139319,
+       "lo": 0.6413652067127549,
+       "hi": 0.9745263242763846
+      },
+      "wrong_name": {
+       "k": 7,
+       "n": 323,
+       "rate": 0.021671826625386997,
+       "lo": 0.0,
+       "hi": 0.039923954372623575
+      },
+      "overwritten": {
+       "k": 6,
+       "n": 323,
+       "rate": 0.018575851393188854,
+       "lo": 0.0,
+       "hi": 0.02912621359223301
+      },
+      "right_untaught": {
+       "k": 114,
+       "n": 323,
+       "rate": 0.35294117647058826,
+       "lo": 0.23608176137987874,
+       "hi": 0.5210355987055016
+      }
+     },
+     "all": {
+      "right": {
+       "k": 970,
+       "n": 1100,
+       "rate": 0.8818181818181818,
+       "lo": 0.7941884539346232,
+       "hi": 0.9511451478459244
+      },
+      "wrong_name": {
+       "k": 10,
+       "n": 1100,
+       "rate": 0.00909090909090909,
+       "lo": 0.0,
+       "hi": 0.020229313725108066
+      },
+      "overwritten": {
+       "k": 16,
+       "n": 1100,
+       "rate": 0.014545454545454545,
+       "lo": 0.005070961779231163,
+       "hi": 0.023674242424242424
+      },
+      "right_untaught": {
+       "k": 379,
+       "n": 1100,
+       "rate": 0.34454545454545454,
+       "lo": 0.263706172063815,
+       "hi": 0.44280112468716293
+      }
+     },
+     "name_free_inserted": {
+      "k": 2,
+      "n": 1200,
+      "rate": 0.0016666666666666668,
+      "lo": 0.0,
+      "hi": 0.004166666666666667
+     },
+     "ordinary_wer": {
+      "num": 854.0,
+      "den": 55743.0,
+      "rate": 0.015320309276501085,
+      "lo": 0.011843156377737085,
+      "hi": 0.019142337629325344
+     },
+     "full_wer": {
+      "num": 878.0,
+      "den": 57395.0,
+      "rate": 0.015297499782210995,
+      "lo": 0.011811281253064802,
+      "hi": 0.01917870664993834
+     },
+     "spoken_name_sent": {
+      "k": 1100,
+      "n": 1100,
+      "rate": 1.0,
+      "lo": 1.0,
+      "hi": 1.0
+     }
+    },
+    "none": {
+     "invented": {
+      "right": {
+       "k": 231,
+       "n": 777,
+       "rate": 0.2972972972972973,
+       "lo": 0.21602400309717384,
+       "hi": 0.38773716344655
+      }
+     },
+     "traditional": {
+      "right": {
+       "k": 97,
+       "n": 323,
+       "rate": 0.30030959752321984,
+       "lo": 0.1846743237116518,
+       "hi": 0.4804474729399441
+      }
+     },
+     "all": {
+      "right": {
+       "k": 328,
+       "n": 1100,
+       "rate": 0.29818181818181816,
+       "lo": 0.2271963853193495,
+       "hi": 0.384320362179803
+      }
+     },
+     "name_free_inserted": {
+      "k": 1,
+      "n": 1200,
+      "rate": 0.0008333333333333334,
+      "lo": 0.0,
+      "hi": 0.0025
+     },
+     "ordinary_wer": {
+      "num": 1904.0,
+      "den": 55743.0,
+      "rate": 0.034156755108264714,
+      "lo": 0.02676564642813677,
+      "hi": 0.04166457441228291
+     },
+     "full_wer": {
+      "num": 1958.0,
+      "den": 57395.0,
+      "rate": 0.03411446990155937,
+      "lo": 0.02704999294581438,
+      "hi": 0.041275760687628
+     }
+    }
+   },
+   "chapters": {},
+   "suites": {},
+   "speed": {
+    "clip": {
+     "passes": 5612,
+     "p50_s": 0.79295,
+     "p90_s": 1.15789,
+     "rtf": 0.08553793665176834
+    }
+   },
+   "cost": {
+    "basis": "list price",
+    "usd_per_audio_hour_no_list": 0.22,
+    "usd_per_audio_hour_with_list": 0.27,
+    "checked": "2026-10-13",
+    "source": "https://elevenlabs.io/pricing/api",
+    "effective": {
+     "clips, no list": {
+      "usd": 1.365,
+      "audio_hours": 6.205,
+      "usd_per_audio_hour": 0.22
+     },
+     "clips, own list": {
+      "usd": 2.893,
+      "audio_hours": 9.315,
+      "usd_per_audio_hour": 0.311
+     }
+    }
+   }
+  },
+  "scored": "2026-10-27T10:36:59+00:00"
+ }
+}

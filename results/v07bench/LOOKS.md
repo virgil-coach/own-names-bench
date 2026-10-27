@@ -36,3 +36,16 @@ error; 95% intervals clustered by book.
 | --- | --- | --- | --- | --- | --- |
 | ElevenLabs Scribe v2 (keyterms), `elevenlabs-2026-10-26` | 2026-10-26 | 92.8 [88.5, 97.2] | 2.9 [1.2, 4.8] | 0.2 [0.0, 0.7] (1/408) | launch/hosted-2026-10-26, results/scores/HOSTED_RERUN_2026-10-26.md |
 | Deepgram Nova-3 (keyterm), `deepgram-2026-10-26` | 2026-10-26 | 75.1 [61.8, 89.5] | 8.5 [5.9, 11.1] | see HOSTED_RERUN_2026-10-26.md | same |
+
+## Looks at the sealed v1.3 launch suites (scored once per final system)
+
+Each suite is scored once per final system, by the benchmark's own `bench report`. Aggregates only: no per-clip output
+or transcript was read. The pass outputs and per-item scores stay out of git; their SHA-256 are in
+`results/<suite>/SHA256SUMS.passes`. Clips with the book's or the clip's own list. Names right and untaught overwritten
+are out of the mentions. False insertions are name-free items with a listed name inserted. 95% intervals are clustered
+(by book for books13). Paired differences are in `results/<suite>/scores/REPORT.md`.
+
+| # | Suite (suite hash) | System | Adapter SHA-256 | Date | False insertions | Names right (invented; traditional) | Untaught overwritten | Word error |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 13 | books13 (3d6d8b65d4810c4f9571e8274bf02659a1bb507e65c7d0c333a48145a41e202f; manifest e02be6a4…8257c8, dataset fingerprint 455a97ea15754481) | v7c (v0.7.0) + guard + re-read on the shipped path: Detail Keeper engine af939d6 `detailkeeper-bench`, MLX, writer merged + affine 8-bit (`ours-mlx`, `books13-v7c-mlx`, Mac Studio, one process, 5,612/5,612 passes, 0 failed) | de91437d4fc828b49605e6482a32b817d55ac4853d1714ac1e2bf9be8f61226c | 2026-10-27 | 0.2 [0.0, 0.4] (2/1200) | 89.6 [83.4, 94.4] (986/1100) (invented 92.9 [91.2, 95.1] 722/777; traditional 81.7 [71.8, 96.1] 264/323) | 3.6 [1.1, 6.6] (40/1100) | 2.1 [1.7, 2.6] |
+| 14 | books13 (same) | ElevenLabs Scribe v2 (keyterms; the configuration of `elevenlabs-2026-10-26`, identical config; `books13-elevenlabs`, from this Mac, 5,612/5,612 passes, 0 failed) | n/a | 2026-10-27 | 0.2 [0.0, 0.4] (2/1200) | 88.2 [79.4, 95.1] (970/1100) (invented 92.4 [88.6, 96.1] 718/777; traditional 78.0 [64.1, 97.5] 252/323) | 1.5 [0.5, 2.4] (16/1100) | 1.5 [1.2, 1.9] |

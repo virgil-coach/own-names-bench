@@ -1,0 +1,117 @@
+{
+ "adapter": "virgil-coach/own-names-qwen3-asr v0.7.0 (v7c), attribution/ at 85f2f0bb5b211dd8262ad3f357d3f07d1bdd1e95",
+ "rule": "The v1.3.0 contamination check: every suite of the benchmark against the training data of v7c, the\nadapter the v1.3.0 results are for (virgil-coach/own-names-qwen3-asr v0.7.0, `audio-text-note`).\n\nv0.7.0's card lists every training item by id in its `attribution/` folder (public, at the model's tag\nv0.7.0): the 47 LibriVox training books and their readers, the LibriTTS dev speakers and utterances (cloned\nvoices and real recordings), the 40 Gutenberg template sentences, the YODAS videos, and the conversation\ndata (LibriTTS-R train-clean-100 utterances with speaker, chapter, LibriVox project and Gutenberg book,\nVoxPopuli train/validation sessions, NOTSOFAR-1 training meetings, MUSAN and FSD50K noise). The v0.3.0\nrecipe part is the same items as v0.3.0's, so this check covers v0.3.0 too.\n\nChecked against the v1.2.0 audiobooks (clips and chapters), the v1.2.0 suites (calls, svq, ami, modulate),\nbooks13 and conv13 (the sealed v1.3 suites). A **failure** is benchmark audio of training data: a reader or\nspeaker who is in training, a LibriVox recording (project or archive.org item) or book text read in a\ntraining audiobook, a LibriTTS-R chapter or utterance in training, a FSD50K clip in training, or a suite\ndrawn from a training corpus without a held-out split. **Reported, not failed**: the same Gutenberg text read\nby another reader in training (LibriTTS-R), VoxPopuli plenary sessions shared with training (conv13 is held\nout by speaker, not by session; its card says so), and listed names that are in a training-book name list,\nthe generated training names or the template names (counts: names recur across books and speech).\n\nSpeaker ids become reader names with LibriSpeech's SPEAKERS.TXT and chapters become LibriVox projects with\nCHAPTERS.TXT (openslr 12). Needs, besides the public attribution, the lore name lists the existing check\nreads (lore-poc books/, ctxft/gen.py, lore-eval-sets taken.json). Not checkable here, and said so: YODAS\nvoices (no speaker or channel), VoxPopuli speakers (the attribution lists sessions; conv13's build checked its\nspeakers against the conversation train/dev rows themselves, `build/conv_v13/sealed/contamination.json`),\nand names said in conversation training utterances (only conv13 records them, per entry, as\n`name_seen_in_train`; its lists include such names by design and report them apart).",
+ "training": {
+  "librivox_books": 47,
+  "libritts_rows": 5319,
+  "libritts_r_utterances": 7649,
+  "voxpopuli_sessions": 2416,
+  "fsd50k_clips": 679,
+  "notsofar_meetings": 108,
+  "yodas_videos": 1708,
+  "readers_by_name": 361,
+  "speaker_ids": 310,
+  "librivox_projects": 424,
+  "names_training_book_lists": 1415,
+  "names_generated": 3000,
+  "names_templates": 24
+ },
+ "suites": {
+  "v1.2.0 audiobooks": {
+   "readers": 16,
+   "readers_in_training": [],
+   "books": 17,
+   "books_recording_in_training": [],
+   "books_text_read_in_training_audiobook": [],
+   "books_text_read_by_others_in_training": [],
+   "listed_names": 1055,
+   "in_training_book_lists": 0,
+   "in_generated": 0,
+   "in_templates": 1,
+   "fail": 0,
+   "task": "clips and chapters"
+  },
+  "v1.2.0 calls": {
+   "source": "apptek-com/apptek_callcenter_dialogues@b98967d9946f",
+   "source_is_a_training_corpus": false,
+   "clips": 1059,
+   "listed_names": 327,
+   "in_training_book_lists": 0,
+   "in_generated": 0,
+   "in_templates": 2,
+   "fail": 0
+  },
+  "v1.2.0 svq": {
+   "source": "google/svq@74f17ec92f06",
+   "source_is_a_training_corpus": false,
+   "clips": 1592,
+   "listed_names": 316,
+   "in_training_book_lists": 0,
+   "in_generated": 0,
+   "in_templates": 1,
+   "fail": 0
+  },
+  "v1.2.0 ami": {
+   "source": "edinburghcstr/ami@46f28f2503e2",
+   "source_is_a_training_corpus": false,
+   "clips": 119,
+   "listed_names": 114,
+   "in_training_book_lists": 0,
+   "in_generated": 0,
+   "in_templates": 2,
+   "fail": 0
+  },
+  "v1.2.0 modulate": {
+   "source": "modulate/entity-transcription-benchmark@45b2f1411ff1",
+   "source_is_a_training_corpus": false,
+   "clips": 643,
+   "listed_names": 168,
+   "in_training_book_lists": 0,
+   "in_generated": 1,
+   "in_templates": 1,
+   "fail": 0
+  },
+  "books13": {
+   "readers": 20,
+   "readers_in_training": [],
+   "books": 20,
+   "books_recording_in_training": [],
+   "books_text_read_in_training_audiobook": [],
+   "books_text_read_by_others_in_training": [],
+   "listed_names": 894,
+   "in_training_book_lists": 0,
+   "in_generated": 0,
+   "in_templates": 0,
+   "fail": 0,
+   "task": "clips"
+  },
+  "conv13": {
+   "clips": 3523,
+   "libritts_r_utterances": 1912,
+   "libritts_r_utterances_in_training": 0,
+   "libritts_r_speakers": 58,
+   "libritts_r_speakers_in_training": 0,
+   "libritts_r_chapters": 123,
+   "libritts_r_chapters_in_training": 0,
+   "fsd50k_clips": 344,
+   "fsd50k_clips_in_training": 0,
+   "voxpopuli_speakers": 136,
+   "voxpopuli_sessions": 199,
+   "voxpopuli_sessions_shared_with_training": 125,
+   "voxpopuli_clips_flagged_session_shared": 1027,
+   "entries_name_seen_in_conversation_training": 3418,
+   "listed_names": 1019,
+   "in_training_book_lists": 4,
+   "in_generated": 2,
+   "in_templates": 5,
+   "fail": 0
+  }
+ },
+ "not_checkable": [
+  "YODAS clips carry no speaker or channel: a benchmark speaker in a training video cannot be ruled out by name.",
+  "VoxPopuli speakers: v0.7.0's attribution lists sessions, not speakers; conv13's build checked its speakers against the conversation train/dev rows (build/conv_v13/sealed/contamination.json: 0 shared).",
+  "Names said in conversation training utterances: recorded only for conv13 (name_seen_in_train)."
+ ],
+ "fail": 0,
+ "result": "PASS"
+}

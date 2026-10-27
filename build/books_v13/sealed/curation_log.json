@@ -1,0 +1,222 @@
+{
+ "mouthpiece_of_zitu_2209": {
+  "names_found": 49,
+  "removed": 0,
+  "merged": 3,
+  "dropped_for_collision": 12,
+  "dropped_by_rule": {
+   "equal or close to a held name": 12
+  },
+  "names_kept": 34
+ },
+ "perfect_world_2006": {
+  "names_found": 54,
+  "removed": 0,
+  "merged": 4,
+  "dropped_for_collision": 11,
+  "dropped_by_rule": {
+   "equal or close to a held name": 10,
+   "shares a 4+ letter word with a held name": 1
+  },
+  "names_kept": 39
+ },
+ "virginofthesun_2402": {
+  "names_found": 29,
+  "removed": 1,
+  "merged": 1,
+  "dropped_for_collision": 5,
+  "dropped_by_rule": {
+   "a training-list or generated training name": 1,
+   "equal or close to a held name": 4
+  },
+  "names_kept": 22
+ },
+ "oldfashionedfairybook_cb": {
+  "names_found": 30,
+  "removed": 0,
+  "merged": 0,
+  "dropped_for_collision": 3,
+  "dropped_by_rule": {
+   "equal or close to a held name": 3
+  },
+  "names_kept": 27
+ },
+ "princess_galva_ma_1110": {
+  "names_found": 45,
+  "removed": 0,
+  "merged": 2,
+  "dropped_for_collision": 13,
+  "dropped_by_rule": {
+   "a training-list or generated training name": 1,
+   "equal or close to a held name": 11,
+   "shares a 4+ letter word with a held name": 1
+  },
+  "names_kept": 30
+ },
+ "devolutioniste_1212": {
+  "names_found": 20,
+  "removed": 0,
+  "merged": 1,
+  "dropped_for_collision": 6,
+  "dropped_by_rule": {
+   "equal or close to a held name": 6
+  },
+  "names_kept": 13
+ },
+ "romanceofamummy_1410": {
+  "names_found": 35,
+  "removed": 0,
+  "merged": 0,
+  "dropped_for_collision": 7,
+  "dropped_by_rule": {
+   "a training-list or generated training name": 1,
+   "equal or close to a held name": 6
+  },
+  "names_kept": 28
+ },
+ "plain_tales_hill_1008": {
+  "names_found": 94,
+  "removed": 1,
+  "merged": 2,
+  "dropped_for_collision": 19,
+  "dropped_by_rule": {
+   "a training-list or generated training name": 1,
+   "equal or close to a held name": 17,
+   "shares a 4+ letter word with a held name": 1
+  },
+  "names_kept": 72
+ },
+ "antiquary_sk": {
+  "names_found": 114,
+  "removed": 6,
+  "merged": 3,
+  "dropped_for_collision": 30,
+  "dropped_by_rule": {
+   "a training-list or generated training name": 4,
+   "equal or close to a held name": 24,
+   "shares a 4+ letter word with a held name": 2
+  },
+  "names_kept": 75
+ },
+ "rulers_of_the_lakes_kg_1704": {
+  "names_found": 35,
+  "removed": 1,
+  "merged": 0,
+  "dropped_for_collision": 4,
+  "dropped_by_rule": {
+   "a training-list or generated training name": 1,
+   "equal or close to a held name": 3
+  },
+  "names_kept": 30
+ },
+ "southseatales_2011": {
+  "names_found": 66,
+  "removed": 0,
+  "merged": 0,
+  "dropped_for_collision": 12,
+  "dropped_by_rule": {
+   "a training-list or generated training name": 1,
+   "equal or close to a held name": 11
+  },
+  "names_kept": 54
+ },
+ "legendsd_myths_hawaii_1903": {
+  "names_found": 272,
+  "removed": 0,
+  "merged": 2,
+  "dropped_for_collision": 19,
+  "dropped_by_rule": {
+   "a training-list or generated training name": 1,
+   "equal or close to a held name": 18
+  },
+  "names_kept": 251
+ },
+ "mexicanarcaeology_2603": {
+  "names_found": 206,
+  "removed": 5,
+  "merged": 2,
+  "dropped_for_collision": 25,
+  "dropped_by_rule": {
+   "a training-list or generated training name": 5,
+   "equal or close to a held name": 18,
+   "shares a 4+ letter word with a held name": 2
+  },
+  "names_kept": 174
+ },
+ "typee": {
+  "names_found": 34,
+  "removed": 1,
+  "merged": 1,
+  "dropped_for_collision": 4,
+  "dropped_by_rule": {
+   "equal or close to a held name": 4
+  },
+  "names_kept": 28
+ },
+ "legends_charlemagne_1002": {
+  "names_found": 67,
+  "removed": 0,
+  "merged": 0,
+  "dropped_for_collision": 24,
+  "dropped_by_rule": {
+   "a training-list or generated training name": 5,
+   "equal or close to a held name": 19
+  },
+  "names_kept": 43
+ },
+ "jap_fairytales_0808": {
+  "names_found": 32,
+  "removed": 0,
+  "merged": 0,
+  "dropped_for_collision": 3,
+  "dropped_by_rule": {
+   "a training-list or generated training name": 1,
+   "equal or close to a held name": 1,
+   "shares a 4+ letter word with a held name": 1
+  },
+  "names_kept": 29
+ },
+ "indian_fairy_tales_1304": {
+  "names_found": 41,
+  "removed": 6,
+  "merged": 0,
+  "dropped_for_collision": 11,
+  "dropped_by_rule": {
+   "a training-list or generated training name": 1,
+   "equal or close to a held name": 9,
+   "shares a 4+ letter word with a held name": 1
+  },
+  "names_kept": 24
+ },
+ "genji_monogatori_1305": {
+  "names_found": 35,
+  "removed": 0,
+  "merged": 0,
+  "dropped_for_collision": 7,
+  "dropped_by_rule": {
+   "equal or close to a held name": 6,
+   "shares a 4+ letter word with a held name": 1
+  },
+  "names_kept": 28
+ },
+ "theswedishfairybook_2607": {
+  "names_found": 27,
+  "removed": 0,
+  "merged": 1,
+  "dropped_for_collision": 5,
+  "dropped_by_rule": {
+   "equal or close to a held name": 5
+  },
+  "names_kept": 21
+ },
+ "silverlands_2404": {
+  "names_found": 13,
+  "removed": 0,
+  "merged": 1,
+  "dropped_for_collision": 3,
+  "dropped_by_rule": {
+   "equal or close to a held name": 3
+  },
+  "names_kept": 9
+ }
+}

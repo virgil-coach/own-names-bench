@@ -1,0 +1,10 @@
+{
+ "_note": "Hand curation of the books13 name lists, read as text only (never heard): ordinary, foreign or Latin words, common nouns of a culture's vocabulary, titles of works and misprints that the automatic name finder took. Same kind of list as lore-poc books/curation.json and bookdev/curation.json.",
+ "antiquary_sk": {"remove": {"Kunst": "German word", "Mancipia": "Latin word", "Panchresta": "Latin word", "Pharum Fecit": "Latin words", "Grampii": "Latin word in a quotation", "MAlpin": "misprint of M'Alpin"}},
+ "mexicanarcaeology_2603": {"remove": {"Calmecac": "Nahuatl common noun (a school)", "Telpochcalli": "Nahuatl common noun (a school)", "Pochteca": "Nahuatl common noun (merchants)", "Tlamacazqui": "Nahuatl common noun (a priest)", "Vaticanus": "Latin word of a codex title"}},
+ "indian_fairy_tales_1304": {"remove": {"Exempla": "Latin word", "Novelle": "Italian word", "Froggie": "ordinary word", "Jogis": "common noun", "Wideawake": "ordinary word", "Jatakas": "a genre of texts, common noun"}},
+ "plain_tales_hill_1008": {"remove": {"Sirkar": "common noun (government)"}, "merge": {"Schriederling": "Schreiderling"}},
+ "rulers_of_the_lakes_kg_1704": {"remove": {"Manitou": "common noun"}},
+ "typee": {"remove": {"Hawiian": "misspelt demonym"}},
+ "virginofthesun_2402": {"remove": {"Curaca": "common noun (a chief)"}}
+}

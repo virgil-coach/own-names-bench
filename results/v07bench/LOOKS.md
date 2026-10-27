@@ -37,6 +37,8 @@ error; 95% intervals clustered by book.
 | --- | --- | --- | --- | --- | --- |
 | ElevenLabs Scribe v2 (keyterms), `elevenlabs-2026-10-26` | 2026-10-26 | 92.8 [88.5, 97.2] | 2.9 [1.2, 4.8] | 0.2 [0.0, 0.7] (1/408) | launch/hosted-2026-10-26, results/scores/HOSTED_RERUN_2026-10-26.md |
 | Deepgram Nova-3 (keyterm), `deepgram-2026-10-26` | 2026-10-26 | 75.1 [61.8, 89.5] | 8.5 [5.9, 11.1] | 1.7 [0.5, 2.9] (7/408) | same; `results/scores/deepgram-2026-10-26.json` |
+| Deepgram Nova-3 (keyterm), `books13-deepgram`: the sealed audiobooks, after v1.3.0 published them | 2026-10-27 | 78.6 [65.1, 88.9] | 5.9 [3.9, 7.6] | 1.3 [0.4, 2.7] (16/1200) | `results/books13/scores/REPORT.md` |
+| Deepgram Nova-3 (keyterm), `conv13-deepgram`: the sealed conversations, after v1.3.0 published them (pooled counts; intervals per condition) | 2026-10-27 | 77.4 (1801/2327) | 8.2 (190/2327) | 0.3 (3/1196) | `results/conv13/scores/REPORT.md` |
 
 ## Looks at the sealed v1.3 launch suites (scored once per final system)
 

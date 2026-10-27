@@ -1,0 +1,59 @@
+{
+ "benchmark": "own-names-bench",
+ "benchmark_version": "1.3.0",
+ "dataset": "virgil-coach/own-names-bench@v1.3.0",
+ "dataset_fingerprint": "455a97ea15754481",
+ "suite_fingerprints": {},
+ "manifest_sha256": "e02be6a469c44ee55a679900d93d65f7da31b4427c4fc4f6490015ca098257c8",
+ "code_revision": "fcbf4d63b531e54125015868100215c2e648253b",
+ "system": "deepgram",
+ "variants": [
+  "none",
+  "own"
+ ],
+ "chapters": false,
+ "kind": "cloud",
+ "config": {
+  "service": "Deepgram pre-recorded",
+  "endpoint": "https://api.deepgram.com/v1/listen",
+  "model": "nova-3",
+  "language": "en",
+  "smart_format": true,
+  "list_feature": "keyterm",
+  "limits": "500 keyterm tokens per request (Deepgram's tokenizer, unpublished)",
+  "fit": "the longest prefix of the list (most frequent first) the service accepts, found by binary search with half a second of silence (refused requests are not billed)"
+ },
+ "fingerprint": "12d0cfbc89e720b4",
+ "price": {
+  "usd_per_audio_hour": 0.258,
+  "usd_per_audio_hour_with_list": 0.336,
+  "checked": "2026-10-13",
+  "source": "https://deepgram.com/pricing"
+ },
+ "machine": {
+  "platform": "macOS-26.3.1-arm64-arm-64bit",
+  "machine": "arm64",
+  "python": "3.12.13",
+  "cpu": "Apple M4 Max",
+  "memory_gb": 128.0,
+  "os": "macOS 26.3.1 (25D771280a)"
+ },
+ "hourly_usd": null,
+ "commands": [
+  {
+   "argv": "/Users/jameslal/workspace/jl/own-names-bench/.venv/bin/bench --data /Users/jameslal/workspace/jl/onb-v13-books-SEALED/data run --system deepgram --label books13-deepgram --out results/books13 --no-chapters",
+   "passes_to_do": 5612,
+   "machine": {
+    "platform": "macOS-26.3.1-arm64-arm-64bit",
+    "machine": "arm64",
+    "python": "3.12.13",
+    "cpu": "Apple M4 Max",
+    "memory_gb": 128.0,
+    "os": "macOS 26.3.1 (25D771280a)"
+   },
+   "code_revision": "fcbf4d63b531e54125015868100215c2e648253b",
+   "started": "2026-10-27T21:04:04+00:00",
+   "finished": "2026-10-27T21:17:21+00:00"
+  }
+ ]
+}

@@ -1,0 +1,68 @@
+{
+ "benchmark": "own-names-bench",
+ "benchmark_version": "1.3.0",
+ "dataset": "virgil-coach/own-names-bench@v1.3.0",
+ "dataset_fingerprint": "54d0fa007c55db72",
+ "suite_fingerprints": {
+  "conv13-conv": "c3c706d5c77658a6",
+  "conv13-far": "2e303b1f78f7ca6e",
+  "conv13-level": "fc5fcb8af5e32dff",
+  "conv13-near": "a280f27ce6dcb63c",
+  "conv13-short": "9902300b24c4daef",
+  "conv13-street": "a9b3b5ebfb16db64",
+  "conv13-tel": "4845c28cfc2635a7",
+  "conv13-xspk": "f752912952d80edc"
+ },
+ "manifest_sha256": "48286d151a41d685325c524b8bb3cc4b80d7103f3d77602b2ec76f219b2ce09e",
+ "code_revision": "fcbf4d63b531e54125015868100215c2e648253b",
+ "system": "deepgram",
+ "variants": [
+  "none",
+  "own"
+ ],
+ "chapters": false,
+ "kind": "cloud",
+ "config": {
+  "service": "Deepgram pre-recorded",
+  "endpoint": "https://api.deepgram.com/v1/listen",
+  "model": "nova-3",
+  "language": "en",
+  "smart_format": true,
+  "list_feature": "keyterm",
+  "limits": "500 keyterm tokens per request (Deepgram's tokenizer, unpublished)",
+  "fit": "the longest prefix of the list (most frequent first) the service accepts, found by binary search with half a second of silence (refused requests are not billed)"
+ },
+ "fingerprint": "2db0e5c1a2e3f910",
+ "price": {
+  "usd_per_audio_hour": 0.258,
+  "usd_per_audio_hour_with_list": 0.336,
+  "checked": "2026-10-13",
+  "source": "https://deepgram.com/pricing"
+ },
+ "machine": {
+  "platform": "macOS-26.3.1-arm64-arm-64bit",
+  "machine": "arm64",
+  "python": "3.12.13",
+  "cpu": "Apple M4 Max",
+  "memory_gb": 128.0,
+  "os": "macOS 26.3.1 (25D771280a)"
+ },
+ "hourly_usd": null,
+ "commands": [
+  {
+   "argv": "/Users/jameslal/workspace/jl/own-names-bench/.venv/bin/bench --data /Users/jameslal/workspace/jl/onb-v13-conv-wrapped run --system deepgram --label conv13-deepgram --out results/conv13 --no-chapters",
+   "passes_to_do": 9373,
+   "machine": {
+    "platform": "macOS-26.3.1-arm64-arm-64bit",
+    "machine": "arm64",
+    "python": "3.12.13",
+    "cpu": "Apple M4 Max",
+    "memory_gb": 128.0,
+    "os": "macOS 26.3.1 (25D771280a)"
+   },
+   "code_revision": "fcbf4d63b531e54125015868100215c2e648253b",
+   "started": "2026-10-27T21:17:34+00:00",
+   "finished": "2026-10-27T21:38:35+00:00"
+  }
+ ]
+}

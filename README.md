@@ -171,7 +171,8 @@ spelling only. Paired differences are ours minus the other system on the same it
 Runs: v7c on the sealed suites 2026-10-27, on the v1.2.0 suites 2026-10-20; ElevenLabs Scribe v2 (`scribe_v2`,
 `keyterms`, every name) on books13 2026-10-27, on conv13 **2026-10-16** (that run is reused: it was made for the
 v0.6 final and not re-run), on the v1.2.0 suites 2026-10-26; Deepgram Nova-3 (`nova-3`, keyterm prompting, the most
-frequent names that fit 500 tokens) on the v1.2.0 suites 2026-10-26, not run on the sealed suites. The other local
+frequent names that fit 500 tokens) on the v1.2.0 suites 2026-10-26 and on both sealed suites 2026-10-27
+(a reference run after v1.3.0 published them, so not a look: v7c had already been scored). The other local
 models' v1.2.0 runs are of 2026-10-13/14.
 
 ### Sealed audiobooks (books13)
@@ -183,10 +184,14 @@ Source: [results/books13/scores/REPORT.md](results/books13/scores/REPORT.md).
 | --- | --- | --- | --- | --- | --- | --- |
 | Ours, v7c (spelling + one recording per name) | 89.6 [83.4, 94.4] | 92.9 [91.2, 95.1] | 81.7 [71.8, 96.1] | 3.6 [1.1, 6.6] | 0.2 [0.0, 0.4] (2/1200) | 2.1 [1.7, 2.6] |
 | ElevenLabs Scribe v2 (`keyterms`, all names) | 88.2 [79.4, 95.1] | 92.4 [88.6, 96.1] | 78.0 [64.1, 97.5] | 1.5 [0.5, 2.4] | 0.2 [0.0, 0.4] (2/1200) | 1.5 [1.2, 1.9] |
+| Deepgram Nova-3 (`keyterm`, most frequent that fit) | 78.6 [65.1, 88.9] | 86.7 [82.7, 90.3] | 59.1 [41.5, 92.3] | 5.9 [3.9, 7.6] | 1.3 [0.4, 2.7] (16/1200) | 3.1 [2.4, 3.8] |
 
 Ours minus Scribe, same items: names right +1.5 [−1.9, +4.7], no measurable difference (invented +0.5 [−2.1, +3.6],
 traditional +3.7 [−7.5, +8.4]); name-free insertions +0.0 [−0.2, +0.2], no measurable difference; untaught names
 overwritten +2.2 [+0.1, +4.6] (worse); ordinary-word error +0.6 [+0.4, +0.7] (worse).
+Ours minus Deepgram: names right +11.0 [+3.8, +19.1] (better; invented +6.2 [+2.6, +10.2] better, traditional
++22.6 [−1.3, +32.1] no measurable difference); name-free insertions −1.2 [−2.3, −0.3] (better); untaught overwritten
+−2.3 [−4.6, +0.0], no measurable difference; ordinary-word error −0.9 [−1.4, −0.5] (better).
 
 Read with care:
 - **books13 was sealed after v7c was frozen** (2026-10-27; v7c had been chosen on the v1.2.0 clips). Nothing about
@@ -203,7 +208,9 @@ Read with care:
 2,327 mentions and 1,196 name-free pieces in eight conditions, each a suite with 40-name lists. Pooled over the eight
 (counts; there is no pooled interval): names right ours 2,103/2,327 (90.4%), Scribe 2,139/2,327 (91.9%); untaught
 overwritten ours 93 (4.0%), Scribe 204 (8.8%); name-free pieces with a listed name inserted ours 6/1,196 (0.5%), Scribe
-29/1,196 (2.4%); ordinary-word error ours 11.2%, Scribe 10.3%. Per condition, with intervals: [results/conv13/scores/REPORT.md](results/conv13/scores/REPORT.md).
+29/1,196 (2.4%); ordinary-word error ours 11.2%, Scribe 10.3%. Deepgram Nova-3 (2026-10-27): names right 1,801/2,327 (77.4%),
+untaught overwritten 190 (8.2%), name-free pieces with a listed name inserted 3/1,196 (0.3%); its per-condition
+paired differences against ours are in the same report. Per condition, with intervals: [results/conv13/scores/REPORT.md](results/conv13/scores/REPORT.md).
 
 | Condition | Names right: ours | Scribe | Ours − Scribe | Untaught overwritten: ours − Scribe | Name-free inserted: ours − Scribe | Ordinary-word error: ours − Scribe |
 | --- | --- | --- | --- | --- | --- | --- |

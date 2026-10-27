@@ -576,5 +576,285 @@
    }
   },
   "scored": "2026-10-27T20:10:46+00:00"
+ },
+ "books13-deepgram": {
+  "label": "books13-deepgram",
+  "benchmark_version": "1.3.0",
+  "run": {
+   "benchmark": "own-names-bench",
+   "benchmark_version": "1.3.0",
+   "dataset": "virgil-coach/own-names-bench@v1.3.0",
+   "dataset_fingerprint": "455a97ea15754481",
+   "suite_fingerprints": {},
+   "manifest_sha256": "e02be6a469c44ee55a679900d93d65f7da31b4427c4fc4f6490015ca098257c8",
+   "code_revision": "fcbf4d63b531e54125015868100215c2e648253b",
+   "system": "deepgram",
+   "variants": [
+    "none",
+    "own"
+   ],
+   "chapters": false,
+   "kind": "cloud",
+   "config": {
+    "service": "Deepgram pre-recorded",
+    "endpoint": "https://api.deepgram.com/v1/listen",
+    "model": "nova-3",
+    "language": "en",
+    "smart_format": true,
+    "list_feature": "keyterm",
+    "limits": "500 keyterm tokens per request (Deepgram's tokenizer, unpublished)",
+    "fit": "the longest prefix of the list (most frequent first) the service accepts, found by binary search with half a second of silence (refused requests are not billed)"
+   },
+   "fingerprint": "12d0cfbc89e720b4",
+   "price": {
+    "usd_per_audio_hour": 0.258,
+    "usd_per_audio_hour_with_list": 0.336,
+    "checked": "2026-10-13",
+    "source": "https://deepgram.com/pricing"
+   },
+   "machine": {
+    "platform": "macOS-26.3.1-arm64-arm-64bit",
+    "machine": "arm64",
+    "python": "3.12.13",
+    "cpu": "Apple M4 Max",
+    "memory_gb": 128.0,
+    "os": "macOS 26.3.1 (25D771280a)"
+   },
+   "hourly_usd": null,
+   "commands": [
+    {
+     "argv": "/Users/jameslal/workspace/jl/own-names-bench/.venv/bin/bench --data /Users/jameslal/workspace/jl/onb-v13-books-SEALED/data run --system deepgram --label books13-deepgram --out results/books13 --no-chapters",
+     "passes_to_do": 5612,
+     "machine": {
+      "platform": "macOS-26.3.1-arm64-arm-64bit",
+      "machine": "arm64",
+      "python": "3.12.13",
+      "cpu": "Apple M4 Max",
+      "memory_gb": 128.0,
+      "os": "macOS 26.3.1 (25D771280a)"
+     },
+     "code_revision": "fcbf4d63b531e54125015868100215c2e648253b",
+     "started": "2026-10-27T21:04:04+00:00",
+     "finished": "2026-10-27T21:17:21+00:00"
+    }
+   ]
+  },
+  "completeness": {
+   "variants": [
+    "none",
+    "own"
+   ],
+   "chapters": false,
+   "expected": 5612,
+   "completed": 5612,
+   "failed": 0,
+   "stale": 0,
+   "missing": 0,
+   "complete": true
+  },
+  "summary": {
+   "clips": {
+    "own": {
+     "invented": {
+      "right": {
+       "k": 674,
+       "n": 777,
+       "rate": 0.8674388674388674,
+       "lo": 0.827422700641942,
+       "hi": 0.9031840934371523
+      },
+      "wrong_name": {
+       "k": 12,
+       "n": 777,
+       "rate": 0.015444015444015444,
+       "lo": 0.0034423407917383822,
+       "hi": 0.025450878269076677
+      },
+      "overwritten": {
+       "k": 41,
+       "n": 777,
+       "rate": 0.05276705276705277,
+       "lo": 0.029939480014330316,
+       "hi": 0.07358316545529137
+      },
+      "right_untaught": {
+       "k": 155,
+       "n": 777,
+       "rate": 0.1994851994851995,
+       "lo": 0.15542448152914617,
+       "hi": 0.24964941776648455
+      }
+     },
+     "traditional": {
+      "right": {
+       "k": 191,
+       "n": 323,
+       "rate": 0.5913312693498453,
+       "lo": 0.4150538076069991,
+       "hi": 0.9234972677595629
+      },
+      "wrong_name": {
+       "k": 9,
+       "n": 323,
+       "rate": 0.02786377708978328,
+       "lo": 0.0,
+       "hi": 0.04159733777038269
+      },
+      "overwritten": {
+       "k": 24,
+       "n": 323,
+       "rate": 0.07430340557275542,
+       "lo": 0.037209302325581395,
+       "hi": 0.09259338669716026
+      },
+      "right_untaught": {
+       "k": 56,
+       "n": 323,
+       "rate": 0.17337461300309598,
+       "lo": 0.10714114995902758,
+       "hi": 0.27979274611398963
+      }
+     },
+     "all": {
+      "right": {
+       "k": 865,
+       "n": 1100,
+       "rate": 0.7863636363636364,
+       "lo": 0.6507147708511839,
+       "hi": 0.8886575742897694
+      },
+      "wrong_name": {
+       "k": 21,
+       "n": 1100,
+       "rate": 0.019090909090909092,
+       "lo": 0.006904459545647472,
+       "hi": 0.029038112522686024
+      },
+      "overwritten": {
+       "k": 65,
+       "n": 1100,
+       "rate": 0.05909090909090909,
+       "lo": 0.03873832448130609,
+       "hi": 0.07615937316075552
+      },
+      "right_untaught": {
+       "k": 211,
+       "n": 1100,
+       "rate": 0.1918181818181818,
+       "lo": 0.15108576028695456,
+       "hi": 0.2388763199067158
+      }
+     },
+     "name_free_inserted": {
+      "k": 16,
+      "n": 1200,
+      "rate": 0.013333333333333334,
+      "lo": 0.004166666666666667,
+      "hi": 0.02666666666666667
+     },
+     "ordinary_wer": {
+      "num": 1703.0,
+      "den": 55743.0,
+      "rate": 0.030550921191898534,
+      "lo": 0.023502354477625186,
+      "hi": 0.038141064745165675
+     },
+     "full_wer": {
+      "num": 1767.0,
+      "den": 57395.0,
+      "rate": 0.03078665388971165,
+      "lo": 0.023761264867190945,
+      "hi": 0.03827914959711025
+     },
+     "spoken_name_sent": {
+      "k": 1049,
+      "n": 1100,
+      "rate": 0.9536363636363636,
+      "lo": 0.8842754923813719,
+      "hi": 1.0
+     }
+    },
+    "none": {
+     "invented": {
+      "right": {
+       "k": 123,
+       "n": 777,
+       "rate": 0.1583011583011583,
+       "lo": 0.12483025076073159,
+       "hi": 0.1896551724137931
+      }
+     },
+     "traditional": {
+      "right": {
+       "k": 63,
+       "n": 323,
+       "rate": 0.19504643962848298,
+       "lo": 0.13227513227513227,
+       "hi": 0.3120318710789713
+      }
+     },
+     "all": {
+      "right": {
+       "k": 186,
+       "n": 1100,
+       "rate": 0.1690909090909091,
+       "lo": 0.13858059993119162,
+       "hi": 0.20616174817999705
+      }
+     },
+     "name_free_inserted": {
+      "k": 0,
+      "n": 1200,
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "ordinary_wer": {
+      "num": 2666.0,
+      "den": 55743.0,
+      "rate": 0.04782663294045889,
+      "lo": 0.038842949091664525,
+      "hi": 0.05626394881756423
+     },
+     "full_wer": {
+      "num": 2783.0,
+      "den": 57395.0,
+      "rate": 0.04848854429828382,
+      "lo": 0.03967866900608645,
+      "hi": 0.056611772200766096
+     }
+    }
+   },
+   "chapters": {},
+   "suites": {},
+   "speed": {
+    "clip": {
+     "passes": 5612,
+     "p50_s": 0.4437,
+     "p90_s": 0.7791800000000001,
+     "rtf": 0.0519166851754643
+    }
+   },
+   "cost": {
+    "basis": "list price",
+    "usd_per_audio_hour_no_list": 0.258,
+    "usd_per_audio_hour_with_list": 0.336,
+    "checked": "2026-10-13",
+    "source": "https://deepgram.com/pricing",
+    "effective": {
+     "clips, no list": {
+      "usd": 1.601,
+      "audio_hours": 6.205,
+      "usd_per_audio_hour": 0.258
+     },
+     "clips, own list": {
+      "usd": 3.13,
+      "audio_hours": 9.315,
+      "usd_per_audio_hour": 0.336
+     }
+    }
+   }
+  },
+  "scored": "2026-10-27T21:38:52+00:00"
  }
 }

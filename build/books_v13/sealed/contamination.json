@@ -1,0 +1,55 @@
+{
+ "verdict": "PASS",
+ "failures": {
+  "audio: PCM equal to a held file": 0,
+  "audio: file equal to a held file": 0,
+  "audio: two clips are the same file": 0,
+  "books: Gutenberg text excluded": 0,
+  "books: LibriVox project excluded": 0,
+  "books: archive.org item excluded": 0,
+  "books: held series": 0,
+  "books: two suite books share a work": 0,
+  "books: work excluded": 0,
+  "names: equal, close to or sharing a word with a held name": 0,
+  "names: training-list or generated training name": 0,
+  "readers: excluded": 0,
+  "text: a clip reference shares an 8-word run with a held text": 0
+ },
+ "report": {
+  "books": 20,
+  "readers": 20,
+  "readers_who_are_librispeech_speakers": 11,
+  "readers_who_are_librispeech_speakers_subsets": [
+   "train-clean-360",
+   "train-other-500"
+  ],
+  "books_whose_librivox_project_is_in_librispeech": 9,
+  "books_whose_reading_by_its_suite_reader_is_in_librispeech": 5,
+  "librispeech_chapters_of_those_readings": 9,
+  "books_whose_librivox_project_is_in_librispeech_subsets": [
+   "train-clean-360",
+   "train-other-500"
+  ],
+  "entries": 895,
+  "entries_in_wikidata_name_lists": 32,
+  "mentions_of_names_in_wikidata_name_lists": 27,
+  "held_audio_hashes": 11896,
+  "audio_files_hashed": 3151,
+  "held_8_word_runs": 9876441,
+  "clip_references_checked": 2256,
+  "not_checkable": "YODAS clips in v0.3.0-v0.7.0 training carry no speaker or channel; a suite reader appearing in a training video cannot be ruled out by name."
+ },
+ "exclusions": {
+  "readers": 532,
+  "librivox_projects": 624,
+  "archive_items": 141,
+  "gutenberg_ids": 420,
+  "work_titles": 146,
+  "held_names": 11086,
+  "trained_names": 11294,
+  "generated_names": 3000,
+  "wikidata_names": 60873,
+  "attribution_dirs": 13
+ },
+ "excl_sha256": "bad9c0e8064090fd4b7d5127f94122f446d48642f0472b8908b1020f130a6777"
+}

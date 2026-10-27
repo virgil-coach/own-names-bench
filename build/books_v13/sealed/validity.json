@@ -1,0 +1,37 @@
+{
+ "problems": {},
+ "levels_db": {
+  "clip_dbfs": {
+   "n": 2256,
+   "p5": -30.7,
+   "median": -26.6,
+   "p95": -22.3
+  },
+  "name_minus_clip_db": {
+   "n": 1100,
+   "p5": -3.6,
+   "median": 1.0,
+   "p95": 4.4
+  },
+  "taught_dbfs": {
+   "n": 895,
+   "p5": -32.9,
+   "median": -27.0,
+   "p95": -21.1
+  }
+ },
+ "oracle_score": {
+  "passes_own_and_minus": 3357,
+  "mentions": 1100,
+  "own_right": 1100,
+  "own_overwritten": 0,
+  "own_wrong_name": 0,
+  "name_free": 1200,
+  "own_inserted": 0,
+  "word_errors": 0,
+  "words": 55743
+ },
+ "passes_for_a_system_with_none_own": 5612,
+ "passes_cross_reader": 1,
+ "verdict": "PASS"
+}

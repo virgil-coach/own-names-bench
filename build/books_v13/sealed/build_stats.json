@@ -1,0 +1,227 @@
+{
+ "per_book": {
+  "antiquary_sk": {
+   "pool": "invented",
+   "reader": "skoval",
+   "entries": 66,
+   "mentions": 97,
+   "names_mentioned": 43,
+   "name_free": 60,
+   "hours": 0.433
+  },
+  "devolutioniste_1212": {
+   "pool": "invented",
+   "reader": "klbonds",
+   "entries": 11,
+   "mentions": 26,
+   "names_mentioned": 9,
+   "name_free": 60,
+   "hours": 0.234
+  },
+  "genji_monogatori_1305": {
+   "pool": "traditional",
+   "reader": "meyerli",
+   "entries": 26,
+   "mentions": 15,
+   "names_mentioned": 15,
+   "name_free": 60,
+   "hours": 0.205
+  },
+  "indian_fairy_tales_1304": {
+   "pool": "traditional",
+   "reader": "Gabriela Cowan",
+   "entries": 21,
+   "mentions": 18,
+   "names_mentioned": 18,
+   "name_free": 60,
+   "hours": 0.217
+  },
+  "jap_fairytales_0808": {
+   "pool": "traditional",
+   "reader": "Scott Robbins",
+   "entries": 28,
+   "mentions": 25,
+   "names_mentioned": 25,
+   "name_free": 60,
+   "hours": 0.225
+  },
+  "legends_charlemagne_1002": {
+   "pool": "traditional",
+   "reader": "Jacquerie",
+   "entries": 33,
+   "mentions": 20,
+   "names_mentioned": 20,
+   "name_free": 60,
+   "hours": 0.216
+  },
+  "legendsd_myths_hawaii_1903": {
+   "pool": "traditional",
+   "reader": "Lynda Marie Neilson",
+   "entries": 176,
+   "mentions": 137,
+   "names_mentioned": 137,
+   "name_free": 60,
+   "hours": 0.539
+  },
+  "mexicanarcaeology_2603": {
+   "pool": "traditional",
+   "reader": "Katharina21",
+   "entries": 159,
+   "mentions": 60,
+   "names_mentioned": 60,
+   "name_free": 60,
+   "hours": 0.309
+  },
+  "mouthpiece_of_zitu_2209": {
+   "pool": "invented",
+   "reader": "tjfria",
+   "entries": 30,
+   "mentions": 66,
+   "names_mentioned": 26,
+   "name_free": 60,
+   "hours": 0.333
+  },
+  "oldfashionedfairybook_cb": {
+   "pool": "invented",
+   "reader": "Carol Box",
+   "entries": 26,
+   "mentions": 67,
+   "names_mentioned": 25,
+   "name_free": 60,
+   "hours": 0.335
+  },
+  "perfect_world_2006": {
+   "pool": "invented",
+   "reader": "MrsLSid",
+   "entries": 37,
+   "mentions": 69,
+   "names_mentioned": 27,
+   "name_free": 60,
+   "hours": 0.345
+  },
+  "plain_tales_hill_1008": {
+   "pool": "invented",
+   "reader": "Mike Harris",
+   "entries": 67,
+   "mentions": 136,
+   "names_mentioned": 54,
+   "name_free": 60,
+   "hours": 0.514
+  },
+  "princess_galva_ma_1110": {
+   "pool": "invented",
+   "reader": "MaryAnn",
+   "entries": 29,
+   "mentions": 59,
+   "names_mentioned": 23,
+   "name_free": 60,
+   "hours": 0.329
+  },
+  "romanceofamummy_1410": {
+   "pool": "invented",
+   "reader": "Deon Gines",
+   "entries": 27,
+   "mentions": 54,
+   "names_mentioned": 24,
+   "name_free": 60,
+   "hours": 0.315
+  },
+  "rulers_of_the_lakes_kg_1704": {
+   "pool": "invented",
+   "reader": "Kenneth Sergeant Gaghan",
+   "entries": 27,
+   "mentions": 49,
+   "names_mentioned": 19,
+   "name_free": 60,
+   "hours": 0.29
+  },
+  "silverlands_2404": {
+   "pool": "traditional",
+   "reader": "Lynette Caulkins",
+   "entries": 9,
+   "mentions": 7,
+   "names_mentioned": 7,
+   "name_free": 60,
+   "hours": 0.174
+  },
+  "southseatales_2011": {
+   "pool": "invented",
+   "reader": "Warren Kati",
+   "entries": 53,
+   "mentions": 103,
+   "names_mentioned": 45,
+   "name_free": 60,
+   "hours": 0.439
+  },
+  "theswedishfairybook_2607": {
+   "pool": "traditional",
+   "reader": "Hox",
+   "entries": 20,
+   "mentions": 14,
+   "names_mentioned": 14,
+   "name_free": 60,
+   "hours": 0.203
+  },
+  "typee": {
+   "pool": "traditional",
+   "reader": "Michael Scherer",
+   "entries": 28,
+   "mentions": 27,
+   "names_mentioned": 27,
+   "name_free": 60,
+   "hours": 0.239
+  },
+  "virginofthesun_2402": {
+   "pool": "invented",
+   "reader": "Andy Sames",
+   "entries": 22,
+   "mentions": 51,
+   "names_mentioned": 20,
+   "name_free": 60,
+   "hours": 0.312
+  }
+ },
+ "stats": {
+  "mentions lost: span does not read as the name": 1,
+  "name-free candidates antiquary_sk": 3128,
+  "name-free candidates devolutioniste_1212": 552,
+  "name-free candidates genji_monogatori_1305": 737,
+  "name-free candidates indian_fairy_tales_1304": 580,
+  "name-free candidates jap_fairytales_0808": 800,
+  "name-free candidates left out: a listed or training name": 10,
+  "name-free candidates left out: alignment not strict enough": 1977,
+  "name-free candidates legends_charlemagne_1002": 374,
+  "name-free candidates legendsd_myths_hawaii_1903": 1950,
+  "name-free candidates mexicanarcaeology_2603": 936,
+  "name-free candidates mouthpiece_of_zitu_2209": 704,
+  "name-free candidates oldfashionedfairybook_cb": 2017,
+  "name-free candidates perfect_world_2006": 852,
+  "name-free candidates plain_tales_hill_1008": 1108,
+  "name-free candidates princess_galva_ma_1110": 1003,
+  "name-free candidates romanceofamummy_1410": 1215,
+  "name-free candidates rulers_of_the_lakes_kg_1704": 944,
+  "name-free candidates silverlands_2404": 673,
+  "name-free candidates southseatales_2011": 1342,
+  "name-free candidates theswedishfairybook_2607": 1327,
+  "name-free candidates typee": 2865,
+  "name-free candidates virginofthesun_2402": 2589,
+  "names without an enrollment cut": 79,
+  "pieces left out: say a name dropped for a collision": 2530,
+  "pieces left out: share an 8-word run with a held text": 142
+ },
+ "total": {
+  "books": 20,
+  "readers": 20,
+  "entries": 895,
+  "mentions": 1100,
+  "names_mentioned": 638,
+  "name_free": 1200,
+  "clips": 2256,
+  "hours": 6.205,
+  "name_free_minutes": 193.2,
+  "mentions_by_group": {
+   "invented": 777,
+   "traditional": 323
+  }
+ }
+}

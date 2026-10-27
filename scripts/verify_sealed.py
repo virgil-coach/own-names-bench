@@ -4,8 +4,9 @@ each published pass output against the SHA-256 recorded when it was scored (resu
 report rebuilt by `bench report` from those passes against the committed one: every result table of REPORT.md and every
 run's summary and completeness in scores/summary.json. Prints aggregates only, as the report does.
 
-The committed reports were made by the code of the time (benchmark 1.2.0 code, on the same data format); a rebuild with this
-code differs only in the title, the scoring date and the runs list, which are left out of the comparison.
+The committed reports were re-rendered by the v1.3.0 code from the same passes (the scoring code is unchanged since 1.2.0, and
+every table row, summary and completeness equalled the reports of 2026-10-27). The scoring date and the runs list are left out
+of the comparison.
 
 usage: uv run python scripts/verify_sealed.py DATASET [books13 conv13]
 """

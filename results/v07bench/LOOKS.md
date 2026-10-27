@@ -54,7 +54,10 @@ are out of the mentions. False insertions are name-free items with a listed name
 
 From v1.3.0 the sealed runs' pass outputs are published (`results/<suite>/<run>/passes.jsonl.gz`); `scripts/verify_sealed.py`
 checks each against the SHA-256 in `SHA256SUMS.passes`, recorded when it was scored, and rebuilds the reports. That is a
-check that the published files are the scored ones, not a new look: no number is chosen on it.
+check that the published files are the scored ones, not a new look: no number is chosen on it. For v1.3.0 the two sealed
+reports (`scores/REPORT.md`, `scores/summary.json`) were re-rendered by the v1.3.0 code from the same passes, so that every
+published score is of one benchmark version; the scoring code is byte for byte 1.2.0's, and every table row, summary and
+completeness was checked equal to the reports of looks 13-15 before they were replaced.
 
 conv13 cells are pooled over its eight conditions: counts out of the totals, and ordinary-word error out of the summed words.
 There is no pooled interval. Each condition's rates, 95% intervals (clustered by list group) and paired v7c − ElevenLabs

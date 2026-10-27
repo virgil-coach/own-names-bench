@@ -149,6 +149,7 @@ def name_hits(names: set[str], tn: dict[str, set[str]]) -> dict[str, int]:
     out = {"listed_names": len(keys)}
     for k, s in tn.items():
         out[f"in_{k}"] = len(keys & s)
+    out["in_any"] = len(keys & set().union(*tn.values()))
     return out
 
 

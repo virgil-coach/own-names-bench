@@ -1,7 +1,7 @@
 {
  "benchmark": "own-names-bench",
  "benchmark_version": "1.2.0",
- "dataset": "virgil-coach/own-names-bench@v1.2.0",
+ "dataset": "virgil-coach/own-names-bench@v1.3.0 books13/",
  "dataset_fingerprint": "455a97ea15754481",
  "suite_fingerprints": {},
  "manifest_sha256": "e02be6a469c44ee55a679900d93d65f7da31b4427c4fc4f6490015ca098257c8",
@@ -57,6 +57,15 @@
    "code_revision": "51848f128c244536529c548b122d59b50aaaaef4",
    "started": "2026-10-27T10:16:38+00:00",
    "finished": "2026-10-27T10:36:38+00:00"
+  }
+ ],
+ "metadata_fixes": [
+  {
+   "field": "dataset",
+   "was": "virgil-coach/own-names-bench@v1.2.0",
+   "now": "virgil-coach/own-names-bench@v1.3.0 books13/",
+   "why": "the code's constant at the time; the run was made on a local copy of the sealed books13 folder, which v1.3.0 publishes unchanged (the run's manifest_sha256 e02be6a4 and dataset_fingerprint 455a97ea15754481 are the published folder's)",
+   "at": "2026-10-27"
   }
  ]
 }

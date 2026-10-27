@@ -15,8 +15,8 @@ Anyone may quote this benchmark, including us. These rules apply to every claim,
    otherwise the claim is "no measurable difference", not "better" or "worse".
 3. **Complete runs only.** Quote only runs that `REPORT.md` lists as complete (every expected
    pass made from the current lists, none failed).
-4. **Name the benchmark version and the run date.** For example, "own-names-bench v1.2.0, runs of
-   2026-10-13/14". A claim about a different version is a different claim.
+4. **Name the benchmark version and the run date.** For example, "own-names-bench v1.3.0, books13, runs of
+   2026-10-27". A claim about a different version is a different claim.
 5. **Name the competitor's configuration.** The model or API model id, how the names were
    given to it (its custom-vocabulary feature), how many it accepted (the `fit` line of the
    run), and the date. "ElevenLabs Scribe v2 with keyterms (all names, 2026-10-13)" and "Deepgram
@@ -24,8 +24,8 @@ Anyone may quote this benchmark, including us. These rules apply to every claim,
    limit)" are different claims.
 6. **Name the task and the list.** Clips with the book's own list, clips with the all-books
    list, or continuous chapters; invented names, traditional names, or both; or a suite (`calls`,
-   `svq`, `ami`, `modulate`), and for suites whether the name was taught by the same speaker or
-   another one. Audiobook results do not speak for conversation, and the reverse. For insertions in
+   `svq`, `ami`, `modulate`, the sealed `books13`, or a `conv13` condition), and for suites whether the
+   name was taught by the same speaker or another one. Audiobook results do not speak for conversation, and the reverse. For insertions in
    the `calls` suite, say whether all listed names or only names from other calls are counted.
 7. **Say what ours was given.** Our system is taught each name with a recording of it
    (as Detail Keeper users teach names); hosted services take only the spelling. Every claim
@@ -37,7 +37,7 @@ Anyone may quote this benchmark, including us. These rules apply to every claim,
 
 ## Template
 
-> On own-names-bench v1.2.0 (clips, the book's own name list, *N* name mentions from *B*
+> On own-names-bench v1.3.0 (clips, the book's own name list, *N* name mentions from *B*
 > public-domain audiobooks), *System A* wrote the spoken name right *x*% of the time
 > (95% CI *a*–*b*, bootstrap over books), against *y*% (*c*–*d*) for *System B*
 > (*configuration*, *date*). Paired difference: *+z* points (95% CI *e* to *f*). With the name

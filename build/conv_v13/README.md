@@ -1,5 +1,11 @@
 # own-names-bench v1.3 conversation test suite (held out, sealed)
 
+> **Published (own-names-bench v1.3.0).** The `suite/` folder is in HF `virgil-coach/own-names-bench`, tag `v1.3.0`, as
+> `conv13/suites/`, byte for byte as sealed (suite hash `dbff73e6…0fdd3` recomputes from it), with the wrapper
+> `conv13/manifest.json` the scored runs used (`48286d15…`); `bench fetch` and `scripts/verify_sealed.py` check them. Its
+> two scored runs and their pass outputs are in `results/conv13/`. The exclusion lists (`excl.json`) are not published.
+> The paths in "Where it is" describe the suite before publication.
+
 A frozen test suite for the conversation conditions of own-names-bench v1.3, built with the recipe of the
 conversation train and dev data (lore-poc `convdata/`, branch `data/conv-names-v1`, commit `9004fe4`) from each
 source's own **test** split, before any final v0.6 adapter or name guard existed. It is scored **once per final

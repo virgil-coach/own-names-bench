@@ -341,9 +341,10 @@ def render(results: dict, baseline: str | None) -> str:
         for label, r in results.items():
             d = r["summary"]["clips"].get(v)
             if not d:
-                can = v in SYSTEM_VARIANTS.get(r["meta"]["system"], ())
-                L.append(f"| {label} | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | "
-                         f"{'not run (this run made only the ' + ', '.join(r['completeness']['variants']) + ' lists)' if can else 'its feature cannot take this list'} |")
+                ran = r["completeness"]["variants"]
+                why = ("its feature cannot take this list" if v not in SYSTEM_VARIANTS.get(r["meta"]["system"], ()) else
+                       "this dataset has no such list" if v in ran else f"not run (this run made only the {', '.join(ran)} lists)")
+                L.append(f"| {label} | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | {why} |")
                 continue
             L.append(f"| {label} | {fmt_p(d['invented']['right'])} | {fmt_p(d['traditional']['right'])} | {fmt_p(d['all']['right'])} | "
                      f"{fmt_p(d['all']['overwritten'])} | {fmt_p(d['all']['wrong_name'])} | {fmt_p(d['name_free_inserted'])} | "

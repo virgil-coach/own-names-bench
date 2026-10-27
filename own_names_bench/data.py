@@ -22,7 +22,7 @@ from . import DATA_FORMAT
 
 DATASET_REPO = "virgil-coach/own-names-bench"
 DATASET_REVISION = "v1.3.0"  # a git tag of the dataset repo; the tag names the benchmark version
-# folder -> (the sealed suite's hash: SHA-256 of the sorted '<sha256>  <path>' lines of every file under `under`, under)
+# folder -> (the sealed suite's hash: SHA-256 of the '<sha256>  <path>' lines of every file under `under`, sorted by path; under)
 SEALED_SUITES = {"books13": ("3d6d8b65d4810c4f9571e8274bf02659a1bb507e65c7d0c333a48145a41e202f", ""),
                  "conv13": ("dbff73e6e5785d0efcf36be582af061b63d59d351cd655ccb6e153ffa850fdd3", "suites")}
 
@@ -91,9 +91,10 @@ def materialize(root: Path) -> None:
 
 
 def sealed_suite_hash(folder: Path) -> str:
-    """The suite hash a sealed suite was sealed with: SHA-256 of the sorted '<sha256>  <relative path>' lines of every file."""
-    lines = sorted(f"{_sha256(p)}  {p.relative_to(folder).as_posix()}\n" for p in folder.rglob("*") if p.is_file())
-    return hashlib.sha256("".join(lines).encode()).hexdigest()
+    """The suite hash a sealed suite was sealed with: SHA-256 of its SHA256SUMS, the lines '<sha256>  <relative path>'
+    of every file, sorted by path."""
+    paths = sorted(p.relative_to(folder).as_posix() for p in folder.rglob("*") if p.is_file())
+    return hashlib.sha256("".join(f"{_sha256(folder / r)}  {r}\n" for r in paths).encode()).hexdigest()
 
 
 def check_sealed(root: Path) -> dict[str, str]:

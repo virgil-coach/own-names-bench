@@ -13,7 +13,8 @@ podin/
 results/runs/*/passes.discarded.jsonl
 /results/v06final/c13-*/
 /results/v06final/SHA256SUMS.c13*
-# sealed v1.3 launch suites: pass outputs (transcripts), per-item scores and run logs stay out of git; SHA256SUMS.passes records them
+# sealed v1.3 launch suites: published from v1.3.0 as passes.jsonl.gz (SHA256SUMS.passes holds the sha256 of each
+# uncompressed passes.jsonl, recorded when they were scored); per-item scores (bench report rebuilds them) and run logs stay out
 /results/books13/*/passes.jsonl
 /results/books13/*.log
 /results/books13/scores/books13-*.json

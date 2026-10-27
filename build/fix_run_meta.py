@@ -7,7 +7,7 @@ command that made its folder, while each later command records its own code, mac
 `metadata_fixes`. Where it is not (code run from a working tree with uncommitted changes, `-dirty`), the run
 is marked `stale` with why, and `bench report` leaves it out of every result table.
 
-usage: python build/fix_run_meta.py [results/runs]
+usage: python build/fix_run_meta.py [RUNS_DIR ...]  (default results/runs)
 """
 import json
 import sys
@@ -18,6 +18,9 @@ V12 = "virgil-coach/own-names-bench@v1.2.0"
 DATASET_WHY = ("every current row is of a v1.2.0 pass (completeness checks each row's list fingerprint against v1.2.0's) and the "
                "dataset fingerprint 1625ef57 is v1.2.0's: the v1.0.0 and v1.1.0 audiobook passes ran on audiobook data that v1.1.0 and "
                "v1.2.0 keep unchanged (CHANGES_v1.1_to_v1.2.md), the corrected and suite passes on v1.2.0 (see commands)")
+
+
+SEALED = {"455a97ea15754481": "books13", "54d0fa007c55db72": "conv13"}  # dataset fingerprint -> the v1.3.0 folder
 
 
 def dirty(m: dict) -> list[dict]:
@@ -52,6 +55,12 @@ def fix(run: Path) -> list[str]:
         m["speed_note"] = ("not for speed or cost claims: the clip latencies are mostly the v1.0.0 command's (labelled parakeet-a100, "
                            "--hourly-usd 1.79), whose machine was not recorded; the machine and $0.89/h shown are the 65-pass v1.1.0 rerun's")
         done.append("speed_note")
+    sealed = SEALED.get(m.get("dataset_fingerprint", ""))
+    if sealed:
+        correct("dataset", f"virgil-coach/own-names-bench@v1.3.0 {sealed}/",
+                f"the code's constant at the time; the run was made on a local copy of the sealed {sealed} folder, which v1.3.0 publishes "
+                f"unchanged (the run's manifest_sha256 {m['manifest_sha256'][:8]} and dataset_fingerprint {m['dataset_fingerprint']} are "
+                "the published folder's)")
     bad = dirty(m)
     if bad and "stale" not in m:
         n = sum(int(c.get("passes_to_do") or 0) for c in bad)
@@ -69,10 +78,10 @@ def fix(run: Path) -> list[str]:
 
 
 def main() -> None:
-    root = Path(sys.argv[1] if len(sys.argv) > 1 else "results/runs")
-    for run in sorted(d for d in root.iterdir() if (d / "run.json").exists()):
-        for x in fix(run):
-            print(f"{run.name}: {x}")
+    for root in [Path(a) for a in sys.argv[1:]] or [Path("results/runs")]:
+        for run in sorted(d for d in root.iterdir() if (d / "run.json").exists()):
+            for x in fix(run):
+                print(f"{run.name}: {x}")
 
 
 if __name__ == "__main__":

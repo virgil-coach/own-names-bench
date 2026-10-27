@@ -1,5 +1,10 @@
 # own-names-bench v1.3 audiobook test suite, `books13` (held out, sealed)
 
+> **Published (own-names-bench v1.3.0).** The `data/` folder is in HF `virgil-coach/own-names-bench`, tag `v1.3.0`, as
+> `books13/`, byte for byte as sealed (suite hash `3d6d8b65…202f` recomputes from it; `bench fetch` and
+> `scripts/verify_sealed.py` check it). Its two scored runs and their pass outputs are in `results/books13/`. The
+> paths in "Where it is" and the "Scoring it once" steps describe the suite before publication.
+
 A frozen audiobook test suite for the Detail Keeper launch claim, from 20 LibriVox books and 20 readers that no
 benchmark, dev set, lore set or adapter training set (v0.3.0 to v0.7.0) has used. It replaces the v1.2.0 audiobook clips
 as the held-out audiobook number: under the 2026-10-17 protocol those became a selection target

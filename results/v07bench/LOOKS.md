@@ -52,6 +52,10 @@ are out of the mentions. False insertions are name-free items with a listed name
 | 14 | books13 (same) | ElevenLabs Scribe v2 (keyterms; the configuration of `elevenlabs-2026-10-26`, identical config; `books13-elevenlabs`, from this Mac, 5,612/5,612 passes, 0 failed) | n/a | 2026-10-27 | 0.2 [0.0, 0.4] (2/1200) | 88.2 [79.4, 95.1] (970/1100) (invented 92.4 [88.6, 96.1] 718/777; traditional 78.0 [64.1, 97.5] 252/323) | 1.5 [0.5, 2.4] (16/1100) | 1.5 [1.2, 1.9] |
 | 15 | conv13 (dbff73e6e5785d0efcf36be582af061b63d59d351cd655ccb6e153ffa850fdd3; wrapped as diag/final_pod.sh does: manifest 48286d15…, dataset fingerprint 54d0fa007c55db72) | v7c (v0.7.0) + guard + re-read on the shipped path, as look 13 (`ours-mlx`, `conv13-v7c-mlx`, Mac mini, one process, 9,373/9,373 passes, 0 failed). Paired against the existing ElevenLabs Scribe v2 conv13 run of **2026-10-16** (`v06final/c13-elevenlabs`, v06/final b086d92, same fingerprint), reused unchanged and not re-run: not a new look. That run: 91.9 names right (2139/2327), 8.8 overwritten (204/2327), insertions 2.4 (29/1196), word error 10.3 | de91437d4fc828b49605e6482a32b817d55ac4853d1714ac1e2bf9be8f61226c | 2026-10-27 | 0.5 (6/1196) | 90.4 (2103/2327) | 4.0 (93/2327) | 11.2 |
 
+From v1.3.0 the sealed runs' pass outputs are published (`results/<suite>/<run>/passes.jsonl.gz`); `scripts/verify_sealed.py`
+checks each against the SHA-256 in `SHA256SUMS.passes`, recorded when it was scored, and rebuilds the reports. That is a
+check that the published files are the scored ones, not a new look: no number is chosen on it.
+
 conv13 cells are pooled over its eight conditions: counts out of the totals, and ordinary-word error out of the summed words.
 There is no pooled interval. Each condition's rates, 95% intervals (clustered by list group) and paired v7c − ElevenLabs
 differences are in `results/conv13/scores/REPORT.md`.
